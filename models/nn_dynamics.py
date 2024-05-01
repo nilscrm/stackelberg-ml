@@ -2,6 +2,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from tqdm import tqdm
+from torch.nn import functional as F
 
 
 class WorldModel:
@@ -43,6 +44,12 @@ class WorldModel:
 
     def is_cuda(self):
         return next(self.dynamics_net.parameters()).is_cuda
+    
+    def next_state_distribution(self, s, a):
+        return F.softmax(self.forward(s, a), dim=-1)
+    
+    def sample_next_state(self, s, a):
+        return F.one_hot(torch.multinomial(self.next_state_distribution(s, a), num_samples=1), num_classes=self.state_dim)
 
     def forward(self, s, a):
         if type(s) == np.ndarray:

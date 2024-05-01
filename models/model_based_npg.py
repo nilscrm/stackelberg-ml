@@ -5,7 +5,7 @@ from models.nn_dynamics import WorldModel
 
 # utility functions
 import util.process_samples as process_samples
-from util.sampling import policy_rollout
+from util.sampling_rollouts import policy_rollout
 
 # Import NPG
 from models.npg_cg import NPG

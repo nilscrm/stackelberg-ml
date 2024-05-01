@@ -7,6 +7,10 @@ from util.sampling_core import sample_data_batch
 import torch
 import numpy as np
 
+from util.sampling import sample_model_trajectories
+
+from itertools import product
+
 
 def train():
     config = {
@@ -20,6 +24,7 @@ def train():
         "init_samples": 500,
         "env_replay_buffer_size": 20000,
         "policy_inner_training_steps": 5,
+        "policy_pretrain_steps": 1000,
         "model_batch_size": 64,
         "model_fit_epochs": 10,
         "policy_trajectories_per_step": 250,
@@ -33,6 +38,8 @@ def train():
     env = GymEnv("state-machine", act_repeat=1)
     env.set_seed(config["seed"])
 
+    queries = product(range(env.observation_dim), range(env.action_dim))
+
     models = [WorldModel(state_dim=env.observation_dim, act_dim=env.action_dim, seed=config["seed"], learn_reward=True) for i in range(config['num_models'])]
     policy = MLP(env.spec, seed=config["seed"], hidden_sizes=config['policy_size'], 
                     init_log_std=config['init_log_std'], min_log_std=config['min_log_std'])
@@ -43,11 +50,23 @@ def train():
                       normalized_step_size=config['npg_step_size'], save_logs=True)
     
 
+
+    for iter in range(config["policy_pretrain_steps"]):
+        trajectories = []
+        # TODO: create "random" env model
+        for _ in range(config["policy_trajectories_per_step"]):
+            # TODO: sample trajectories
+            trajectories.append(sample_model_trajectories(, policy, queries, env.reset(), env., queries, config["max_steps"]))
+        
+        # TODO: train policy on trajectories
+
+
     env_replay_buffer = []
     init_states_buffer = []
 
     for iter in range(config["training_iterations"]):
         print(f"Training iteration {iter}")
+        # TODO: policy needs to query model to best respond
         samples_trajectories = sample_data_batch(config["init_samples"], env, policy, eval_mode=False, base_seed=config["seed"] + iter)
 
         for traj in samples_trajectories:
@@ -69,6 +88,7 @@ def train():
         for model in models:
             model_loss = model.fit_dynamics(states, actions, next_states, fit_epochs=config["model_batch_size"], fit_mb_size=config["model_fit_epochs"], set_transformations=False)
 
+        # TODO: don't do this loop
         # Train policy
         for policy_iter in range(config["policy_inner_training_steps"]):
             

@@ -29,6 +29,12 @@ class StateMachineEnv(gym.Env):
     def reset(self):
         self.state = 0
         return self.get_obs()
+    
+    def is_done(self, state):
+        return state == self.num_states - 1
+    
+    def reward(self, state, action):
+        return self.rewards[state]
 
     def step(self, action):
         action_id = np.argmax(action).item()
@@ -36,11 +42,8 @@ class StateMachineEnv(gym.Env):
         next_state = np.random.choice(self.num_states, p=self.transitions[action_id][self.state])
         reward = self.rewards[next_state]
 
-        # Check if we're in the terminal state
-        done = (next_state == self.num_states - 1)
-
         self.state = next_state
-        return self.get_obs(), reward, done, {}
+        return self.get_obs(), reward, self.is_done(self.state), {}
     
     def get_obs(self):
         observation = np.zeros(3)

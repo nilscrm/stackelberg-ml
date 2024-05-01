@@ -2,6 +2,7 @@ import numpy as np
 import torch
 from util.tensor_utils import tensorize
 from torch.autograd import Variable
+import torch.nn.functional as F
 
 class MLP(torch.nn.Module):
     def __init__(self, env_spec=None,
@@ -12,6 +13,7 @@ class MLP(torch.nn.Module):
                  device='cpu',
                  observation_dim=None,
                  action_dim=None,
+                 num_queries=0,
                  max_log_std=1.0,
                  *args, **kwargs,
                  ):
@@ -27,7 +29,8 @@ class MLP(torch.nn.Module):
         if env_spec is None:
             assert observation_dim is not None
             assert action_dim is not None
-        self.observation_dim = env_spec.observation_dim if env_spec is not None else observation_dim   # number of states
+        # One observation is the current observation (observation_dim) and the num_queries output of the model network that
+        self.observation_dim = env_spec.observation_dim + num_queries * env_spec.observation_dim if env_spec is not None else observation_dim + num_queries * observation_dim   # number of states
         self.action_dim = env_spec.action_dim if env_spec is not None else action_dim                  # number of actions
         self.device = device
         self.seed = seed
@@ -129,7 +132,6 @@ class MLP(torch.nn.Module):
         self.in_shift, self.in_scale = in_shift.to(self.device), in_scale.to(self.device)
         self.out_shift, self.out_scale = out_shift.to(self.device), out_scale.to(self.device)
 
-
     # Main functions
     # ============================================
     def get_action(self, observation):
@@ -143,7 +145,10 @@ class MLP(torch.nn.Module):
         mean = self.forward(self.obs_var).to('cpu').data.numpy().ravel()
         noise = np.exp(self.log_std_val) * np.random.randn(self.action_dim)
         action = mean + noise
-        return [action, {'mean': mean, 'log_std': self.log_std_val, 'evaluation': mean}]
+        return (
+            F.one_hot(torch.multinomial(F.softmax(action)), num_classes=self.action_dim),
+            {'mean': mean, 'log_std': self.log_std_val, 'evaluation': mean}
+        )
 
     def mean_LL(self, observations, actions, log_std=None, *args, **kwargs):
         if type(observations) == np.ndarray: observations = torch.from_numpy(observations).float()
