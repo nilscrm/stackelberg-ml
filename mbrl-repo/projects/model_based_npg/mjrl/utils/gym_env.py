@@ -43,10 +43,13 @@ class GymEnv(object):
 
         self._horizon = self._horizon // self.act_repeat
 
+        self._discrete_action_space = isinstance(self.env.action_space, spaces.Discrete)
+        self._discrete_observation_space = isinstance(self.env.observation_space, spaces.Discrete)
+
         try:
             self._action_dim = self.env.env.action_dim
         except AttributeError:
-            if isinstance(self.env.action_space, spaces.Discrete):
+            if self.discrete_action_space:
                 self._action_dim = self.env.action_space.n
             else:
                 self._action_dim = self.env.action_space.shape[0]
@@ -54,7 +57,7 @@ class GymEnv(object):
         try:
             self._observation_dim = self.env.env.obs_dim
         except AttributeError:
-            if isinstance(self.env.observation_space, spaces.Discrete):
+            if self.discrete_observation_space:
                 self._observation_dim = self.env.observation_space.n
             else:
                 self._observation_dim = self.env.observation_space.shape[0]
@@ -64,6 +67,14 @@ class GymEnv(object):
 
         # obs mask
         self.obs_mask = np.ones(self._observation_dim) if obs_mask is None else obs_mask
+
+    @property
+    def discrete_action_space(self):
+        return self._discrete_action_space
+    
+    @property
+    def discrete_observation_space(self):
+        return self._discrete_observation_space
 
     @property
     def action_dim(self):
@@ -99,11 +110,9 @@ class GymEnv(object):
         return self.reset(seed)
 
     def step(self, action):
-        if isinstance(action, int):
-            # Discrete Action Space
-            
+        if self.discrete_action_space:
+            pass # action should always be valid because its an index
         else:
-            # Continuous Action Space
             action = action.clip(self.action_space.low, self.action_space.high)
 
         if self.act_repeat == 1: 

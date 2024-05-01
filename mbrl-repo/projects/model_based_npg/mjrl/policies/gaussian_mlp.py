@@ -133,22 +133,17 @@ class MLP(torch.nn.Module):
     # Main functions
     # ============================================
     def get_action(self, observation):
-        if isinstance(observation, int):
-            # Discrete Action Space
-            raise NotImplementedError()
-        else:
-            # Continuous Action Space
-            assert type(observation) == np.ndarray
-            if self.device != 'cpu':
-                print("Warning: get_action function should be used only for simulation.")
-                print("Requires policy on CPU. Changing policy device to CPU.")
-                self.to('cpu')
-            o = np.float32(observation.reshape(1, -1))
-            self.obs_var.data = torch.from_numpy(o)
-            mean = self.forward(self.obs_var).to('cpu').data.numpy().ravel()
-            noise = np.exp(self.log_std_val) * np.random.randn(self.action_dim)
-            action = mean + noise
-            return [action, {'mean': mean, 'log_std': self.log_std_val, 'evaluation': mean}]
+        assert type(observation) == np.ndarray
+        if self.device != 'cpu':
+            print("Warning: get_action function should be used only for simulation.")
+            print("Requires policy on CPU. Changing policy device to CPU.")
+            self.to('cpu')
+        o = np.float32(observation.reshape(1, -1))
+        self.obs_var.data = torch.from_numpy(o)
+        mean = self.forward(self.obs_var).to('cpu').data.numpy().ravel()
+        noise = np.exp(self.log_std_val) * np.random.randn(self.action_dim)
+        action = mean + noise
+        return [action, {'mean': mean, 'log_std': self.log_std_val, 'evaluation': mean}]
 
     def mean_LL(self, observations, actions, log_std=None, *args, **kwargs):
         if type(observations) == np.ndarray: observations = torch.from_numpy(observations).float()

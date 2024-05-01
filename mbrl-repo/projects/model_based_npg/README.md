@@ -1,3 +1,7 @@
+# Our Adaptation
+Don't need mujoco anymore, can simply run with same env as rest.
+To run model: `python run_model_based_npg.py --output test --config configs\state_machine.txt`
+
 # Game-MBRL: Stable Model-Based RL
 
 <td><img src="assets/teaser_figure.png"></td>
