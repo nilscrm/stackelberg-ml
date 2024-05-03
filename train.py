@@ -2,7 +2,7 @@ from envs.gym_env import GymEnv
 from envs.learned_env import LearnedEnv
 from models.nn_dynamics import WorldModel
 from models.random_dynamics import RandomWorldModel
-from models.model_based_npg import ModelBasedNPG
+from algos.model_based_npg import ModelBasedNPG
 from models.gaussian_mlp import MLP
 from models.mlp_baseline import MLPBaseline
 from policies.contextualized_policy import ModelContextualizedPolicy
@@ -58,6 +58,7 @@ def train_contextualized_MAL():
     # context = in which state will we land (+ what reward we get) for each query
     queries = product(range(env_true.observation_dim), range(env_true.action_dim))
     context_size = len(queries) * (env_true.observation_dim + 1 if config["learn_reward"] else 0)
+    # TODO: does it make sense to keep track of log_std, when we change the conditioning all the time?
     policy = MLP(env_true.spec, seed=config["seed"], hidden_sizes=config['policy_size'], 
                     init_log_std=config['init_log_std'], min_log_std=config['min_log_std'],
                     context_size=context_size)
@@ -93,10 +94,10 @@ def train_contextualized_MAL():
         env_trajectories = sample_trajectories(env_true, contextualized_policy, 
                                                max_steps=config["max_steps"], num_trajectories=config["init_samples"]) 
 
-        states = np.concatenate([trajectory.states for trajectory in env_trajectories])
-        actions = np.concatenate([trajectory.actions for trajectory in env_trajectories])
-        rewards = np.concatenate([trajectory.rewards for trajectory in env_trajectories])
-        next_states = np.concatenate([trajectory.next_states for trajectory in env_trajectories])
+        states = np.concatenate(env_trajectories.states)
+        actions = np.concatenate(env_trajectories.actions)
+        rewards = np.concatenate(env_trajectories.rewards)
+        next_states = np.concatenate(env_trajectories.next_states)
 
         average_reward = np.mean([trajectory.total_reward for trajectory in env_trajectories])
         print(f"Average reward: {average_reward}")

@@ -1,23 +1,20 @@
-from typing import List
+# NOTE: stripped it down to what we need, see original file if additional functionality needed
+
 import numpy as np
 
-from util.trajectories import Trajectory, compute_advantages
-from models.npg_cg import NPG
+from util.trajectories import TrajectoryList
+from algos.npg_cg import NPG
 
 
 class ModelBasedNPG(NPG):
     def __init__(self, **kwargs):
-        super(ModelBasedNPG, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
-    def train_step(self, trajectories: List[Trajectory], gamma=0.995, gae_lambda=0.97):
+    def train_step(self, trajectories: TrajectoryList, gamma=0.995, gae_lambda=0.97):
         # NOTE: in the mjrl implementation they removed trajectories that are too short and also they had multiple models for the environment (if they diverged too much, they'd truncate the trajectories)
     
-        # train from paths
-        returns = [trajectory.compute_discounted_rewards(gamma) for trajectory in trajectories]
-        advantages = compute_advantages(trajectories, self.baseline, gamma, gae_lambda)
-
-        eval_statistics = self.train_from_paths(paths)
-        eval_statistics.append(len(trajectories))
+        advantages = trajectories.compute_advantages(self.baseline, gamma, gae_lambda, normalize=False)
+        eval_statistics = self.train_on_trajectories(trajectories, advantages)
 
         # log number of samples
         if self.save_logs:
