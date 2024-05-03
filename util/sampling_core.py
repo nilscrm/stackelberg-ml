@@ -70,7 +70,6 @@ def do_rollout(
         t = 0
 
         while t < horizon and done != True:
-            # TODO: Policy should be best response queries should be included in observation
             a, agent_info = policy.get_action(o)
             if eval_mode:
                 a = agent_info['evaluation']
