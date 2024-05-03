@@ -1,14 +1,14 @@
 import gym
 
-from models.nn_dynamics import AWorldModel
+from nn.model.model import AWorldModel
 
 class LearnedEnv(gym.Env):
-    """ Basically a wrapper, that simulates an environment which is governed by a model of the world """
-    def __init__(self, env_model: AWorldModel):
+    """ Basically a wrapper, that simulates an environment which is governed by a world model """
+    def __init__(self, env_model: AWorldModel, action_space, observation_space):
         self.env_model = env_model
 
-        self.action_space = env_model.action_space
-        self.observation_space = env_model.observation_space
+        self.action_space = action_space
+        self.observation_space = observation_space
 
     def reset(self):
         self.state = self.env_model.sample_initial_state()

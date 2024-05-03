@@ -1,7 +1,5 @@
 import numpy as np
-import copy
 import torch
-import torch.nn as nn
 
 
 def fit_data(model, x, y, optimizer, loss_func, batch_size, epochs):

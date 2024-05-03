@@ -95,7 +95,7 @@ def sample_trajectory(env: gym.Env, policy: APolicy, max_steps: int | None = Non
     next_states = []
 
     while not done and (max_steps is None or steps <= max_steps):
-        action, _ = policy.get_action(state)
+        action, _ = policy.sample_next_action(state)
         next_state, reward, done, info = env.step(action)
 
         states.append(state)

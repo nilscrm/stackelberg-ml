@@ -22,17 +22,8 @@ class BatchREINFORCE:
         # grad of the surrogate is equal to the REINFORCE gradient
         # need to perform ascent on this objective function
         adv_var = Variable(torch.from_numpy(advantages).float(), requires_grad=False)
-        mean, LL = self.policy.mean_LL(observations, actions)
-        adv_var = adv_var.to(LL.device)
-        surr = torch.mean(LL*adv_var)
-        return surr
-
-    def kl_old_new(self, observations, old_mean, old_log_std, *args, **kwargs):
-        new_mean = self.policy.forward(observations)
-        new_log_std = self.policy.log_std
-        kl_divergence = self.policy.kl_divergence(new_mean, old_mean, new_log_std,
-                                                  old_log_std, *args, **kwargs)
-        return kl_divergence.to('cpu').data.numpy().ravel()[0]
+        LL = self.policy.log_likelihood(observations, actions)
+        return torch.mean(LL*adv_var)
 
     def flat_vpg(self, observations, actions, advantages):
         pg_surr = self.pg_surrogate(observations, actions, advantages)

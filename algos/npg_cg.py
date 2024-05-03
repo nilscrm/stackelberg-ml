@@ -79,8 +79,7 @@ class NPG(BatchREINFORCE):
         # --------------------------
         pg_surr = self.pg_surrogate(states, actions, advantages)
         surr_before = pg_surr.to('cpu').data.numpy().ravel()[0]
-        old_mean = self.policy.forward(states).detach().clone()
-        old_log_std = self.policy.log_std.detach().clone()
+        actions_before = self.policy.forward(states).detach().clone()
 
         # VPG
         ts = timer.time()
@@ -112,9 +111,6 @@ class NPG(BatchREINFORCE):
         curr_params = self.policy.get_param_values()
         new_params = curr_params + alpha * npg_grad
         self.policy.set_param_values(new_params.clone())
-        pg_surr = self.pg_surrogate(states, actions, advantages)
-        surr_after = pg_surr.to('cpu').data.numpy().ravel()[0]
-        kl_divergence = self.kl_old_new(states, old_mean, old_log_std)
 
         # Log information
         if self.save_logs:
@@ -129,6 +125,10 @@ class NPG(BatchREINFORCE):
                 self.running_score = mean_return
             else:
                 self.running_score = 0.9 * self.running_score + 0.1 * mean_return
+                
+            pg_surr = self.pg_surrogate(states, actions, advantages)
+            surr_after = pg_surr.to('cpu').data.numpy().ravel()[0]
+            kl_divergence = self.policy.kl_divergence(states, actions_before).item()
 
             self.logger.log_kv('stoc_pol_mean', mean_return)
             self.logger.log_kv('stoc_pol_std', std_return)
@@ -143,10 +143,10 @@ class NPG(BatchREINFORCE):
             self.logger.log_kv('surr_improvement', surr_after - surr_before)
             self.logger.log_kv('running_score', self.running_score)
 
-        return {
-            "num_trajectories": trajectories.num_trajectories,
-            "mean_return": mean_return, 
-            "std_return": std_return, 
-            "min_return": min_return, 
-            "max_return": max_return
-        }
+        return dict(
+            num_trajectories = trajectories.num_trajectories,
+            mean_return = mean_return, 
+            std_return = std_return, 
+            min_return = min_return, 
+            max_return = max_return
+        )

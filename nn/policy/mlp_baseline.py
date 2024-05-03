@@ -1,10 +1,12 @@
+# TODO: do we need to condition baseline too???
+
 import numpy as np
 import copy
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from util.optimize_model import fit_data
-from util.tensor_utils import tensorize
+from util.tensor_util import tensorize
 
 import pickle
 

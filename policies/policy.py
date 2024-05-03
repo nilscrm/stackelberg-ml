@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Tuple
-
-import numpy as np
 
 class APolicy(ABC):
     
     @abstractmethod
-    def get_action(self, observation) -> Tuple[np.ndarray, Dict]:
+    def next_action_distribution(self, observation):
+        pass
+
+    @abstractmethod
+    def sample_next_action(self, observation):
         pass

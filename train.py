@@ -1,10 +1,9 @@
 from envs.gym_env import GymEnv
 from envs.learned_env import LearnedEnv
-from models.nn_dynamics import WorldModel
-from models.random_dynamics import RandomWorldModel
+from nn.model.world_models import WorldModel, RandomDiscreteModel
 from algos.model_based_npg import ModelBasedNPG
-from models.gaussian_mlp import MLP
-from models.mlp_baseline import MLPBaseline
+from nn.policy.policy_networks import PolicyFC
+from nn.policy.mlp_baseline import MLPBaseline
 from policies.contextualized_policy import ModelContextualizedPolicy
 import torch
 import numpy as np
@@ -23,6 +22,7 @@ def train_contextualized_MAL():
         Hypothesis:
         - helpful in environments where small changes in the model drastically change the best policy
         - requires less samples from the env because we train in hypothetical environments (=> can trade expensive sampling for compute)
+            (actually, this is not true, because training a best response policy in an inner loop wouldn't incur any additional samples from the environment)
     """
 
     config = {
@@ -52,21 +52,20 @@ def train_contextualized_MAL():
     env_true.set_seed(config["seed"])
 
     # NOTE: in this scenario it does not make sense to have multiple world models, as they would all converge to a stackelberg equilibrium and not help to find the best policy
-    model = GymEnv(LearnedEnv(WorldModel(state_dim=env_true.observation_dim, act_dim=env_true.action_dim, seed=config["seed"], learn_reward=config["learn_reward"])))
-    random_model = RandomWorldModel(state_dim=env_true.observation_dim, act_dim=env_true.action_dim, seed=config["seed"], learn_reward=config["learn_reward"])
+    model = WorldModel(state_dim=env_true.observation_dim, act_dim=env_true.action_dim, learn_reward=config["learn_reward"])
+    # TODO: figure out how to sample random rewards...
+    random_model = RandomDiscreteModel(state_dim=env_true.observation_dim, act_dim=env_true.action_dim, min_reward=-5, max_reward=100)
 
     # context = in which state will we land (+ what reward we get) for each query
-    queries = product(range(env_true.observation_dim), range(env_true.action_dim))
-    context_size = len(queries) * (env_true.observation_dim + 1 if config["learn_reward"] else 0)
-    # TODO: does it make sense to keep track of log_std, when we change the conditioning all the time?
-    policy = MLP(env_true.spec, seed=config["seed"], hidden_sizes=config['policy_size'], 
-                    init_log_std=config['init_log_std'], min_log_std=config['min_log_std'],
-                    context_size=context_size)
-    contextualized_policy = ModelContextualizedPolicy(policy, queries)
+    dynamics_queries = product(range(env_true.observation_dim), range(env_true.action_dim))
+    rewards_queries = product(range(env_true.observation_dim), range(env_true.action_dim), range(env_true.observation_dim))
+    context_size = len(dynamics_queries) * env_true.observation_dim + len(rewards_queries)
+    # NOTE: changed the policy model from gaussian MLP to one that predicts a distribution over actions (makes more sense for discrete action spaces + running log_std_dev makes no sense if we change the world model all the time)
+    policy = PolicyFC(env_true.observation_dim, env_true.action_dim, hidden_sizes=config['policy_size'], context_size=context_size)
+    contextualized_policy = ModelContextualizedPolicy(policy, dynamics_queries)
 
     baseline = MLPBaseline(env_true.spec, reg_coef=1e-3, batch_size=128, epochs=1,  learn_rate=1e-3, device=config['device'])
-    # TODO: rewrite ModelBasedNPG such that it does not require env_true, bc it should not!
-    trainer = ModelBasedNPG(env=env_true, policy=contextualized_policy, baseline=baseline, normalized_step_size=config['npg_step_size'], save_logs=True)
+    trainer = ModelBasedNPG(policy=contextualized_policy, baseline=baseline, normalized_step_size=config['npg_step_size'], save_logs=True)
     
     # Pretrain the policy conditioned on a world model
     for iter in range(config["policy_pretrain_steps"]):
@@ -76,8 +75,8 @@ def train_contextualized_MAL():
         
         # train policy on trajectories from random model
         for policy_iter in range(config["policy_inner_training_steps"]):
-            trajectories = sample_trajectories(LearnedEnv(random_model), contextualized_policy, 
-                                               max_steps=config["max_steps"], num_trajectories=config["policy_trajectories_per_step"])
+            trajectories = sample_trajectories(LearnedEnv(random_model, env_true.action_space, env_true.observation_space), 
+                                               contextualized_policy, max_steps=config["max_steps"], num_trajectories=config["policy_trajectories_per_step"])
             trainer.train_step(trajectories)
 
         # TODO: how do we know we have converged? => we should do some sort of validation to see if we are still improving
@@ -102,11 +101,13 @@ def train_contextualized_MAL():
         average_reward = np.mean([trajectory.total_reward for trajectory in env_trajectories])
         print(f"Average reward: {average_reward}")
         
-        dynamics_loss = model.fit_dynamics(states, actions, next_states, fit_epochs=config["model_batch_size"], fit_mb_size=config["model_fit_epochs"], set_transformations=False)
+        dynamics_loss = model.fit_dynamics(states, actions, next_states, 
+                                           fit_epochs=config["model_batch_size"], fit_mb_size=config["model_fit_epochs"])
         print(f"Dynamics loss: {dynamics_loss}")
 
         if config["learn_reward"]:
-            reward_loss = model.fit_reward(states, actions, rewards, fit_epochs=config["model_batch_size"], fit_mb_size=config["model_fit_epochs"], set_transformations=False)
+            reward_loss = model.fit_reward(states, actions, rewards, 
+                                           fit_epochs=config["model_batch_size"], fit_mb_size=config["model_fit_epochs"])
             print(f"Reward loss: {reward_loss}")
         
         
