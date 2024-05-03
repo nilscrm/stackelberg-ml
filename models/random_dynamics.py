@@ -4,8 +4,9 @@ import torch.nn as nn
 from tqdm import tqdm
 from torch.nn import functional as F
 
+from models.nn_dynamics import AWorldModel
 
-class RandomWorldModel:
+class RandomWorldModel(AWorldModel):
     def __init__(self, state_dim, act_dim,
                  learn_reward=False,
                  seed=123,

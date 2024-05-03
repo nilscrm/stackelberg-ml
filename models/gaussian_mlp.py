@@ -13,7 +13,7 @@ class MLP(torch.nn.Module):
                  device='cpu',
                  observation_dim=None,
                  action_dim=None,
-                 num_queries=0,
+                 context_size=0,
                  max_log_std=1.0,
                  *args, **kwargs,
                  ):
@@ -30,7 +30,7 @@ class MLP(torch.nn.Module):
             assert observation_dim is not None
             assert action_dim is not None
         # One observation is the current observation (observation_dim) and the num_queries output of the model network that
-        self.observation_dim = env_spec.observation_dim + num_queries * env_spec.observation_dim if env_spec is not None else observation_dim + num_queries * observation_dim   # number of states
+        self.observation_dim = observation_dim + context_size if env_spec is None else env_spec.observation_dim + context_size
         self.action_dim = env_spec.action_dim if env_spec is not None else action_dim                  # number of actions
         self.device = device
         self.seed = seed

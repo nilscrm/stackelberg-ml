@@ -1,11 +1,45 @@
+from abc import ABC, abstractmethod
+
 import numpy as np
 import torch
 import torch.nn as nn
 from tqdm import tqdm
 from torch.nn import functional as F
 
+class AWorldModel:
+    @property
+    def action_space(self):
+        pass
 
-class WorldModel:
+    @property
+    def observation_space(self):
+        pass
+
+    @abstractmethod
+    def sample_initial_state(self) -> np.ndarray:
+        """ Sample one state from the distribution over initial states """
+        pass
+
+    @abstractmethod
+    def next_state_distribution(self, s, a) -> np.ndarray:
+        """ Get the probabilities of ending up in each state, given that action a is taken in state s """
+        pass
+
+    @abstractmethod
+    def sample_next_state(self, s, a) -> np.ndarray:
+        """ Sample one state from the distribution over next states """
+        pass
+
+    @abstractmethod
+    def reward(self, s, a) -> float:
+        pass
+
+    @abstractmethod
+    def is_done(self, s) -> bool:
+        pass
+
+
+class WorldModel(AWorldModel):
     def __init__(self, state_dim, act_dim,
                  learn_reward=False,
                  hidden_size=(64,64),
