@@ -48,7 +48,7 @@ def train_contextualized_MAL():
     torch.random.manual_seed(config["seed"])
 
     # Groundtruth environment, which we sample from
-    env_true = GymEnv("state-machine", act_repeat=1)
+    env_true = GymEnv("simple-mdp")
     env_true.set_seed(config["seed"])
 
     # NOTE: in this scenario it does not make sense to have multiple world models, as they would all converge to a stackelberg equilibrium and not help to find the best policy
