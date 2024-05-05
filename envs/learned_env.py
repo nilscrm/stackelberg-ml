@@ -11,6 +11,7 @@ class LearnedEnv(gym.Env):
         self.observation_space = observation_space
 
     def reset(self):
+        # TODO: could query here
         self.state = self.env_model.sample_initial_state()
         return self.state
 

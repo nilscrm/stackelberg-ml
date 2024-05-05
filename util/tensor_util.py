@@ -6,6 +6,7 @@ def tensorize_array_inputs(func):
     """ Decorator that tensorizes any numpy array inputs to the function """
     @wraps(func)
     def wrapper(*args, **kwargs):
+        args = list(args)
         for i, arg in enumerate(args):
             if isinstance(arg, np.ndarray):
                 args[i] = tensorize(arg)
@@ -20,6 +21,7 @@ def extract_one_hot_index_inputs(func):
     # NOTE: only works if all torch tensors or numpy arrays are one hot!
     @wraps(func)
     def wrapper(*args, **kwargs):
+        args = list(args)
         for i, arg in enumerate(args):
             if isinstance(arg, np.ndarray) or isinstance(arg, torch.Tensor):
                 args[i] = np.argmax(arg).item()

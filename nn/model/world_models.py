@@ -1,14 +1,16 @@
+from typing import Callable, Optional
+
 from abc import abstractmethod
 import numpy as np
 import torch
 from torch.nn import functional as F
 
-from envs.gym_env import GymEnv
+from envs.env_util import DiscreteEnv
 from nn.model.dynamics_nets import DynamicsNetMLP
-from nn.model.reward_nets import RewardNetFC
+from nn.model.reward_nets import RewardNetMLP
 
 from util.optimization import fit_tuple
-from util.tensor_util import extract_one_hot_index_inputs, tensorize_array_inputs
+from util.tensor_util import extract_one_hot_index_inputs, tensorize, tensorize_array_inputs
 
 from tqdm import tqdm
 
@@ -51,29 +53,28 @@ class WorldModel(AWorldModel):
         - Reward Model: If no reward function is provided, the model learns the rewards for each state-action pair
     """
     def __init__(self, state_dim, act_dim,
-                 hidden_size=(64,64),
-                 fit_lr=1e-3,
-                 fit_wd=0.0,
+                 hidden_sizes=(64,64),
                  activation=torch.relu,
-                 reward_function=None, # reward will be learned if no reward function is provided
-                 residual=True):
+                 reward_func=None, # reward will be learned if no reward function is provided
+                 fit_lr=1e-3,
+                 fit_weight_decay=0.0):
 
         self.state_dim = state_dim
         self.act_dim = act_dim
-        self.reward_function = reward_function
+        self.reward_function = reward_func
         
         # construct the dynamics model
-        self.dynamics_net = DynamicsNetMLP(state_dim, act_dim, hidden_size, residual=residual, nonlinearity=activation)
+        self.dynamics_net = DynamicsNetMLP(state_dim, act_dim, hidden_sizes, nonlinearity=activation)
 
-        self.dynamics_opt = torch.optim.Adam(self.dynamics_net.parameters(), lr=fit_lr, weight_decay=fit_wd)
+        self.dynamics_opt = torch.optim.Adam(self.dynamics_net.parameters(), lr=fit_lr, weight_decay=fit_weight_decay)
         self.dynamics_loss = torch.nn.MSELoss()
 
         # construct the reward model (if reward is learned)
         if self.reward_function is None:
             # small network for reward is sufficient if we augment the inputs with next state predictions
-            self.reward_net = RewardNetFC(state_dim, act_dim, hidden_size=(100, 100), nonlinearity=activation)
+            self.reward_net = RewardNetMLP(state_dim, act_dim, hidden_size=(100, 100), nonlinearity=activation)
 
-            self.reward_opt = torch.optim.Adam(self.reward_net.parameters(), lr=fit_lr, weight_decay=fit_wd)
+            self.reward_opt = torch.optim.Adam(self.reward_net.parameters(), lr=fit_lr, weight_decay=fit_weight_decay)
             self.reward_loss = torch.nn.MSELoss()
         else:
             self.reward_net, self.reward_opt, self.reward_loss = None, None, None
@@ -86,7 +87,7 @@ class WorldModel(AWorldModel):
     @tensorize_array_inputs
     def sample_next_state(self, s, a):
         state_idx = torch.multinomial(self.next_state_distribution(s, a), num_samples=1)
-        return F.one_hot(state_idx, num_classes=self.state_dim)
+        return F.one_hot(state_idx, num_classes=self.state_dim)[0] # convert to non-batched
 
     @tensorize_array_inputs
     def reward(self, s, a, s_next):
@@ -121,17 +122,20 @@ class WorldModel(AWorldModel):
 
 class RandomDiscreteModel(AWorldModel):
     """ Random model of the world with a discrete action and observation space """
-    def __init__(self, template: GymEnv, reward_func: callable | None = None, 
+    def __init__(self, template: DiscreteEnv, init_state_probs: np.ndarray, 
+                 termination_func: Callable, reward_func: Optional[Callable] = None,
                  min_reward: float = 0.0, max_reward: float = 1.0):
         self.state_space = template.observation_space
         self.act_space = template.action_space
         self.state_dim = template.observation_dim
         self.act_dim = template.action_dim
 
+        self.termination_func = termination_func
         self.reward_func = reward_func
         self.min_reward = min_reward
         self.max_reward = max_reward
 
+        self.init_state_sampler = lambda : torch.multinomial(tensorize(init_state_probs), num_samples=1)[0] # convert to non-batched
         self.uniform_simplex = torch.distributions.Dirichlet(torch.ones(self.state_dim))
 
         self.randomize()
@@ -151,14 +155,15 @@ class RandomDiscreteModel(AWorldModel):
         return self.observation_space
 
     def sample_initial_state(self):
-        raise NotImplementedError
+        state_idx = self.init_state_sampler()
+        return F.one_hot(state_idx, num_classes=self.state_dim)
 
     @extract_one_hot_index_inputs
     def next_state_distribution(self, s, a):
         return self.transition_probabilities[s,a]
 
     def sample_next_state(self, s, a):
-        state_idx = torch.multinomial(self.next_state_distribution(s, a), num_samples=1)
+        state_idx = torch.multinomial(self.next_state_distribution(s, a), num_samples=1)[0] # convert to non-batched
         return F.one_hot(state_idx, num_classes=self.state_dim)
 
     def reward(self, s, a, s_next):
@@ -172,4 +177,4 @@ class RandomDiscreteModel(AWorldModel):
         return self.rewards[s,a,s_next]
 
     def is_done(self, s):
-        raise NotImplementedError
+        return self.termination_func(s)

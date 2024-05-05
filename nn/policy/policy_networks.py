@@ -39,12 +39,12 @@ class PolicyMLP(nn.Module, APolicy):
 
     @tensorize_array_inputs
     def next_action_distribution(self, observation):
-        return F.softmax(self.mlp(observation))
+        return F.softmax(self.mlp(observation), dim=-1)
 
     @tensorize_array_inputs
     def sample_next_action(self, observation):
         action = self.next_action_distribution(observation.flatten())
-        return F.one_hot(torch.multinomial(action), num_classes=self.action_dim)
+        return F.one_hot(torch.multinomial(action, 1), num_classes=self.action_dim)[0] # convert to non-batched
 
     @tensorize_array_inputs
     def log_likelihood(self, observations, groundtruth_actions):

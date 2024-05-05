@@ -1,5 +1,6 @@
-from envs.gym_env import GymEnv
+from envs.env_util import DiscreteEnv
 from envs.learned_env import LearnedEnv
+from envs.simple_mdp import SimpleMDPEnv
 from nn.model.world_models import WorldModel, RandomDiscreteModel
 from algos.model_based_npg import ModelBasedNPG
 from nn.policy.policy_networks import PolicyMLP
@@ -41,28 +42,39 @@ def train_contextualized_MAL():
         "policy_trajectories_per_step": 250,
         "max_steps": 50,
         "num_models": 4,
-        "learn_reward": True,
+        "learn_reward": False,
     }
 
     np.random.seed(config["seed"])
     torch.random.manual_seed(config["seed"])
 
     # Groundtruth environment, which we sample from
-    env_true = GymEnv("simple-mdp")
-    env_true.set_seed(config["seed"])
+    env_true = SimpleMDPEnv()
+
+    reward_func = None
+    if config["learn_reward"]:
+        reward_func = getattr(env_true, "reward", None)
+
+    termination_func = getattr(env_true, "is_done", None)
+
+    # Sample true initial state distribution
+    init_state_probs = []
+    for i in range(100):
+        init_state_probs.append(env_true.reset())
+    init_state_probs = np.mean(init_state_probs, axis=0)
 
     # NOTE: in this scenario it does not make sense to have multiple world models, as they would all converge to a stackelberg equilibrium and not help to find the best policy
-    model = WorldModel(state_dim=env_true.observation_dim, act_dim=env_true.action_dim, learn_reward=config["learn_reward"])
+    model = WorldModel(state_dim=env_true.observation_dim, act_dim=env_true.action_dim, hidden_sizes=(64,64), reward_func=reward_func)
     # TODO: figure out how to sample random rewards...
-    random_model = RandomDiscreteModel(state_dim=env_true.observation_dim, act_dim=env_true.action_dim, min_reward=-5, max_reward=100)
+    random_model = RandomDiscreteModel(env_true, init_state_probs, termination_func, reward_func, min_reward=-5, max_reward=100)
 
     # context = in which state will we land (+ what reward we get) for each query
-    dynamics_queries = product(range(env_true.observation_dim), range(env_true.action_dim))
-    rewards_queries = product(range(env_true.observation_dim), range(env_true.action_dim), range(env_true.observation_dim))
-    context_size = len(dynamics_queries) * env_true.observation_dim + len(rewards_queries)
+    dynamics_queries = list(product(range(env_true.observation_dim), range(env_true.action_dim)))
+    reward_queries = list(product(range(env_true.observation_dim), range(env_true.action_dim), range(env_true.observation_dim)))
+    context_size = len(dynamics_queries) * env_true.observation_dim + len(reward_queries)
     # NOTE: changed the policy model from gaussian MLP to one that predicts a distribution over actions (makes more sense for discrete action spaces + running log_std_dev makes no sense if we change the world model all the time)
     policy = PolicyMLP(env_true.observation_dim, env_true.action_dim, hidden_sizes=config['policy_size'], context_size=context_size)
-    contextualized_policy = ModelContextualizedPolicy(policy, dynamics_queries)
+    contextualized_policy = ModelContextualizedPolicy(policy, dynamics_queries, reward_queries)
 
     # baseline = BaselineMLP(input_dim=env_true.observation_dim, reg_coef=1e-3, batch_size=128, epochs=1,  learn_rate=1e-3)
     baseline = AverageBaseline()
@@ -92,6 +104,7 @@ def train_contextualized_MAL():
 
         # Sample trajectories on the environment, using the best-response-policy (wrt the current model)
         contextualized_policy.set_context_by_querying(model)
+        # TODO: these trajectories need to contain the context, so the leader sees that it is being queried (look at how gerstgrasser did it)
         env_trajectories = sample_trajectories(env_true, contextualized_policy, 
                                                max_steps=config["max_steps"], num_trajectories=config["init_samples"]) 
 

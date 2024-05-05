@@ -18,6 +18,7 @@ class ABaseline:
     def predict_expected_returns(self, observations: np.ndarray):
         pass
 
+# TODO: do this properly
 class AverageBaseline(ABaseline):
     def __init__(self):
         self.avg_return = 0.0
