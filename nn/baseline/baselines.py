@@ -15,26 +15,8 @@ class ABaseline:
         pass
 
     @abstractmethod
-    def predict_expected_returns(self, observations: np.ndarray):
-        pass
-
-# TODO: do this properly
-class AverageBaseline(ABaseline):
-    def __init__(self):
-        self.avg_return = 0.0
-
-    @tensorize_array_inputs
-    def fit(self, observations, returns, return_errors=False):
-        if return_errors:
-            errors = returns - self.avg_return    
-            error_before = torch.sum(errors**2)/(torch.sum(returns**2) + 1e-8)
-
-            self.avg_return = returns.mean()
-            
-            errors = returns - self.avg_return    
-            error_after = torch.sum(errors**2)/(torch.sum(returns**2) + 1e-8)
-            
-            return error_before.numpy(), error_after.numpy()
+    def predict_expected_returns(self, observations: torch.Tensor) -> torch.Tensor:
+        pass   
 
 
 class BaselineMLP(ABaseline):
@@ -68,5 +50,5 @@ class BaselineMLP(ABaseline):
             
     @tensorize_array_inputs
     def predict_expected_returns(self, observations: np.ndarray):
-        prediction = self.mlp(observations).numpy().ravel()
+        prediction = self.mlp(observations).flatten()
         return prediction

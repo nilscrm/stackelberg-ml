@@ -43,17 +43,17 @@ class PolicyMLP(nn.Module, APolicy):
 
     @tensorize_array_inputs
     def sample_next_action(self, observation):
-        action = self.next_action_distribution(observation.flatten())
+        action = self.next_action_distribution(observation)
         return F.one_hot(torch.multinomial(action, 1), num_classes=self.action_dim)[0] # convert to non-batched
 
     @tensorize_array_inputs
     def log_likelihood(self, observations, groundtruth_actions):
-        predicted_actions = self.next_action_distribution(observations)
+        predicted_actions = self.sample_next_actions(observations)
         # TODO: check this is correct (should be the sum over the log of the predicted values of the groundtruth label, I'm assuming groundtruth_actions are one-hot-encoded)
-        return -torch.sum(groundtruth_actions * torch.log(predicted_actions + 1e-8), dim=1).numpy()
+        return -torch.sum(groundtruth_actions * torch.log(predicted_actions + 1e-8), dim=1)
 
     def kl_divergence(self, observations, old_actions):
-        predicted_actions = self.next_action_distribution(observations)
+        predicted_actions = self.sample_next_actions(observations)
         # TODO: check it is correct that we use the new actions as the groundtruth
         return F.kl_div(old_actions, predicted_actions)
 

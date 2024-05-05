@@ -6,6 +6,8 @@ Also has function to perform linesearch on KL (improves stability)
 """
 
 import logging
+
+from policies.policy import APolicy
 logging.disable(logging.CRITICAL)
 import torch
 from torch.autograd import Variable
@@ -13,7 +15,7 @@ from util.logger import DataLog
 
 
 class BatchREINFORCE:
-    def __init__(self, policy, save_logs=False):
+    def __init__(self, policy: APolicy, save_logs=False):
         self.policy = policy
         self.save_logs = save_logs
         if save_logs: self.logger = DataLog()

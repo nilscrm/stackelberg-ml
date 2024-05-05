@@ -11,7 +11,7 @@ class ModelBasedNPG(NPG):
         # NOTE: we compute the advantages before the baseline update to avoid overfitting to the current trajectories
         observations = np.concatenate(trajectories.states)
         returns = trajectories.compute_discounted_rewards(gamma)
-        advantages = trajectories.compute_advantages(baseline, gamma, gae_lambda, normalize=False)
+        advantages = trajectories.compute_advantages(baseline, gamma, gae_lambda, normalize=True)
         eval_statistics = self.train_on_trajectories(trajectories, advantages)
 
         # fit baseline

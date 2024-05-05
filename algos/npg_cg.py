@@ -1,6 +1,7 @@
 # NOTE: stripped it down to what we need, see original file if additional functionality needed
 
 import logging
+from typing import List
 
 from util.trajectories import TrajectoryList
 logging.disable(logging.CRITICAL)
@@ -66,10 +67,10 @@ class NPG(BatchREINFORCE):
         return eval
 
     # ----------------------------------------------------------
-    def train_on_trajectories(self, trajectories: TrajectoryList, advantages: np.ndarray):
+    def train_on_trajectories(self, trajectories: TrajectoryList, advantages: List[np.ndarray]):
         states = np.concatenate(trajectories.states)
         actions = np.concatenate(trajectories.actions)
-        advantages = (advantages - np.mean(advantages)) / (np.std(advantages) + 1e-6) # Advantage whitening
+        advantages = np.concatenate(advantages)
 
         # Keep track of times for various computations
         t_gLL = 0.0
@@ -77,9 +78,10 @@ class NPG(BatchREINFORCE):
 
         # Optimization algorithm
         # --------------------------
-        pg_surr = self.pg_surrogate(states, actions, advantages)
-        surr_before = pg_surr.to('cpu').data.numpy().ravel()[0]
-        actions_before = self.policy.forward(states).detach().clone()
+        if self.save_logs:
+            pg_surr = self.pg_surrogate(states, actions, advantages)
+            surr_before = pg_surr.to('cpu').data.numpy().ravel()[0]
+            actions_before = self.policy.sample_next_actions(states)
 
         # VPG
         ts = timer.time()

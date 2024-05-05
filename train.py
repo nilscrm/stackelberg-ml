@@ -4,7 +4,7 @@ from envs.simple_mdp import SimpleMDPEnv
 from nn.model.world_models import WorldModel, RandomDiscreteModel
 from algos.model_based_npg import ModelBasedNPG
 from nn.policy.policy_networks import PolicyMLP
-from nn.baseline.baselines import BaselineMLP, AverageBaseline
+from nn.baseline.baselines import BaselineMLP
 from policies.contextualized_policy import ModelContextualizedPolicy
 import torch
 import numpy as np
@@ -76,8 +76,7 @@ def train_contextualized_MAL():
     policy = PolicyMLP(env_true.observation_dim, env_true.action_dim, hidden_sizes=config['policy_size'], context_size=context_size)
     contextualized_policy = ModelContextualizedPolicy(policy, dynamics_queries, reward_queries)
 
-    # baseline = BaselineMLP(input_dim=env_true.observation_dim, reg_coef=1e-3, batch_size=128, epochs=1,  learn_rate=1e-3)
-    baseline = AverageBaseline()
+    baseline = BaselineMLP(input_dim=env_true.observation_dim, reg_coef=1e-3, batch_size=128, epochs=1,  learn_rate=1e-3)
 
     trainer = ModelBasedNPG(policy=contextualized_policy, normalized_step_size=config['npg_step_size'], save_logs=True)
     

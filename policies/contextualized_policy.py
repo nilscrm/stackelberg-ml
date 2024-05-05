@@ -13,6 +13,10 @@ class ContextualizedPolicy(APolicy):
 
     def set_context(self, context: np.ndarray):
         self.context = context
+
+    @property
+    def trainable_params(self):
+        return self.policy.trainable_params
     
     def next_action_distribution(self, observation):
         return self.policy.next_action_distribution(np.concatenate([observation, self.context], axis=0))
@@ -20,6 +24,20 @@ class ContextualizedPolicy(APolicy):
     def sample_next_action(self, observation):
         return self.policy.sample_next_action(np.concatenate([observation, self.context], axis=0))
     
+    def log_likelihood(self, observations, groundtruth_actions):
+        return self.policy.log_likelihood(self._append_context(observations), groundtruth_actions)
+
+    def kl_divergence(self, observations, old_actions):
+        return self.policy.kl_divergence(self._append_context(observations), old_actions)
+    
+    def _append_context(self, observations):
+        rows,cols = observations.shape
+        tiled_vector = np.tile(self.context, (rows, 1))
+        observation_with_context = np.zeros((rows, cols + len(self.context)))
+        observation_with_context[:,:cols] = observations
+        observation_with_context[:,cols:] = tiled_vector
+        return observation_with_context
+        
 class ModelContextualizedPolicy(ContextualizedPolicy):
     """ Contextualized policy that uses queries to a world model as context """
 

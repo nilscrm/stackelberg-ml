@@ -19,6 +19,23 @@ class Trajectory:
 
     def compute_discounted_rewards(self, gamma = 1.0, terminal = 0.0):
         return compute_discounted_rewards(self.rewards, gamma, terminal)
+    
+    def compute_advantage(self, baseline: ABaseline, gamma, gae_lambda=None):
+        expected_returns = baseline.predict_expected_returns(self.states).detach().numpy()
+
+        if gae_lambda is None or gae_lambda < 0.0 or gae_lambda > 1.0:
+            # Standard Advantage Computation
+            returns = self.compute_discounted_rewards(gamma)
+            advantages = returns - expected_returns
+        else:
+            # Generalized Advantage Estimation (GAE)
+            # append 0 if terminated, repeat last reward if not terminated
+            expected_returns = np.append(expected_returns, 0 if self.terminated else expected_returns[-1])
+
+            td_deltas = self.rewards + gamma*expected_returns[1:] - expected_returns[:-1]
+            advantages = compute_discounted_rewards(td_deltas, gamma*gae_lambda)
+        
+        return advantages
 
 class TrajectoryList:
     def __init__(self, trajectories: List[Trajectory]):
@@ -63,27 +80,17 @@ class TrajectoryList:
         return [trajectory.compute_discounted_rewards(gamma, terminal) for trajectory in self.trajectories]
 
     def compute_advantages(self, baseline: ABaseline, gamma, gae_lambda=None, normalize=False):
-        # TODO: should we do this for each trajectory separately and return a list? because not all of them have the same length...
-        observations = np.concatenate(self.states)
-        expected_returns = baseline.predict_expected_returns(observations)
-
-        if gae_lambda is None or gae_lambda < 0.0 or gae_lambda > 1.0:
-            # Standard Advantage Computation
-            returns = np.array([trajectory.compute_discounted_rewards(gamma) for trajectory in self.trajectories])
-            advantages = returns - expected_returns
-        else:
-            # Generalized Advantage Estimation (GAE)
-            # append 0 if terminated, repeat last reward if not terminated
-            expected_returns = np.concatenate([expected_returns, np.zeros(self.num_trajectories)])
-            expected_returns[:,-1] += (np.concatenate(self.terminated) == False) * expected_returns[:,-2]
-
-            td_deltas = np.concatenate(self.rewards) + gamma*expected_returns[:,1:] - expected_returns[:,:-1]            
-            advantages = compute_discounted_rewards(td_deltas, gamma*gae_lambda)
+        advantages = [trajectory.compute_advantage(baseline, gamma, gae_lambda) for trajectory in self.trajectories]
 
         if normalize:
-            return (advantages - advantages.mean()) / (advantages.std() + 1e-8)
-        else:
-            return advantages
+            all_advantages = np.concatenate(advantages)
+            advantage_mean = all_advantages.mean()
+            advantage_std = all_advantages.std() + 1e-8
+
+            for i in range(len(advantages)):
+                advantages[i] = (advantages[i] - advantage_mean) / (advantage_std)
+
+        return advantages
 
     
 
@@ -108,21 +115,18 @@ def sample_trajectory(env: gym.Env, policy: APolicy, max_steps: int | None = Non
     next_states = []
 
     while not done and (max_steps is None or steps <= max_steps):
-        print(type(env))
-        print(state)
-        action, _ = policy.sample_next_action(state)
-        print(action)
+        action = policy.sample_next_action(state)
         next_state, reward, done, info = env.step(action)
 
-        states.append(state)
-        actions.append(action)
-        rewards.append(reward)
-        next_states.append(next_state)
+        states.append(state.numpy())
+        actions.append(action.numpy())
+        rewards.append(reward.numpy())
+        next_states.append(next_state.numpy())
 
         state = next_state
         steps += 1
 
-    return Trajectory(np.array(states), np.array(actions), np.array(rewards), np.array(next_states), done)
+    return Trajectory(np.array(states), np.array(actions), np.array(next_states), np.array(rewards), done)
 
 
 
