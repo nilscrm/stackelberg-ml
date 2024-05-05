@@ -14,7 +14,7 @@ class RewardNetFC(nn.Module):
 
         self.mlp = MLP(
             input_dim=state_dim + act_dim + state_dim,
-            hidden_size=hidden_size,
+            hidden_sizes=hidden_size,
             output_dim=1,
             nonlinearity=nonlinearity
         )

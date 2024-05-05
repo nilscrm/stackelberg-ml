@@ -2,8 +2,8 @@ from envs.gym_env import GymEnv
 from envs.learned_env import LearnedEnv
 from nn.model.world_models import WorldModel, RandomDiscreteModel
 from algos.model_based_npg import ModelBasedNPG
-from nn.policy.policy_networks import PolicyFC
-from nn.policy.mlp_baseline import MLPBaseline
+from nn.policy.policy_networks import PolicyMLP
+from nn.baseline.baselines import BaselineMLP, AverageBaseline
 from policies.contextualized_policy import ModelContextualizedPolicy
 import torch
 import numpy as np
@@ -61,11 +61,13 @@ def train_contextualized_MAL():
     rewards_queries = product(range(env_true.observation_dim), range(env_true.action_dim), range(env_true.observation_dim))
     context_size = len(dynamics_queries) * env_true.observation_dim + len(rewards_queries)
     # NOTE: changed the policy model from gaussian MLP to one that predicts a distribution over actions (makes more sense for discrete action spaces + running log_std_dev makes no sense if we change the world model all the time)
-    policy = PolicyFC(env_true.observation_dim, env_true.action_dim, hidden_sizes=config['policy_size'], context_size=context_size)
+    policy = PolicyMLP(env_true.observation_dim, env_true.action_dim, hidden_sizes=config['policy_size'], context_size=context_size)
     contextualized_policy = ModelContextualizedPolicy(policy, dynamics_queries)
 
-    baseline = MLPBaseline(env_true.spec, reg_coef=1e-3, batch_size=128, epochs=1,  learn_rate=1e-3, device=config['device'])
-    trainer = ModelBasedNPG(policy=contextualized_policy, baseline=baseline, normalized_step_size=config['npg_step_size'], save_logs=True)
+    # baseline = BaselineMLP(input_dim=env_true.observation_dim, reg_coef=1e-3, batch_size=128, epochs=1,  learn_rate=1e-3)
+    baseline = AverageBaseline()
+
+    trainer = ModelBasedNPG(policy=contextualized_policy, normalized_step_size=config['npg_step_size'], save_logs=True)
     
     # Pretrain the policy conditioned on a world model
     for iter in range(config["policy_pretrain_steps"]):
@@ -77,7 +79,7 @@ def train_contextualized_MAL():
         for policy_iter in range(config["policy_inner_training_steps"]):
             trajectories = sample_trajectories(LearnedEnv(random_model, env_true.action_space, env_true.observation_space), 
                                                contextualized_policy, max_steps=config["max_steps"], num_trajectories=config["policy_trajectories_per_step"])
-            trainer.train_step(trajectories)
+            trainer.train_step(trajectories, baseline)
 
         # TODO: how do we know we have converged? => we should do some sort of validation to see if we are still improving
 

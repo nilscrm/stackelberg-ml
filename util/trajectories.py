@@ -1,10 +1,12 @@
 from typing import List
 import numpy as np
 import gym
+from nn.baseline.baselines import ABaseline
 from policies.policy import APolicy
 
 
 class Trajectory:
+    # TODO: should we also store the context we used?
     def __init__(self, states: np.ndarray, actions: np.ndarray, next_states: np.ndarray, rewards: np.ndarray, terminated: bool):
         self.length = states.shape[0]
         self.states = states
@@ -35,6 +37,10 @@ class TrajectoryList:
         return [trajectory.rewards for trajectory in self.trajectories]
     
     @property
+    def terminated(self):
+        return [trajectory.terminated for trajectory in self.trajectories]
+
+    @property
     def total_rewards(self):
         return [trajectory.total_reward for trajectory in self.trajectories]
     
@@ -45,26 +51,33 @@ class TrajectoryList:
     @property
     def num_trajectories(self):
         return len(self.trajectories)
+    
+    @property
+    def num_samples(self):
+        return np.sum([trajectory.length for trajectory in self.trajectories])
+    
+    def __getitem__(self, index) -> Trajectory:
+        return self.trajectories[index]
 
-    def compute_advantages(self, baseline_model, gamma, gae_lambda=None, normalize=False):
-        # TODO: figure out what the f**k baseline does? is it just predicting the expected cumulative reward starting in some state?
-        baselines = np.array([baseline_model.predict(trajectory) for trajectory in self.trajectories])
+    def compute_discounted_rewards(self, gamma = 1.0, terminal = 0.0):
+        return [trajectory.compute_discounted_rewards(gamma, terminal) for trajectory in self.trajectories]
+
+    def compute_advantages(self, baseline: ABaseline, gamma, gae_lambda=None, normalize=False):
+        # TODO: should we do this for each trajectory separately and return a list? because not all of them have the same length...
+        observations = np.concatenate(self.states)
+        expected_returns = baseline.predict_expected_returns(observations)
 
         if gae_lambda is None or gae_lambda < 0.0 or gae_lambda > 1.0:
             # Standard Advantage Computation
             returns = np.array([trajectory.compute_discounted_rewards(gamma) for trajectory in self.trajectories])
-            advantages = returns - baselines
+            advantages = returns - expected_returns
         else:
             # Generalized Advantage Estimation (GAE)
-            # TODO: when is b.ndim == 1?
-            for trajectory in self.trajectories:
-                b = trajectory["baseline"] = baseline.predict(trajectory)
-                if b.ndim == 1:
-                    b1 = np.append(trajectory["baseline"], 0.0 if trajectory["terminated"] else b[-1])
-                else:
-                    b1 = np.vstack((b, np.zeros(b.shape[1]) if trajectory["terminated"] else b[-1]))
-                td_deltas = trajectory["rewards"] + gamma*b1[1:] - b1[:-1]
-            
+            # append 0 if terminated, repeat last reward if not terminated
+            expected_returns = np.concatenate([expected_returns, np.zeros(self.num_trajectories)])
+            expected_returns[:,-1] += (np.concatenate(self.terminated) == False) * expected_returns[:,-2]
+
+            td_deltas = np.concatenate(self.rewards) + gamma*expected_returns[:,1:] - expected_returns[:,:-1]            
             advantages = compute_discounted_rewards(td_deltas, gamma*gae_lambda)
 
         if normalize:

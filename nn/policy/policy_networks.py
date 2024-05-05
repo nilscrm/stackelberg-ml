@@ -8,7 +8,7 @@ from policies.policy import APolicy
 from util.tensor_util import tensorize_array_inputs
 import torch.nn.functional as F
 
-class PolicyFC(nn.Module, APolicy):
+class PolicyMLP(nn.Module, APolicy):
     """ 
         MLP that parameterizes a policy.
         
@@ -24,7 +24,7 @@ class PolicyFC(nn.Module, APolicy):
 
         self.mlp = MLP(
             input_dim=observation_dim + context_size,
-            hidden_size=hidden_sizes,
+            hidden_sizes=hidden_sizes,
             output_dim=action_dim,
             nonlinearity=torch.tanh
         )

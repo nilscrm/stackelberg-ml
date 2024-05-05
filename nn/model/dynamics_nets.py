@@ -6,9 +6,9 @@ import torch.nn.functional as F
 
 from nn.mlp import MLP
 
-class DynamicsNetFC(nn.Module):
+class DynamicsNetMLP(nn.Module):
     """ Simple fully connected dynamics model that is parameterized as f_theta(s,a) -> s """
-    def __init__(self, state_dim, act_dim, hidden_size=(64,64), nonlinearity = torch.relu):
+    def __init__(self, state_dim, act_dim, hidden_sizes=(64,64), nonlinearity = torch.relu):
         super().__init__()
 
         self.state_dim = state_dim
@@ -16,7 +16,7 @@ class DynamicsNetFC(nn.Module):
 
         self.mlp = MLP(
             input_dim=state_dim + act_dim,
-            hidden_size=hidden_size,
+            hidden_sizes=hidden_sizes,
             output_dim=state_dim,
             nonlinearity=nonlinearity
         )

@@ -1,10 +1,8 @@
 import numpy as np
 import torch
-from tqdm import tqdm
 
-
-def fit_model(nn_model, X, Y, optimizer, loss_func,
-              batch_size, epochs, max_steps=1e10):
+def fit_tuple(model, X, Y, optimizer, loss_func,
+              batch_size, epochs, max_steps=1e10, visualizer: callable = (lambda x: x)):
     """
     :param nn_model:        pytorch model of form Y = f(*X) (class)
     :param X:               tuple of necessary inputs to the function
@@ -16,17 +14,11 @@ def fit_model(nn_model, X, Y, optimizer, loss_func,
     :return:
     """
 
-    assert type(X) == tuple
-    for d in X: assert type(d) == torch.Tensor
-    assert type(Y) == torch.Tensor
-    device = Y.device
-    for d in X: assert d.device == device
-
     num_samples = Y.shape[0]
     epoch_losses = []
     steps_so_far = 0
-    for ep in tqdm(range(epochs)):
-        rand_idx = torch.LongTensor(np.random.permutation(num_samples)).to(device)
+    for ep in visualizer(range(epochs)):
+        rand_idx = torch.LongTensor(np.random.permutation(num_samples))
         ep_loss = 0.0
         num_steps = int(num_samples // batch_size)
         for mb in range(num_steps):
@@ -34,7 +26,7 @@ def fit_model(nn_model, X, Y, optimizer, loss_func,
             batch_X  = [d[data_idx] for d in X]
             batch_Y  = Y[data_idx]
             optimizer.zero_grad()
-            Y_hat    = nn_model.forward(*batch_X)
+            Y_hat = model.forward(*batch_X)
             loss = loss_func(Y_hat, batch_Y)
             loss.backward()
             optimizer.step()
@@ -45,3 +37,8 @@ def fit_model(nn_model, X, Y, optimizer, loss_func,
             print("Number of grad steps exceeded threshold. Terminating early..")
             break
     return epoch_losses
+
+def fit(model, X, Y, optimizer, loss_func,
+        batch_size, epochs, max_steps=1e10, visualizer: callable = (lambda x: x)):
+    """ Fit a model such that model(X) = Y """
+    return fit_tuple(model, [X], Y, optimizer, loss_func, batch_size, epochs, max_steps, visualizer)

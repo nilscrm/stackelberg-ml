@@ -4,12 +4,13 @@ import torch
 from torch.nn import functional as F
 
 from envs.gym_env import GymEnv
-from nn.model.dynamics_nets import DynamicsNetFC
+from nn.model.dynamics_nets import DynamicsNetMLP
 from nn.model.reward_nets import RewardNetFC
 
-from nn.model.training_util import fit_model
+from util.optimization import fit_tuple
 from util.tensor_util import extract_one_hot_index_inputs, tensorize_array_inputs
 
+from tqdm import tqdm
 
 class AWorldModel:
     @property
@@ -62,7 +63,7 @@ class WorldModel(AWorldModel):
         self.reward_function = reward_function
         
         # construct the dynamics model
-        self.dynamics_net = DynamicsNetFC(state_dim, act_dim, hidden_size, residual=residual, nonlinearity=activation)
+        self.dynamics_net = DynamicsNetMLP(state_dim, act_dim, hidden_size, residual=residual, nonlinearity=activation)
 
         self.dynamics_opt = torch.optim.Adam(self.dynamics_net.parameters(), lr=fit_lr, weight_decay=fit_wd)
         self.dynamics_loss = torch.nn.MSELoss()
@@ -100,8 +101,8 @@ class WorldModel(AWorldModel):
 
         X = (s, a)
         Y = s_next
-        return fit_model(self.dynamics_net, X, Y, self.dynamics_opt, self.dynamics_loss, 
-                         fit_mb_size, fit_epochs, max_steps=max_steps)
+        return fit_tuple(self.dynamics_net, X, Y, self.dynamics_opt, self.dynamics_loss, 
+                         fit_mb_size, fit_epochs, max_steps=max_steps, visualizer=tqdm)
 
     @tensorize_array_inputs
     def fit_reward(self, s, a, s_next, r, fit_mb_size, fit_epochs, max_steps=1e4):
@@ -112,13 +113,14 @@ class WorldModel(AWorldModel):
 
         X = (s, a, s_next)
         Y = r
-        return fit_model(self.reward_net, X, Y, self.reward_opt, self.reward_loss,
-                         fit_mb_size, fit_epochs, max_steps=max_steps)
+        return fit_tuple(self.reward_net, X, Y, self.reward_opt, self.reward_loss,
+                         fit_mb_size, fit_epochs, max_steps=max_steps, visualizer=tqdm)
 
 
 
 
 class RandomDiscreteModel(AWorldModel):
+    """ Random model of the world with a discrete action and observation space """
     def __init__(self, template: GymEnv, reward_func: callable | None = None, 
                  min_reward: float = 0.0, max_reward: float = 1.0):
         self.state_space = template.observation_space
