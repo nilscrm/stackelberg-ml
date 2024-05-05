@@ -1,6 +1,6 @@
 from tqdm import tqdm
 from envs.env_util import DiscreteEnv
-from envs.learned_env import LearnedEnv
+from envs.learned_env import DiscreteLearnedEnv
 from envs.simple_mdp import SimpleMDPEnv
 from nn.model.world_models import WorldModel, RandomDiscreteModel
 from algos.model_based_npg import ModelBasedNPG
@@ -11,6 +11,7 @@ import torch
 import torch.nn.functional as F
 import numpy as np
 
+from util.tensor_util import one_hot
 from util.trajectories import sample_trajectories
 
 from itertools import product
@@ -29,7 +30,7 @@ def train_contextualized_MAL():
     """
 
     config = {
-        "seed": 123,
+        "seed": 1234,
         "policy_size": (32, 32),
         "init_log_std": -0.5,
         "min_log_std": -2.5,
@@ -37,12 +38,12 @@ def train_contextualized_MAL():
         "npg_step_size": 0.05,
         "training_iterations": 1000,
         "init_samples": 500,
-        "policy_pretrain_steps": 10,# TODO: make this sth large, like 1000,
+        "policy_pretrain_steps": 100,# TODO: make this sth large, like 1000,
         "policy_inner_training_steps": 5,
         "model_batch_size": 64,
-        "model_fit_epochs": 1, # TODO: should this be 1 since we essentially want best-response, technically, as soon as we do one gradient step, the trajectories are no longer best-response
+        "model_fit_epochs": 5, # TODO: should this be 1 since we essentially want best-response, technically, as soon as we do one gradient step, the trajectories are no longer best-response
         "policy_trajectories_per_step": 250,
-        "max_steps": 50,
+        "max_episode_steps": 50,
         "num_models": 4,
         "learn_reward": False,
     }
@@ -51,7 +52,7 @@ def train_contextualized_MAL():
     torch.random.manual_seed(config["seed"])
 
     # Groundtruth environment, which we sample from
-    env_true = SimpleMDPEnv()
+    env_true = SimpleMDPEnv(max_episode_steps=config["max_episode_steps"])
 
     reward_func = None
     if config["learn_reward"]:
@@ -62,7 +63,8 @@ def train_contextualized_MAL():
     # Sample true initial state distribution
     init_state_probs = []
     for i in range(100):
-        init_state_probs.append(env_true.reset())
+        init_state,_ = env_true.reset()
+        init_state_probs.append(one_hot(init_state, env_true.observation_dim).numpy())
     init_state_probs = np.mean(init_state_probs, axis=0)
 
     # NOTE: in this scenario it does not make sense to have multiple world models, as they would all converge to a stackelberg equilibrium and not help to find the best policy
@@ -94,8 +96,8 @@ def train_contextualized_MAL():
         
         # train policy on trajectories from random model
         for policy_iter in range(config["policy_inner_training_steps"]):
-            trajectories = sample_trajectories(LearnedEnv(random_model, env_true.action_space, env_true.observation_space), 
-                                               contextualized_policy, max_steps=config["max_steps"], num_trajectories=config["policy_trajectories_per_step"])
+            trajectories = sample_trajectories(DiscreteLearnedEnv(random_model, env_true.action_space, env_true.observation_space), 
+                                               contextualized_policy, max_steps=config["max_episode_steps"], num_trajectories=config["policy_trajectories_per_step"])
             trainer.train_step(trajectories, baseline)
 
         # TODO: how do we know we have converged? => we should do some sort of validation to see if we are still improving
@@ -111,7 +113,8 @@ def train_contextualized_MAL():
         # Sample trajectories on the environment, using the best-response-policy (wrt the current model)
         contextualized_policy.set_context_by_querying(model)
         # TODO: these trajectories need to contain the context, so the leader sees that it is being queried (look at how gerstgrasser did it)
-        env_trajectories = sample_trajectories(env_true, contextualized_policy, max_steps=config["max_steps"], num_trajectories=config["init_samples"]) 
+        # we could just start with samples that are from the queries
+        env_trajectories = sample_trajectories(env_true, contextualized_policy, max_steps=config["max_episode_steps"], num_trajectories=config["init_samples"]) 
 
         states = np.concatenate(env_trajectories.states)
         actions = np.concatenate(env_trajectories.actions)

@@ -1,12 +1,11 @@
-from gym import spaces
+from gymnasium import spaces
 import numpy as np
-import torch
 
 from envs.env_util import DiscreteEnv
-from util.tensor_util import extract_one_hot_index_inputs
 
 class SimpleMDPEnv(DiscreteEnv):
-    def __init__(self):
+    def __init__(self, max_episode_steps: int):
+        super().__init__(max_episode_steps)
         self.num_states = 3 # 0 (A), 1 (B), 2 (C)
         self.initial_state = 1  # Initial state
         self.action_space = spaces.Discrete(2)  # Two possible actions: 0 (X) or 1 (Y)
@@ -30,37 +29,42 @@ class SimpleMDPEnv(DiscreteEnv):
         self.rewards = {
             # Target       A    B    C      # Current
             # Action X
-            0: np.array([[ 10,  -5, 100],   # A 
-                         [  0,  -5, 100],   # B
+            0: np.array([[ .1,  -.05, 1],   # A 
+                         [  0,  -.05, 1],   # B
                          [  0,   0,   0]]), # C
             # Action Y
-            1: np.array([[ 10,   0,   0],   # A 
-                         [ -1,  -5,   0],   # B
-                         [  0,   0,   0]])  # C
+            1: np.array([[ .10,   0,   0],   # A 
+                         [ -.01, -.05, 0],   # B
+                         [  0,    0,   0]])  # C
         }
 
-    def reset(self):
+        self.step_cnt = 0
+
+        self.reset()
+
+    def reset(self, seed=None):
+        self.step_cnt = 0
         self.state = self.initial_state
-        return self.get_obs()
+        return self.get_obs(), {}
     
-    @extract_one_hot_index_inputs
     def is_done(self, state):
         return state == self.num_states - 1
     
-    @extract_one_hot_index_inputs
     def reward(self, state, action, next_state):
         return self.rewards[action][state][next_state]
 
-    @extract_one_hot_index_inputs
     def step(self, action):
         old_state = self.state
+        
         self.state = np.random.choice(self.num_states, p=self.transitions[action][self.state])
-        return self.get_obs(), self.reward(old_state, action, self.state), self.is_done(self.state), {}
+        self.step_cnt += 1
+        
+        truncated = self.step_cnt >= self.max_episode_steps
+
+        return self.get_obs(), self.reward(old_state, action, self.state), self.is_done(self.state), truncated, {}
     
     def get_obs(self):
-        observation = np.zeros(3)
-        observation[self.state] = 1.0
-        return observation
+        return self.state
 
     def render(self):
         print(f"Current state: {self.state}")

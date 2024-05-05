@@ -1,12 +1,35 @@
-import gym
+from abc import ABC
+import gymnasium
 
-class DiscreteEnv(gym.Env):
+class AEnv(ABC, gymnasium.Env):
+    def __init__(self) -> None:
+        gymnasium.Env.__init__(self)
+
+    @property
+    def max_episode_steps(self):
+        pass
+
+    @property
+    def observation_dim(self):
+        pass
+
+    @property
+    def action_dim(self):
+        pass
+
+
+class DiscreteEnv(AEnv):
     """
         Adds convenience functions to a gym.Env with discrete action and observation space
     """
+    def __init__(self, max_episode_steps) -> None:
+        super().__init__()
+
+        self._max_episode_steps = max_episode_steps
+
     @property
-    def horizon(self):
-        return self.spec.max_episode_steps
+    def max_episode_steps(self):
+        return self._max_episode_steps
 
     @property
     def observation_dim(self):

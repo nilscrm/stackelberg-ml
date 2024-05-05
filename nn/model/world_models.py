@@ -12,8 +12,6 @@ from nn.model.reward_nets import RewardNetMLP
 from util.optimization import fit_tuple
 from util.tensor_util import extract_one_hot_index_inputs, tensorize, tensorize_array_inputs
 
-from tqdm import tqdm
-
 class AWorldModel:
     @property
     def action_dim(self):
@@ -78,6 +76,14 @@ class WorldModel(AWorldModel):
             self.reward_loss = torch.nn.MSELoss()
         else:
             self.reward_net, self.reward_opt, self.reward_loss = None, None, None
+
+    @property
+    def action_dim(self):
+        return self.act_dim
+
+    @property
+    def observation_dim(self):
+        return self.state_dim
 
     @tensorize_array_inputs
     def next_state_distribution(self, s, a):
@@ -145,6 +151,14 @@ class RandomDiscreteModel(AWorldModel):
     
         if self.reward_func is None:
             self.rewards = (torch.rand((self.state_dim, self.act_dim, self.state_dim)) + self.min_reward) * (self.max_reward - self.min_reward)
+
+    @property
+    def action_dim(self):
+        return self.act_dim
+
+    @property
+    def observation_dim(self):
+        return self.state_dim
 
     @property
     def action_space(self):

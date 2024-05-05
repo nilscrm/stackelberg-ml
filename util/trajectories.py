@@ -1,8 +1,10 @@
 from typing import List
 import numpy as np
-import gym
+import gymnasium
+from envs.env_util import AEnv
 from nn.baseline.baselines import ABaseline
 from policies.policy import APolicy
+from util.tensor_util import one_hot, one_hot_to_idx
 
 
 class Trajectory:
@@ -99,29 +101,30 @@ class TrajectoryList:
 ###     Sampling     ###
 ########################
 
-def sample_trajectories(env: gym.Env, policy: APolicy, num_trajectories: int, max_steps: int | None = None) -> TrajectoryList:
+def sample_trajectories(env: AEnv, policy: APolicy, num_trajectories: int, max_steps: int | None = None) -> TrajectoryList:
     return TrajectoryList([sample_trajectory(env, policy, max_steps) for i in range(num_trajectories)])
 
-def sample_trajectory(env: gym.Env, policy: APolicy, max_steps: int | None = None):
+def sample_trajectory(env: AEnv, policy: APolicy, max_steps: int | None = None):
     """ Sample a trajectory in an environment using a policy """
 
-    state = env.reset()
-    done = False
+    state, _ = env.reset()
+    terminated = False
+    truncated = False
     steps = 0
 
     states = []
     actions = []
-    rewards = []
     next_states = []
+    rewards = []
 
-    while not done and (max_steps is None or steps <= max_steps):
-        action = policy.sample_next_action(state)
-        next_state, reward, done, info = env.step(action)
+    while (not terminated) and (not truncated) and (max_steps is None or steps <= max_steps):
+        action = one_hot_to_idx(policy.sample_next_action(one_hot(state, env.observation_dim)))
+        next_state, reward, terminated, truncated, info = env.step(action)
 
-        states.append(state)
-        actions.append(action)
+        states.append(one_hot(state, env.observation_dim))
+        actions.append(one_hot(action, env.action_dim))
+        next_states.append(one_hot(next_state, env.observation_dim))
         rewards.append(reward)
-        next_states.append(next_state)
 
         state = next_state
         steps += 1
@@ -131,7 +134,7 @@ def sample_trajectory(env: gym.Env, policy: APolicy, max_steps: int | None = Non
     next_states = np.stack(next_states, axis=0)
     rewards = np.array(rewards)
 
-    return Trajectory(states, actions, next_states, rewards, done)
+    return Trajectory(states, actions, next_states, rewards, terminated)
 
 
 

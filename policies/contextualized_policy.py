@@ -67,6 +67,6 @@ class ModelContextualizedPolicy(ContextualizedPolicy):
             query_answers.append(env_model.next_state_distribution(s, a))
 
         for (s, a, s_next) in self.reward_queries:
-            query_answers.append(env_model.reward(s, a, s_next).reshape(1))
+            query_answers.append(torch.tensor([env_model.reward(s, a, s_next)]))
 
         self.set_context(torch.concatenate(query_answers).flatten())
