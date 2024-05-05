@@ -3,7 +3,7 @@ from abc import abstractmethod
 
 import numpy as np
 import torch
-from util.optimization import fit
+from util.optimization import fit as fit_model
 from util.tensor_util import tensorize_array_inputs
 
 from nn.mlp import MLP
@@ -11,7 +11,7 @@ from nn.mlp import MLP
 class ABaseline:
     """ Predict the expected returns from observations in trajectories """
     @abstractmethod
-    def fit(self, observations: np.ndarray, returns: np.ndarray, return_errors: bool = False):
+    def fit(self, observations: torch.Tensor, returns: torch.Tensor, return_errors: bool = False):
         pass
 
     @abstractmethod
@@ -40,13 +40,13 @@ class BaselineMLP(ABaseline):
             errors = returns - self.mlp(observations)
             error_before = torch.sum(errors**2)/(torch.sum(returns**2) + 1e-8)
 
-            fit(self.mlp, observations, returns, self.optimizer, self.loss_function, self.batch_size, self.epochs)
+            fit_model(self.mlp, observations, returns, self.optimizer, self.loss_function, self.batch_size, self.epochs)
 
             errors = returns - self.mlp(observations)
             error_after = torch.sum(errors**2)/(torch.sum(returns**2) + 1e-8)
-            return error_before.numpy(), error_after.numpy()
+            return error_before.detach().numpy(), error_after.detach().numpy()
         else:
-            fit(self.mlp, observations, returns, self.optimizer, self.loss_function, self.batch_size, self.epochs)
+            fit_model(self.mlp, observations, returns, self.optimizer, self.loss_function, self.batch_size, self.epochs)
             
     @tensorize_array_inputs
     def predict_expected_returns(self, observations: np.ndarray):

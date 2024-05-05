@@ -4,11 +4,11 @@ import numpy as np
 import torch
 import torch.nn as nn
 from nn.mlp import MLP
-from policies.policy import APolicy
+from policies.policy import ATrainablePolicy
 from util.tensor_util import tensorize_array_inputs
 import torch.nn.functional as F
 
-class PolicyMLP(nn.Module, APolicy):
+class PolicyMLP(nn.Module, ATrainablePolicy):
     """ 
         MLP that parameterizes a policy.
         
@@ -16,7 +16,7 @@ class PolicyMLP(nn.Module, APolicy):
     """
     def __init__(self, observation_dim: int, action_dim: int, hidden_sizes=(64,64), context_size: int=0):
         nn.Module.__init__(self)
-        APolicy.__init__(self)
+        ATrainablePolicy.__init__(self)
 
         self.observation_dim = observation_dim
         self.action_dim = action_dim
@@ -48,14 +48,15 @@ class PolicyMLP(nn.Module, APolicy):
 
     @tensorize_array_inputs
     def log_likelihood(self, observations, groundtruth_actions):
-        predicted_actions = self.sample_next_actions(observations)
         # TODO: check this is correct (should be the sum over the log of the predicted values of the groundtruth label, I'm assuming groundtruth_actions are one-hot-encoded)
+        predicted_actions = self.next_action_distribution(observations) # TODO: cannot use sampling here because we cannot differentiate through it, is it correct to use the distributions though?
         return -torch.sum(groundtruth_actions * torch.log(predicted_actions + 1e-8), dim=1)
 
+    @tensorize_array_inputs
     def kl_divergence(self, observations, old_actions):
-        predicted_actions = self.sample_next_actions(observations)
         # TODO: check it is correct that we use the new actions as the groundtruth
-        return F.kl_div(old_actions, predicted_actions)
+        predicted_actions = self.next_action_distribution(observations)
+        return F.kl_div(old_actions, predicted_actions, reduction="batchmean")
 
     def get_param_values(self):
         params = torch.cat([p.contiguous().view(-1).data for p in self.parameters()])

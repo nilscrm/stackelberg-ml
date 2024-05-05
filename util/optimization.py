@@ -27,7 +27,7 @@ def fit_tuple(model, X, Y, optimizer, loss_func,
             batch_Y  = Y[data_idx]
             optimizer.zero_grad()
             Y_hat = model.forward(*batch_X)
-            loss = loss_func(Y_hat, batch_Y)
+            loss = loss_func(Y_hat.squeeze(), batch_Y.squeeze())
             loss.backward()
             optimizer.step()
             ep_loss += loss.to('cpu').data.numpy()

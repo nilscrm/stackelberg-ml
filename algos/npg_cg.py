@@ -3,6 +3,7 @@
 import logging
 from typing import List
 
+from policies.policy import ATrainablePolicy
 from util.trajectories import TrajectoryList
 logging.disable(logging.CRITICAL)
 import numpy as np
@@ -14,7 +15,7 @@ from algos.batch_reinforce import BatchREINFORCE
 
 
 class NPG(BatchREINFORCE):
-    def __init__(self, policy,
+    def __init__(self, policy: ATrainablePolicy,
                  normalized_step_size=0.01,
                  const_learn_rate=None,
                  FIM_invert_args={'iters': 10, 'damping': 1e-4},
@@ -51,8 +52,8 @@ class NPG(BatchREINFORCE):
             rand_idx = np.random.choice(num_samples, size=int(self.hvp_subsample*num_samples))
             observations = observations[rand_idx]
             actions = actions[rand_idx]
-        mean_kl = self.policy.mean_kl(observations, actions)
-        grad_fo = torch.autograd.grad(mean_kl, self.policy.trainable_params, create_graph=True)
+        kl_div = self.policy.kl_divergence(observations, actions)
+        grad_fo = torch.autograd.grad(kl_div, self.policy.trainable_params, create_graph=True)
         flat_grad = torch.cat([g.contiguous().view(-1) for g in grad_fo])
         gvp = torch.sum(flat_grad*vec)
         hvp = torch.autograd.grad(gvp, self.policy.trainable_params)
@@ -81,7 +82,7 @@ class NPG(BatchREINFORCE):
         if self.save_logs:
             pg_surr = self.pg_surrogate(states, actions, advantages)
             surr_before = pg_surr.to('cpu').data.numpy().ravel()[0]
-            actions_before = self.policy.sample_next_actions(states)
+            actions_before = self.policy.sample_next_actions(states).float()
 
         # VPG
         ts = timer.time()

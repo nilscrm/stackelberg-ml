@@ -118,15 +118,20 @@ def sample_trajectory(env: gym.Env, policy: APolicy, max_steps: int | None = Non
         action = policy.sample_next_action(state)
         next_state, reward, done, info = env.step(action)
 
-        states.append(state.numpy())
-        actions.append(action.numpy())
-        rewards.append(reward.numpy())
-        next_states.append(next_state.numpy())
+        states.append(state)
+        actions.append(action)
+        rewards.append(reward)
+        next_states.append(next_state)
 
         state = next_state
         steps += 1
 
-    return Trajectory(np.array(states), np.array(actions), np.array(next_states), np.array(rewards), done)
+    states = np.stack(states, axis=0)
+    actions = np.stack(actions, axis=0)
+    next_states = np.stack(next_states, axis=0)
+    rewards = np.array(rewards)
+
+    return Trajectory(states, actions, next_states, rewards, done)
 
 
 

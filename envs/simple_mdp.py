@@ -1,5 +1,6 @@
 from gym import spaces
 import numpy as np
+import torch
 
 from envs.env_util import DiscreteEnv
 from util.tensor_util import extract_one_hot_index_inputs

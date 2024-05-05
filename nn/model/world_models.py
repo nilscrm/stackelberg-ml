@@ -103,7 +103,7 @@ class WorldModel(AWorldModel):
         X = (s, a)
         Y = s_next
         return fit_tuple(self.dynamics_net, X, Y, self.dynamics_opt, self.dynamics_loss, 
-                         fit_mb_size, fit_epochs, max_steps=max_steps, visualizer=tqdm)
+                         fit_mb_size, fit_epochs, max_steps=max_steps)
 
     @tensorize_array_inputs
     def fit_reward(self, s, a, s_next, r, fit_mb_size, fit_epochs, max_steps=1e4):
@@ -115,7 +115,7 @@ class WorldModel(AWorldModel):
         X = (s, a, s_next)
         Y = r
         return fit_tuple(self.reward_net, X, Y, self.reward_opt, self.reward_loss,
-                         fit_mb_size, fit_epochs, max_steps=max_steps, visualizer=tqdm)
+                         fit_mb_size, fit_epochs, max_steps=max_steps)
 
 
 

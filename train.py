@@ -1,3 +1,4 @@
+from tqdm import tqdm
 from envs.env_util import DiscreteEnv
 from envs.learned_env import LearnedEnv
 from envs.simple_mdp import SimpleMDPEnv
@@ -7,6 +8,7 @@ from nn.policy.policy_networks import PolicyMLP
 from nn.baseline.baselines import BaselineMLP
 from policies.contextualized_policy import ModelContextualizedPolicy
 import torch
+import torch.nn.functional as F
 import numpy as np
 
 from util.trajectories import sample_trajectories
@@ -35,10 +37,10 @@ def train_contextualized_MAL():
         "npg_step_size": 0.05,
         "training_iterations": 1000,
         "init_samples": 500,
+        "policy_pretrain_steps": 10,# TODO: make this sth large, like 1000,
         "policy_inner_training_steps": 5,
-        "policy_pretrain_steps": 1000,
         "model_batch_size": 64,
-        "model_fit_epochs": 10,
+        "model_fit_epochs": 1, # TODO: should this be 1 since we essentially want best-response, technically, as soon as we do one gradient step, the trajectories are no longer best-response
         "policy_trajectories_per_step": 250,
         "max_steps": 50,
         "num_models": 4,
@@ -69,8 +71,11 @@ def train_contextualized_MAL():
     random_model = RandomDiscreteModel(env_true, init_state_probs, termination_func, reward_func, min_reward=-5, max_reward=100)
 
     # context = in which state will we land (+ what reward we get) for each query
-    dynamics_queries = list(product(range(env_true.observation_dim), range(env_true.action_dim)))
-    reward_queries = list(product(range(env_true.observation_dim), range(env_true.action_dim), range(env_true.observation_dim)))
+    observation_space = F.one_hot(torch.arange(env_true.observation_dim, requires_grad=False), num_classes=env_true.observation_dim).float()
+    action_space = F.one_hot(torch.arange(env_true.action_dim, requires_grad=False), num_classes=env_true.action_dim).float()
+
+    dynamics_queries = list(product(observation_space, action_space))
+    reward_queries = list(product(observation_space, action_space, observation_space))
     context_size = len(dynamics_queries) * env_true.observation_dim + len(reward_queries)
     # NOTE: changed the policy model from gaussian MLP to one that predicts a distribution over actions (makes more sense for discrete action spaces + running log_std_dev makes no sense if we change the world model all the time)
     policy = PolicyMLP(env_true.observation_dim, env_true.action_dim, hidden_sizes=config['policy_size'], context_size=context_size)
@@ -81,7 +86,8 @@ def train_contextualized_MAL():
     trainer = ModelBasedNPG(policy=contextualized_policy, normalized_step_size=config['npg_step_size'], save_logs=True)
     
     # Pretrain the policy conditioned on a world model
-    for iter in range(config["policy_pretrain_steps"]):
+    print("Pretraining")
+    for iter in tqdm(range(config["policy_pretrain_steps"])):
         # create "random" world model = basically random transition probabilities (and random reward if learned)
         random_model.randomize()
         contextualized_policy.set_context_by_querying(random_model)
@@ -98,14 +104,14 @@ def train_contextualized_MAL():
     # NOTE: We are not using a replay buffer because then some trajectories are produced by best-response policies to older world models, violating the follower-best-reponse criteria.
     #       Even though we are only using the trajectories to learn to predict the next states given a state-action-pair, having a non-best-response state-visitation distribution, will skew the weighting in the loss, giving us a sub-optimal policy-model combination.
     # TODO: on the other hand, this means we are probably less sample efficient, so it might be worth to try both (probably it converges in the end because the world model wont change much and so the policy will be consistent and thus also the trajectories)
+    print("Training")
     for iter in range(config["training_iterations"]):
         print(f"Training iteration {iter}")
 
         # Sample trajectories on the environment, using the best-response-policy (wrt the current model)
         contextualized_policy.set_context_by_querying(model)
         # TODO: these trajectories need to contain the context, so the leader sees that it is being queried (look at how gerstgrasser did it)
-        env_trajectories = sample_trajectories(env_true, contextualized_policy, 
-                                               max_steps=config["max_steps"], num_trajectories=config["init_samples"]) 
+        env_trajectories = sample_trajectories(env_true, contextualized_policy, max_steps=config["max_steps"], num_trajectories=config["init_samples"]) 
 
         states = np.concatenate(env_trajectories.states)
         actions = np.concatenate(env_trajectories.actions)
@@ -113,16 +119,16 @@ def train_contextualized_MAL():
         next_states = np.concatenate(env_trajectories.next_states)
 
         average_reward = np.mean([trajectory.total_reward for trajectory in env_trajectories])
-        print(f"Average reward: {average_reward}")
+        print(f"\tAverage reward: {average_reward:.3f}")
         
         dynamics_loss = model.fit_dynamics(states, actions, next_states, 
-                                           fit_epochs=config["model_batch_size"], fit_mb_size=config["model_fit_epochs"])
-        print(f"Dynamics loss: {dynamics_loss}")
+                                           fit_epochs=config["model_fit_epochs"], fit_mb_size=config["model_batch_size"])
+        print(f"\tDynamics loss: {np.mean(dynamics_loss):.3f}")
 
         if config["learn_reward"]:
             reward_loss = model.fit_reward(states, actions, rewards, 
-                                           fit_epochs=config["model_batch_size"], fit_mb_size=config["model_fit_epochs"])
-            print(f"Reward loss: {reward_loss}")
+                                           fit_epochs=config["model_fit_epochs"], fit_mb_size=config["model_batch_size"])
+            print(f"\tReward loss: {np.mean(reward_loss):.3f}")
         
         
 

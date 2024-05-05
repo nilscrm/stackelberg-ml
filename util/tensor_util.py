@@ -39,7 +39,7 @@ def tensorize(var, device='cpu'):
     :return: torch.Tensor mapped to the device
     """
     if type(var) == torch.Tensor:
-        return var.to(device)
+        return var.float().to(device)
     elif type(var) == np.ndarray:
         return torch.from_numpy(var).float().to(device)
     elif type(var) == float:
