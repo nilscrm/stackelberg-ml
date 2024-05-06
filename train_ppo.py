@@ -39,7 +39,7 @@ def train_contextualized_MAL():
         "policy_inner_training_steps": 1,
         "model_batch_size": 64,
         "model_fit_epochs": 5, # TODO: should this be 1 since we essentially want best-response, technically, as soon as we do one gradient step, the trajectories are no longer best-response
-        "policy_trajectories_per_step": 10,
+        "policy_trajectories_per_step": 250,
         "max_episode_steps": 50,
         "num_models": 4,
         "learn_reward": False,
@@ -82,7 +82,7 @@ def train_contextualized_MAL():
     policy_kwargs = dict(
         features_extractor_class=SB3ContextualizedFeatureExtractor,
         features_extractor_kwargs=dict(context_size=context_size),
-        net_arch=dict(pi=[8,8], qf=[16,12])
+        net_arch=dict(pi=[16,16], qf=[40,30])
     )
     trainer = PPO("MlpPolicy", random_model_env, policy_kwargs=policy_kwargs, n_epochs=1, n_steps=10)
     
