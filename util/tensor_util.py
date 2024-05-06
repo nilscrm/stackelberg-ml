@@ -3,6 +3,8 @@ import torch.nn.functional as F
 import numpy as np
 from functools import wraps
 
+OneHot = torch.Tensor
+
 def tensorize_array_inputs(func):
     """ Decorator that tensorizes any numpy array inputs to the function """
     @wraps(func)

@@ -1,6 +1,7 @@
 from typing import List
 import numpy as np
 import gymnasium
+import torch
 from envs.env_util import AEnv
 from nn.baseline.baselines import ABaseline
 from policies.policy import APolicy
@@ -117,22 +118,23 @@ def sample_trajectory(env: AEnv, policy: APolicy, max_steps: int | None = None):
     next_states = []
     rewards = []
 
-    while (not terminated) and (not truncated) and (max_steps is None or steps <= max_steps):
-        action = one_hot_to_idx(policy.sample_next_action(one_hot(state, env.observation_dim)))
-        next_state, reward, terminated, truncated, info = env.step(action)
+    with torch.no_grad():
+        while (not terminated) and (not truncated) and (max_steps is None or steps <= max_steps):
+            action = one_hot_to_idx(policy.sample_next_action(one_hot(state, env.observation_dim)))
+            next_state, reward, terminated, truncated, info = env.step(action)
 
-        states.append(one_hot(state, env.observation_dim))
-        actions.append(one_hot(action, env.action_dim))
-        next_states.append(one_hot(next_state, env.observation_dim))
-        rewards.append(reward)
+            states.append(one_hot(state, env.observation_dim))
+            actions.append(one_hot(action, env.action_dim))
+            next_states.append(one_hot(next_state, env.observation_dim))
+            rewards.append(reward)
 
-        state = next_state
-        steps += 1
+            state = next_state
+            steps += 1
 
-    states = np.stack(states, axis=0)
-    actions = np.stack(actions, axis=0)
-    next_states = np.stack(next_states, axis=0)
-    rewards = np.array(rewards)
+        states = np.stack(states, axis=0)
+        actions = np.stack(actions, axis=0)
+        next_states = np.stack(next_states, axis=0)
+        rewards = np.array(rewards)
 
     return Trajectory(states, actions, next_states, rewards, terminated)
 

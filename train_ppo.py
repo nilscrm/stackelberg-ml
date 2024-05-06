@@ -10,10 +10,15 @@ import torch
 import torch.nn.functional as F
 import numpy as np
 
+from nn.policy.stable_baseline_policy_networks import SB3ContextualizedFeatureExtractor
+from policies.stable_baseline_policy import SB3DiscretePolicy
 from util.tensor_util import one_hot
 from util.trajectories import sample_trajectories
 
 from itertools import product
+
+from stable_baselines3.ppo import PPO
+from stable_baselines3.common.evaluation import evaluate_policy
 
 
 def train_contextualized_MAL():
@@ -31,14 +36,12 @@ def train_contextualized_MAL():
     config = {
         "seed": 1234,
         "policy_size": (32, 32),
-        "init_log_std": -0.5,
-        "min_log_std": -2.5,
         "device": "cpu",
         "npg_step_size": 0.05,
         "training_iterations": 1000,
         "init_samples": 500,
-        "policy_pretrain_steps": 100,# TODO: make this sth large, like 1000,
-        "policy_inner_training_steps": 5,
+        "policy_pretrain_steps": 200,# TODO: make this sth large, like 1000,
+        "policy_inner_training_steps": 3,
         "model_batch_size": 64,
         "model_fit_epochs": 5, # TODO: should this be 1 since we essentially want best-response, technically, as soon as we do one gradient step, the trajectories are no longer best-response
         "policy_trajectories_per_step": 250,
@@ -70,6 +73,7 @@ def train_contextualized_MAL():
     model = WorldModel(state_dim=env_true.observation_dim, act_dim=env_true.action_dim, hidden_sizes=(64,64), reward_func=reward_func)
     # TODO: figure out how to sample random rewards...
     random_model = RandomDiscreteModel(env_true, init_state_probs, termination_func, reward_func, min_reward=-5, max_reward=100)
+    random_env = DiscreteLearnedEnv(random_model, env_true.action_space, env_true.observation_space, config["max_episode_steps"])
 
     # context = in which state will we land (+ what reward we get) for each query
     observation_space = F.one_hot(torch.arange(env_true.observation_dim, requires_grad=False), num_classes=env_true.observation_dim).float()
@@ -78,26 +82,24 @@ def train_contextualized_MAL():
     dynamics_queries = list(product(observation_space, action_space))
     reward_queries = list(product(observation_space, action_space, observation_space))
     context_size = len(dynamics_queries) * env_true.observation_dim + len(reward_queries)
-    # NOTE: changed the policy model from gaussian MLP to one that predicts a distribution over actions (makes more sense for discrete action spaces + running log_std_dev makes no sense if we change the world model all the time)
-    policy = PolicyMLP(env_true.observation_dim, env_true.action_dim, hidden_sizes=config['policy_size'], context_size=context_size)
-    contextualized_policy = ContextualizedPolicy(policy, torch.zeros(context_size))
 
-    baseline = BaselineMLP(input_dim=env_true.observation_dim, reg_coef=1e-3, batch_size=128, epochs=1,  learn_rate=1e-3)
-
-    trainer = ModelBasedNPG(policy=contextualized_policy, normalized_step_size=config['npg_step_size'], save_logs=True)
+    policy_kwargs = dict(
+        features_extractor_class=SB3ContextualizedFeatureExtractor,
+        features_extractor_kwargs=dict(context_size=context_size),
+    )
+    trainer = PPO("MlpPolicy", random_env, policy_kwargs=policy_kwargs)
     
     # Pretrain the policy conditioned on a world model
     print("Pretraining")
-    for iter in tqdm(range(config["policy_pretrain_steps"])):
+    for iter in range(config["policy_pretrain_steps"]):
         # create "random" world model = basically random transition probabilities (and random reward if learned)
         random_model.randomize()
-        contextualized_policy.set_context(random_model.query(dynamics_queries, reward_queries))
-        
-        # train policy on trajectories from random model
-        for policy_iter in range(config["policy_inner_training_steps"]):
-            trajectories = sample_trajectories(DiscreteLearnedEnv(random_model, env_true.action_space, env_true.observation_space), 
-                                               contextualized_policy, max_steps=config["max_episode_steps"], num_trajectories=config["policy_trajectories_per_step"])
-            trainer.train_step(trajectories, baseline)
+        trainer.policy.features_extractor.set_context(random_model.query(dynamics_queries, reward_queries))
+
+        for i in range(config["policy_inner_training_steps"]):
+            trainer.learn(config["policy_trajectories_per_step"])
+
+        print(evaluate_policy(trainer.policy, random_env, n_eval_episodes=10))
 
         # TODO: how do we know we have converged? => we should do some sort of validation to see if we are still improving
 
@@ -105,15 +107,16 @@ def train_contextualized_MAL():
     # NOTE: We are not using a replay buffer because then some trajectories are produced by best-response policies to older world models, violating the follower-best-reponse criteria.
     #       Even though we are only using the trajectories to learn to predict the next states given a state-action-pair, having a non-best-response state-visitation distribution, will skew the weighting in the loss, giving us a sub-optimal policy-model combination.
     # TODO: on the other hand, this means we are probably less sample efficient, so it might be worth to try both (probably it converges in the end because the world model wont change much and so the policy will be consistent and thus also the trajectories)
+    policy_oracle = SB3DiscretePolicy(trainer.policy)
     print("Training")
     for iter in range(config["training_iterations"]):
         print(f"Training iteration {iter}")
 
         # Sample trajectories on the environment, using the best-response-policy (wrt the current model)
-        contextualized_policy.set_context(model.query(dynamics_queries, reward_queries))
+        trainer.policy.features_extractor.set_context(model.query(dynamics_queries, reward_queries))
         # TODO: these trajectories need to contain the context, so the leader sees that it is being queried (look at how gerstgrasser did it)
         # we could just start with samples that are from the queries
-        env_trajectories = sample_trajectories(env_true, contextualized_policy, max_steps=config["max_episode_steps"], num_trajectories=config["init_samples"]) 
+        env_trajectories = sample_trajectories(env_true, policy_oracle, max_steps=config["max_episode_steps"], num_trajectories=config["init_samples"]) 
 
         states = np.concatenate(env_trajectories.states)
         actions = np.concatenate(env_trajectories.actions)

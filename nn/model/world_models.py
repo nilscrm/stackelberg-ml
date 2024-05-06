@@ -44,6 +44,18 @@ class AWorldModel:
     def is_done(self, s) -> bool:
         pass
 
+    def query(self, dynamics_queries = [], reward_queries = []):
+        """ Queries this model and gets all the answers as a flat tensor """
+        query_answers = []        
+
+        for (s, a) in dynamics_queries:
+            query_answers.append(self.next_state_distribution(s, a))
+
+        for (s, a, s_next) in reward_queries:
+            query_answers.append(torch.tensor([self.reward(s, a, s_next)]))
+
+        return torch.concatenate(query_answers).flatten()
+
 class WorldModel(AWorldModel):
     """ 
         Model of an environment, consisting of 
@@ -98,7 +110,7 @@ class WorldModel(AWorldModel):
     @tensorize_array_inputs
     def reward(self, s, a, s_next):
         if self.reward_function:
-            return self.reward_function(s,a)
+            return self.reward_function(s, a, s_next)
         else:
             return self.reward_net.forward(s, a, s_next)
 

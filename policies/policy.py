@@ -1,33 +1,23 @@
 from abc import ABC, abstractmethod
 
 import torch
-from util.tensor_util import tensorize_array_inputs
+from util.tensor_util import OneHot, tensorize_array_inputs
 
 class APolicy(ABC):
 
     @abstractmethod
-    def next_action_distribution(self, observation):
+    def next_action_distribution(self, observation: OneHot) -> torch.Tensor:
         pass
 
     @abstractmethod
-    def sample_next_action(self, observation):
+    def sample_next_action(self, observation: OneHot) -> OneHot:
         pass
 
     @tensorize_array_inputs
-    def sample_next_actions(self, observations):
+    def sample_next_actions(self, observations: OneHot) -> OneHot:
         """ Sample the next actions for multiple observations """
         return torch.concatenate([self.sample_next_action(observations[i]).unsqueeze(0) for i in range(observations.shape[0])])
 
-
-    @abstractmethod
-    def log_likelihood(self, observations, groundtruth_actions):
-        """ Predicts the actions that will be taken for some observations and computes the log likelihood of them given the groundtruth actions """
-        pass
-
-    @abstractmethod
-    def kl_divergence(self, observations, old_actions):
-        """ Predicts the actions that will be taken for some observations and computes the kl divergence KL(new_actions||old_actions)"""
-        pass    
 
 class ATrainablePolicy(APolicy):
     @property
@@ -40,4 +30,14 @@ class ATrainablePolicy(APolicy):
 
     @abstractmethod
     def set_param_values(self, new_params):
+        pass
+
+    @abstractmethod
+    def log_likelihood(self, observations, groundtruth_actions):
+        """ Predicts the actions that will be taken for some observations and computes the log likelihood of them given the groundtruth actions """
+        pass
+
+    @abstractmethod
+    def kl_divergence(self, observations, old_actions):
+        """ Predicts the actions that will be taken for some observations and computes the kl divergence KL(new_actions||old_actions)"""
         pass
