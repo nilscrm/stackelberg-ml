@@ -1,7 +1,7 @@
 from tqdm import tqdm
 from envs.learned_env import DiscreteLearnedEnv
 from envs.simple_mdp import SimpleMDPEnv
-from nn.model.world_models import WorldModel, RandomDiscreteModel
+from nn.model.world_models import WorldModel, StaticDiscreteModel
 from algos.model_based_npg import ModelBasedNPG
 from nn.policy.policy_networks import PolicyMLP
 from nn.baseline.baselines import BaselineMLP
@@ -69,7 +69,7 @@ def train_contextualized_MAL():
     # NOTE: in this scenario it does not make sense to have multiple world models, as they would all converge to a stackelberg equilibrium and not help to find the best policy
     model = WorldModel(state_dim=env_true.observation_dim, act_dim=env_true.action_dim, hidden_sizes=(64,64), reward_func=reward_func)
     # TODO: figure out how to sample random rewards...
-    random_model = RandomDiscreteModel(env_true, init_state_probs, termination_func, reward_func, min_reward=-5, max_reward=100)
+    random_model = StaticDiscreteModel(env_true, init_state_probs, termination_func, reward_func, min_reward=-5, max_reward=100)
 
     # context = in which state will we land (+ what reward we get) for each query
     observation_space = F.one_hot(torch.arange(env_true.observation_dim, requires_grad=False), num_classes=env_true.observation_dim).float()

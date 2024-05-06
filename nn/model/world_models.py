@@ -138,8 +138,8 @@ class WorldModel(AWorldModel):
 
 
 
-class RandomDiscreteModel(AWorldModel):
-    """ Random model of the world with a discrete action and observation space """
+class StaticDiscreteModel(AWorldModel):
+    """ Random model of the world with a discrete action and observation space that has non-learnable transition probabilities """
     def __init__(self, template: DiscreteEnv, init_state_probs: np.ndarray, 
                  termination_func: Callable, reward_func: Optional[Callable] = None,
                  min_reward: float = 0.0, max_reward: float = 1.0):
@@ -159,10 +159,13 @@ class RandomDiscreteModel(AWorldModel):
         self.randomize()
 
     def randomize(self):
-        self.transition_probabilities = self.uniform_simplex.sample((self.state_dim, self.act_dim))
+        self.transition_probabilities = self.uniform_simplex.sample((self.act_dim, self.state_dim))
     
         if self.reward_func is None:
             self.rewards = (torch.rand((self.state_dim, self.act_dim, self.state_dim)) + self.min_reward) * (self.max_reward - self.min_reward)
+
+    def set_transition_probs(self, transition_probabilities: torch.Tensor):
+        self.transition_probabilities = transition_probabilities
 
     @property
     def action_dim(self):
@@ -186,7 +189,7 @@ class RandomDiscreteModel(AWorldModel):
 
     @extract_one_hot_index_inputs
     def next_state_distribution(self, s, a):
-        return self.transition_probabilities[s,a]
+        return self.transition_probabilities[a][s]
 
     def sample_next_state(self, s, a):
         state_idx = torch.multinomial(self.next_state_distribution(s, a), num_samples=1)[0] # convert to non-batched
@@ -194,12 +197,12 @@ class RandomDiscreteModel(AWorldModel):
 
     def reward(self, s, a, s_next):
         if self.reward_func is None:
-            return self._apply_reward_func(s, a, s_next)
+            return self._static_rewards(s, a, s_next)
         else:
             return self.reward_func(s,a,s_next)
     
     @extract_one_hot_index_inputs
-    def _apply_reward_func(self, s, a, s_next):
+    def _static_rewards(self, s, a, s_next):
         return self.rewards[s,a,s_next]
 
     def is_done(self, s):

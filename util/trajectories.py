@@ -39,6 +39,16 @@ class Trajectory:
             advantages = compute_discounted_rewards(td_deltas, gamma*gae_lambda)
         
         return advantages
+    
+    def to_string(self, state_names, action_names):
+        state_idx = np.argmax(self.states, axis=-1)
+        action_idx = np.argmax(self.actions, axis=-1)
+        next_state_idx = np.argmax(self.next_states, axis=-1)
+        as_str = state_names[state_idx[0]]
+        for (s,a,s_next,r) in zip(state_idx, action_idx, next_state_idx, self.rewards):
+            as_str += f"-{action_names[a]}-({r})->{state_names[s_next]}"
+        return as_str
+
 
 class TrajectoryList:
     def __init__(self, trajectories: List[Trajectory]):

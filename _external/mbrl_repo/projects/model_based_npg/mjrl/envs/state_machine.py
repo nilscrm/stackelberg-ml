@@ -8,7 +8,7 @@ class StateMachineEnv(gym.Env):
         self.initial_state = 1  # Initial state
         self.action_space = spaces.Discrete(2)  # Two possible actions: 0 (X) or 1 (Y)
         self.observation_space = spaces.Discrete(self.num_states)
-        self.reward_range = (0, 1)
+        self.reward_range = (-0.05, 1)
 
         # transition matrix (state x action -> state)
         self.transitions = [

@@ -1,11 +1,5 @@
-from tqdm import tqdm
 from envs.learned_env import DiscreteLearnedEnv
-from envs.simple_mdp import SimpleMDPEnv
-from nn.model.world_models import WorldModel, RandomDiscreteModel
-from algos.model_based_npg import ModelBasedNPG
-from nn.policy.policy_networks import PolicyMLP
-from nn.baseline.baselines import BaselineMLP
-from policies.contextualized_policy import ContextualizedPolicy
+from nn.model.world_models import WorldModel, StaticDiscreteModel
 import torch
 import torch.nn.functional as F
 import numpy as np
@@ -14,6 +8,7 @@ from nn.policy.stable_baseline_policy_networks import SB3ContextualizedFeatureEx
 from policies.stable_baseline_policy import SB3DiscretePolicy
 from util.tensor_util import one_hot
 from util.trajectories import sample_trajectories
+from envs.simple_mdp import simple_mdp_v0, simple_mdp_v0_variant
 
 from itertools import product
 
@@ -40,11 +35,11 @@ def train_contextualized_MAL():
         "npg_step_size": 0.05,
         "training_iterations": 1000,
         "init_samples": 500,
-        "policy_pretrain_steps": 200,# TODO: make this sth large, like 1000,
-        "policy_inner_training_steps": 3,
+        "policy_pretrain_steps": 10000,# TODO: make this sth large, like 1000,
+        "policy_inner_training_steps": 1,
         "model_batch_size": 64,
         "model_fit_epochs": 5, # TODO: should this be 1 since we essentially want best-response, technically, as soon as we do one gradient step, the trajectories are no longer best-response
-        "policy_trajectories_per_step": 250,
+        "policy_trajectories_per_step": 10,
         "max_episode_steps": 50,
         "num_models": 4,
         "learn_reward": False,
@@ -54,7 +49,8 @@ def train_contextualized_MAL():
     torch.random.manual_seed(config["seed"])
 
     # Groundtruth environment, which we sample from
-    env_true = SimpleMDPEnv(max_episode_steps=config["max_episode_steps"])
+    env_true = simple_mdp_v0(max_episode_steps=config["max_episode_steps"])
+    env_variant = simple_mdp_v0_variant(max_episode_steps=config["max_episode_steps"])
 
     reward_func = None
     if not config["learn_reward"]:
@@ -72,8 +68,8 @@ def train_contextualized_MAL():
     # NOTE: in this scenario it does not make sense to have multiple world models, as they would all converge to a stackelberg equilibrium and not help to find the best policy
     model = WorldModel(state_dim=env_true.observation_dim, act_dim=env_true.action_dim, hidden_sizes=(64,64), reward_func=reward_func)
     # TODO: figure out how to sample random rewards...
-    random_model = RandomDiscreteModel(env_true, init_state_probs, termination_func, reward_func, min_reward=-5, max_reward=100)
-    random_env = DiscreteLearnedEnv(random_model, env_true.action_space, env_true.observation_space, config["max_episode_steps"])
+    random_model = StaticDiscreteModel(env_true, init_state_probs, termination_func, reward_func, min_reward=-5, max_reward=100)
+    random_model_env = DiscreteLearnedEnv(random_model, env_true.action_space, env_true.observation_space, config["max_episode_steps"])
 
     # context = in which state will we land (+ what reward we get) for each query
     observation_space = F.one_hot(torch.arange(env_true.observation_dim, requires_grad=False), num_classes=env_true.observation_dim).float()
@@ -86,9 +82,27 @@ def train_contextualized_MAL():
     policy_kwargs = dict(
         features_extractor_class=SB3ContextualizedFeatureExtractor,
         features_extractor_kwargs=dict(context_size=context_size),
+        net_arch=dict(pi=[8,8], qf=[16,12])
     )
-    trainer = PPO("MlpPolicy", random_env, policy_kwargs=policy_kwargs)
+    trainer = PPO("MlpPolicy", random_model_env, policy_kwargs=policy_kwargs, n_epochs=1, n_steps=10)
     
+    # Prepare Evaluation
+    # sample a few fixed random models which we will evaluate on (achievable rewards are different between models!)
+    eval_random_models = [
+        DiscreteLearnedEnv(StaticDiscreteModel(env_true, init_state_probs, termination_func, reward_func, min_reward=--5, max_reward=100), 
+                           env_true.action_space, env_true.observation_space, max_episode_steps=config["max_episode_steps"])
+        for i in range(1)]
+    # check how good we are currently doing on the best possible environment (the true one)
+    eval_true_env = DiscreteLearnedEnv(StaticDiscreteModel(env_true, init_state_probs, termination_func, reward_func, min_reward=--5, max_reward=100), 
+                           env_true.action_space, env_true.observation_space, max_episode_steps=config["max_episode_steps"])
+    eval_true_env.env_model.set_transition_probs(torch.from_numpy(np.array(env_true.transitions)).float())
+    env_true_queries = eval_true_env.env_model.query(dynamics_queries, reward_queries).detach()
+
+    # check how good we are currently doing on another fixed environment
+    eval_variant_env = DiscreteLearnedEnv(StaticDiscreteModel(env_variant, init_state_probs, termination_func, reward_func, min_reward=--5, max_reward=100), 
+                           env_true.action_space, env_true.observation_space, max_episode_steps=config["max_episode_steps"])
+    eval_variant_env.env_model.set_transition_probs(torch.from_numpy(np.array(env_variant.transitions)).float())
+
     # Pretrain the policy conditioned on a world model
     print("Pretraining")
     for iter in range(config["policy_pretrain_steps"]):
@@ -99,7 +113,25 @@ def train_contextualized_MAL():
         for i in range(config["policy_inner_training_steps"]):
             trainer.learn(config["policy_trajectories_per_step"])
 
-        print(evaluate_policy(trainer.policy, random_env, n_eval_episodes=10))
+        # Eval
+        if iter % 100 == 0:
+            print(f"Pretraining Iteration {iter}")
+            with torch.no_grad():
+                eval_rand_means = []
+                for eval_random_model_env in eval_random_models:
+                    trainer.policy.features_extractor.set_context(eval_random_model_env.env_model.query(dynamics_queries, reward_queries))  
+                    eval_rand_mean,eval_rand_std = evaluate_policy(trainer.policy, eval_random_model_env, n_eval_episodes=5)
+                    eval_rand_means.append(eval_rand_mean)
+                
+                print(f"\tAvg Reward (random models): {np.mean(eval_rand_mean):.3f}")
+
+                trainer.policy.features_extractor.set_context(eval_true_env.env_model.query(dynamics_queries, reward_queries))  
+                eval_true_mean,eval_true_std = evaluate_policy(trainer.policy, env_true, n_eval_episodes=10)
+                print(f"\tAvg Reward (true env):      {eval_true_mean:.3f} ± {eval_true_std:.3f}")
+
+                trainer.policy.features_extractor.set_context(eval_variant_env.env_model.query(dynamics_queries, reward_queries))  
+                eval_variant_mean,eval_variant_std = evaluate_policy(trainer.policy, env_true, n_eval_episodes=10)
+                print(f"\tAvg Reward (variant env):   {eval_variant_mean:.3f} ± {eval_variant_std:.3f}")
 
         # TODO: how do we know we have converged? => we should do some sort of validation to see if we are still improving
 
@@ -123,18 +155,21 @@ def train_contextualized_MAL():
         rewards = np.concatenate(env_trajectories.rewards)
         next_states = np.concatenate(env_trajectories.next_states)
 
-        average_reward = np.mean([trajectory.total_reward for trajectory in env_trajectories])
+        average_reward = np.mean(env_trajectories.total_rewards)
         print(f"\tAverage reward: {average_reward:.3f}")
         
         dynamics_loss = model.fit_dynamics(states, actions, next_states, 
                                            fit_epochs=config["model_fit_epochs"], fit_mb_size=config["model_batch_size"])
         print(f"\tDynamics loss: {np.mean(dynamics_loss):.3f}")
+        print(f"\tMSE Queries (true): {torch.mean((model.query(dynamics_queries, reward_queries) - env_true_queries)**2).item()}")
 
         if config["learn_reward"]:
             reward_loss = model.fit_reward(states, actions, rewards, 
                                            fit_epochs=config["model_fit_epochs"], fit_mb_size=config["model_batch_size"])
             print(f"\tReward loss: {np.mean(reward_loss):.3f}")
         
+        print(f"\tState Visitation Frequency: {np.mean(states, axis=0)}")
+        print(f'\tSample Trajectory: {env_trajectories[0].to_string(["A", "B", "C"], ["X", "Y"])}')
         
 
 if __name__ == '__main__':
