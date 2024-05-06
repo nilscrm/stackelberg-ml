@@ -113,7 +113,7 @@ def train_contextualized_MAL():
         print(f"Training iteration {iter}")
 
         # Sample trajectories on the environment, using the best-response-policy (wrt the current model)
-        trainer.policy.features_extractor.set_context(model.query(dynamics_queries, reward_queries))
+        policy_oracle.policy.features_extractor.set_context(model.query(dynamics_queries, reward_queries))
         # TODO: these trajectories need to contain the context, so the leader sees that it is being queried (look at how gerstgrasser did it)
         # we could just start with samples that are from the queries
         env_trajectories = sample_trajectories(env_true, policy_oracle, max_steps=config["max_episode_steps"], num_trajectories=config["init_samples"]) 
