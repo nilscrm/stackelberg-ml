@@ -52,6 +52,9 @@ def train_contextualized_MAL():
     env_true = simple_mdp_2(max_episode_steps=config["max_episode_steps"])
     env_variant = simple_mdp_2_variant(max_episode_steps=config["max_episode_steps"])
 
+    env_true.draw_mdp("mdps/env_true.png")
+    env_variant.draw_mdp("mdps/env_varient.png")
+
     reward_func = None
     if not config["learn_reward"]:
         reward_func = getattr(env_true, "reward", None)
@@ -67,9 +70,12 @@ def train_contextualized_MAL():
 
     # NOTE: in this scenario it does not make sense to have multiple world models, as they would all converge to a stackelberg equilibrium and not help to find the best policy
     model = WorldModel(state_dim=env_true.observation_dim, act_dim=env_true.action_dim, hidden_sizes=(64,64), reward_func=reward_func)
+    model.draw_mdp("mdps/model/0.png")
     # TODO: figure out how to sample random rewards...
     random_model = StaticDiscreteModel(env_true, init_state_probs, termination_func, reward_func, min_reward=-5, max_reward=100)
     random_model_env = DiscreteLearnedEnv(random_model, env_true.action_space, env_true.observation_space, config["max_episode_steps"])
+
+    random_model.draw_mdp("mdps/random_model.png")
 
     # context = in which state will we land (+ what reward we get) for each query
     observation_space = F.one_hot(torch.arange(env_true.observation_dim, requires_grad=False), num_classes=env_true.observation_dim).float()
@@ -92,6 +98,10 @@ def train_contextualized_MAL():
         DiscreteLearnedEnv(StaticDiscreteModel(env_true, init_state_probs, termination_func, reward_func, min_reward=--5, max_reward=100), 
                            env_true.action_space, env_true.observation_space, max_episode_steps=config["max_episode_steps"])
         for i in range(1)]
+    
+    for i, eval_model in enumerate(eval_random_models):
+        eval_model.env_model.draw_mdp(f"mdps/eval_models/eval_model_{i}.png")
+
     # check how good we are currently doing on the best possible environment (the true one)
     eval_true_env = DiscreteLearnedEnv(StaticDiscreteModel(env_true, init_state_probs, termination_func, reward_func, min_reward=--5, max_reward=100), 
                            env_true.action_space, env_true.observation_space, max_episode_steps=config["max_episode_steps"])

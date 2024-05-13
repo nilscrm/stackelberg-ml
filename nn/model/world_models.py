@@ -1,16 +1,17 @@
-from typing import Callable, Optional
+from typing import Callable, Optional, Literal
 
 from abc import abstractmethod
 import numpy as np
+from pathlib import Path
 import torch
 from torch.nn import functional as F
 
-from envs.env_util import DiscreteEnv
+from envs.env_util import DiscreteEnv, draw_mdp
 from nn.model.dynamics_nets import DynamicsNetMLP
 from nn.model.reward_nets import RewardNetMLP
 
 from util.optimization import fit_tuple
-from util.tensor_util import extract_one_hot_index_inputs, tensorize, tensorize_array_inputs
+from util.tensor_util import extract_one_hot_index_inputs, tensorize, tensorize_array_inputs, one_hot
 
 class AWorldModel:
     @property
@@ -134,8 +135,20 @@ class WorldModel(AWorldModel):
         Y = r
         return fit_tuple(self.reward_net, X, Y, self.reward_opt, self.reward_loss,
                          fit_mb_size, fit_epochs, max_steps=max_steps)
+    
+    def draw_mdp(self, filepath: Path, format: Literal['png', 'svg'] = 'png'):
+        with torch.no_grad():
+            transition_probs = []
+            for s in range(self.observation_dim):
+                transition_probs.append([])
+                for a in range(self.action_dim):
+                    action = one_hot(a, num_classes=self.act_dim).float()
+                    state = one_hot(s, num_classes=self.observation_dim).float()
+                    transition_probs[-1].append(self.next_state_distribution(state, action))
+                        
+            rewards = [[[self.reward(s, a, s_next) for s_next in range(self.observation_dim)] for a in range(self.action_dim)] for s in range(self.observation_dim)]
 
-
+        draw_mdp(np.array(transition_probs), np.array(rewards), filepath, format)
 
 
 class StaticDiscreteModel(AWorldModel):
@@ -207,3 +220,7 @@ class StaticDiscreteModel(AWorldModel):
 
     def is_done(self, s):
         return self.termination_func(s)
+    
+    def draw_mdp(self, filepath: Path, format: Literal['png', 'svg'] = 'png'):
+        rewards = np.array([[[self.reward(s, a, s_next) for s_next in range(self.observation_dim)] for a in range(self.action_dim)] for s in range(self.observation_dim)])
+        draw_mdp(self.transition_probabilities, rewards, filepath, format)

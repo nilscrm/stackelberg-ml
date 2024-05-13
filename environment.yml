@@ -1,0 +1,8 @@
+name: stackelberg
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python==3.10.14
+  - pygraphviz
+  

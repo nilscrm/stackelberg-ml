@@ -1,7 +1,9 @@
 from gymnasium import spaces
 import numpy as np
+from pathlib import Path
+from typing import Literal
 
-from envs.env_util import DiscreteEnv
+from envs.env_util import DiscreteEnv, draw_mdp
 from util.tensor_util import extract_one_hot_index_inputs
 
 rewards_1 = np.array([
@@ -118,3 +120,6 @@ class SimpleMDPEnv(DiscreteEnv):
 
     def render(self):
         print(f"Current state: {self.state}")
+
+    def draw_mdp(self, filepath: Path, format: Literal['png', 'svg'] = 'png'):
+        draw_mdp(self.transitions, self.rewards, filepath, format)
