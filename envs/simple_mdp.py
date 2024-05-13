@@ -4,54 +4,58 @@ import numpy as np
 from envs.env_util import DiscreteEnv
 from util.tensor_util import extract_one_hot_index_inputs
 
-rewards_1 = [
-    #   A      B      C       # <- Target
-    # Action X                # Current
-    [[ 1.00, -0.05,  1.00],   # A 
-     [ 0.00, -0.05,  1.00],   # B
-     [ 0.00,  0.00,  0.00]],  # C
-    # Action Y
-    [[ 0.75,  0.00, 0.00],    # A 
-     [-0.01, -0.05, 0.00],    # B
-     [ 0.00,  0.00, 0.00]]    # C
-]
+rewards_1 = np.array([
+    #  A    B    C    <- New State
+    # Old State A
+    [[ 1.00, -0.05,  1.00],    # Action X
+     [ 0.75,  0.00, 0.00]],   # Action Y
+    # Old State B
+    [[ 0.00, -0.05,  1.00],    # Action X
+     [-0.01, -0.05, 0.00]],   # Action Y
+    # Old State C
+    [[ 0.00,  0.00,  0.00],    # Action X
+     [ 0.00,  0.00, 0.00]],   # Action Y
+])
 
-rewards_2 = [
-    #   A      B      C       # <- Target
-    # Action X                # Current
-    [[ 1.00, -0.05,  1.00],   # A 
-     [ 0.00, -0.05,  1.00],   # B
-     [ 0.00,  0.00,  0.00]],  # C
-    # Action Y
-    [[ 0.75,  0.00, 0.00],    # A 
-     [  0.5, -0.05, 0.00],    # B
-     [ 0.00,  0.00, 0.00]]    # C
-]
+rewards_2 = np.array([
+    #  A    B    C    <- New State
+    # Old State A
+    [[ 1.00, -0.05,  1.00],    # Action X
+     [ 0.75,  0.00, 0.00]],   # Action Y
+    # Old State B
+    [[ 0.00, -0.05,  1.00],    # Action X
+     [  0.5, -0.05, 0.00]],   # Action Y
+    # Old State C
+    [[ 0.00,  0.00,  0.00],    # Action X
+     [ 0.00,  0.00, 0.00]],   # Action Y
+])
 
-transitions = [
-    #  A    B    C      # <- Target
-    # Action X          # Current
-    [[0.1, 0.6, 0.3],   # A 
-     [0.0, 0.2, 0.8],   # B
-     [0.0, 0.0, 1.0]],  # C
-    # Action Y
-    [[1.0, 0.0, 0.0],   # A 
-     [0.5, 0.5, 0.0],   # B
-     [0.0, 0.0, 1.0]]   # C
-]
+transitions = np.array([
+    #  A    B    C    <- New State
+    # Old State A
+    [[0.1, 0.6, 0.3],    # Action X
+     [1.0, 0.0, 0.0]],   # Action Y
+    # Old State B
+    [[0.0, 0.2, 0.8],    # Action X
+     [0.5, 0.5, 0.0]],   # Action Y
+    # Old State C
+    [[0.0, 0.0, 1.0],    # Action X
+     [0.0, 0.0, 1.0]],   # Action Y
+])
 
 # TODO: chose one that makes more sense (different best policy from our true env)
-transitions_variant = [
-    #  A    B    C      # <- Target
-    # Action X          # Current
-    [[0.1, 0.6, 0.3],   # A 
-     [0.0, 1.0, 0.0],   # B
-     [0.0, 0.0, 1.0]],  # C
-    # Action Y
-    [[1.0, 0.0, 0.0],   # A 
-     [0.5, 0.5, 0.0],   # B
-     [0.0, 0.0, 1.0]]   # C
-]
+transitions_variant = np.array([
+    #  A    B    C    <- New State
+    # Old State A
+    [[0.1, 0.6, 0.3],    # Action X
+     [1.0, 0.0, 0.0]],   # Action Y
+    # Old State B
+    [[0.0, 1.0, 0.0],    # Action X
+     [0.5, 0.5, 0.0]],   # Action Y
+    # Old State C
+    [[0.0, 0.0, 1.0],    # Action X
+     [0.0, 0.0, 1.0]],   # Action Y
+])
 
 
 def simple_mdp_1(max_episode_steps: int):
@@ -77,7 +81,7 @@ class SimpleMDPEnv(DiscreteEnv):
         self.observation_space = spaces.Discrete(self.num_states)
         self.reward_range = (-0.05, 1)
 
-        # transition matrix (action x state -> state)
+        # transition matrix (state x action -> state)
         self.transitions = transition_probs
 
         # reward matrix (state x action x state -> r)
@@ -97,12 +101,12 @@ class SimpleMDPEnv(DiscreteEnv):
     
     @extract_one_hot_index_inputs
     def reward(self, state: int, action: int, next_state: int):
-        return float(self.rewards[action][state][next_state])
+        return float(self.rewards[state][action][next_state])
 
     def step(self, action: int):
         old_state = self.state
         
-        self.state = np.random.choice(self.num_states, p=self.transitions[action][self.state])
+        self.state = np.random.choice(self.num_states, p=self.transitions[self.state][action])
         self.step_cnt += 1
         
         truncated = self.step_cnt >= self.max_episode_steps

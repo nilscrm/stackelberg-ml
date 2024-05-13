@@ -159,7 +159,7 @@ class StaticDiscreteModel(AWorldModel):
         self.randomize()
 
     def randomize(self):
-        self.transition_probabilities = self.uniform_simplex.sample((self.act_dim, self.state_dim))
+        self.transition_probabilities = self.uniform_simplex.sample((self.state_dim, self.act_dim))
     
         if self.reward_func is None:
             self.rewards = (torch.rand((self.state_dim, self.act_dim, self.state_dim)) + self.min_reward) * (self.max_reward - self.min_reward)
@@ -189,7 +189,7 @@ class StaticDiscreteModel(AWorldModel):
 
     @extract_one_hot_index_inputs
     def next_state_distribution(self, s, a):
-        return self.transition_probabilities[a][s]
+        return self.transition_probabilities[s][a]
 
     def sample_next_state(self, s, a):
         state_idx = torch.multinomial(self.next_state_distribution(s, a), num_samples=1)[0] # convert to non-batched
