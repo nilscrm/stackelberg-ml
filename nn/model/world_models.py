@@ -144,7 +144,7 @@ class WorldModel(AWorldModel):
                 for a in range(self.action_dim):
                     action = one_hot(a, num_classes=self.act_dim).float()
                     state = one_hot(s, num_classes=self.observation_dim).float()
-                    transition_probs[-1].append(self.next_state_distribution(state, action))
+                    transition_probs[-1].append(self.next_state_distribution(state, action).numpy())
                         
             rewards = [[[self.reward(s, a, s_next) for s_next in range(self.observation_dim)] for a in range(self.action_dim)] for s in range(self.observation_dim)]
 
@@ -223,4 +223,5 @@ class StaticDiscreteModel(AWorldModel):
     
     def draw_mdp(self, filepath: Path, format: Literal['png', 'svg'] = 'png'):
         rewards = np.array([[[self.reward(s, a, s_next) for s_next in range(self.observation_dim)] for a in range(self.action_dim)] for s in range(self.observation_dim)])
-        draw_mdp(self.transition_probabilities, rewards, filepath, format)
+        transition_probabilities = np.array([[self.transition_probabilities[s][a].numpy() for a in range(self.action_dim)] for s in range(self.observation_dim)])
+        draw_mdp(transition_probabilities, rewards, filepath, format)
