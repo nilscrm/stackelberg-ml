@@ -3,8 +3,8 @@ import numpy as np
 from pathlib import Path
 from typing import Literal
 
-from envs.env_util import DiscreteEnv, draw_mdp
-from util.tensor_util import extract_one_hot_index_inputs
+from stackelberg_mbrl.envs.env_util import DiscreteEnv, draw_mdp
+from stackelberg_mbrl.util.tensor_util import extract_one_hot_index_inputs
 
 rewards_1 = np.array([
     #  A    B    C    <- New State

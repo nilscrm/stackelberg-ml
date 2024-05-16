@@ -1,7 +1,7 @@
-from envs.env_util import AEnv
-from nn.model.world_models import AWorldModel
+from stackelberg_mbrl.envs.env_util import AEnv
+from stackelberg_mbrl.nn.model.world_models import AWorldModel
 
-from util.tensor_util import one_hot_to_idx, one_hot
+from stackelberg_mbrl.util.tensor_util import one_hot_to_idx, one_hot
 
 # NOTE: Discrete envs work on integers in our case
 class DiscreteLearnedEnv(AEnv):

@@ -3,10 +3,10 @@ from abc import abstractmethod
 
 import numpy as np
 import torch
-from util.optimization import fit as fit_model
-from util.tensor_util import tensorize_array_inputs
+from stackelberg_mbrl.util.optimization import fit as fit_model
+from stackelberg_mbrl.util.tensor_util import tensorize_array_inputs
 
-from nn.mlp import MLP
+from stackelberg_mbrl.nn.mlp import MLP
 
 class ABaseline:
     """ Predict the expected returns from observations in trajectories """

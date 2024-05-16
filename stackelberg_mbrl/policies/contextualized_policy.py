@@ -1,8 +1,8 @@
 import numpy as np
 import torch
 
-from policies.policy import ATrainablePolicy
-from util.tensor_util import tensorize_array_inputs
+from stackelberg_mbrl.policies.policy import ATrainablePolicy
+from stackelberg_mbrl.util.tensor_util import tensorize_array_inputs
 
 class ContextualizedPolicy(ATrainablePolicy):
     """ Basically a wrapper that appends a context to the observation when choosing an action """

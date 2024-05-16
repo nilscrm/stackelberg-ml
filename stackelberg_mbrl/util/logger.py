@@ -1,14 +1,9 @@
 import matplotlib
 matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import numpy as np
-import scipy
 import pickle
-import os
 import csv
 
 class DataLog:
-
     def __init__(self):
         self.log = {}
         self.max_len = 0

@@ -2,3 +2,4 @@ test/
 __pycache__/
 ray_results
 *.egg-info
+.DS_Store

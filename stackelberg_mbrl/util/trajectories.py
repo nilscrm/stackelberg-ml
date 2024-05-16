@@ -1,11 +1,10 @@
 from typing import List
 import numpy as np
-import gymnasium
 import torch
-from envs.env_util import AEnv
-from nn.baseline.baselines import ABaseline
-from policies.policy import APolicy
-from util.tensor_util import one_hot, one_hot_to_idx
+from stackelberg_mbrl.envs.env_util import AEnv
+from stackelberg_mbrl.nn.baseline.baselines import ABaseline
+from stackelberg_mbrl.policies.policy import APolicy
+from stackelberg_mbrl.util.tensor_util import one_hot, one_hot_to_idx
 
 
 class Trajectory:
