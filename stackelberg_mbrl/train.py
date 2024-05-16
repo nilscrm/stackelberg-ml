@@ -1,19 +1,18 @@
 from tqdm import tqdm
-from envs.learned_env import DiscreteLearnedEnv
-from envs.simple_mdp import SimpleMDPEnv
-from nn.model.world_models import WorldModel, StaticDiscreteModel
-from algos.model_based_npg import ModelBasedNPG
-from nn.policy.policy_networks import PolicyMLP
-from nn.baseline.baselines import BaselineMLP
-from policies.contextualized_policy import ContextualizedPolicy
 import torch
 import torch.nn.functional as F
 import numpy as np
-
-from util.tensor_util import one_hot
-from util.trajectories import sample_trajectories
-
 from itertools import product
+
+from stackelberg_mbrl.envs.learned_env import DiscreteLearnedEnv
+from stackelberg_mbrl.envs.simple_mdp import SimpleMDPEnv
+from stackelberg_mbrl.nn.model.world_models import WorldModel, StaticDiscreteModel
+from stackelberg_mbrl.algos.model_based_npg import ModelBasedNPG
+from stackelberg_mbrl.nn.policy.policy_networks import PolicyMLP
+from stackelberg_mbrl.nn.baseline.baselines import BaselineMLP
+from stackelberg_mbrl.policies.contextualized_policy import ContextualizedPolicy
+from stackelberg_mbrl.util.tensor_util import one_hot
+from stackelberg_mbrl.util.trajectories import sample_trajectories
 
 
 def train_contextualized_MAL():

@@ -2,16 +2,16 @@
 
 import logging
 from typing import List
-
-from policies.policy import ATrainablePolicy
-from util.trajectories import TrajectoryList
-logging.disable(logging.CRITICAL)
 import numpy as np
 import time as timer
 import torch
 
-from util.cg_solve import cg_solve
-from algos.batch_reinforce import BatchREINFORCE
+from stackelberg_mbrl.algos.batch_reinforce import BatchREINFORCE
+from stackelberg_mbrl.policies.policy import ATrainablePolicy
+from stackelberg_mbrl.util.trajectories import TrajectoryList
+from stackelberg_mbrl.util.cg_solve import cg_solve
+
+logging.disable(logging.CRITICAL)
 
 
 class NPG(BatchREINFORCE):

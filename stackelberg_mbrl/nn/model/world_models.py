@@ -6,12 +6,12 @@ from pathlib import Path
 import torch
 from torch.nn import functional as F
 
-from envs.env_util import DiscreteEnv, draw_mdp
-from nn.model.dynamics_nets import DynamicsNetMLP
-from nn.model.reward_nets import RewardNetMLP
+from stackelberg_mbrl.envs.env_util import DiscreteEnv, draw_mdp
+from stackelberg_mbrl.nn.model.dynamics_nets import DynamicsNetMLP
+from stackelberg_mbrl.nn.model.reward_nets import RewardNetMLP
 
-from util.optimization import fit_tuple
-from util.tensor_util import extract_one_hot_index_inputs, tensorize, tensorize_array_inputs, one_hot
+from stackelberg_mbrl.util.optimization import fit_tuple
+from stackelberg_mbrl.util.tensor_util import extract_one_hot_index_inputs, tensorize, tensorize_array_inputs, one_hot
 
 class AWorldModel:
     @property

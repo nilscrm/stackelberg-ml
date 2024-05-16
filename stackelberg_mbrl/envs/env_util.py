@@ -45,8 +45,6 @@ class DiscreteEnv(AEnv):
         return self.action_space.n
     
 def draw_mdp(transition_probabilities: np.ndarray, rewards: np.ndarray, filepath: Path, format: Literal['png', 'svg'] = 'png'):
-    print(f"Drawing MDP for {filepath}")
-    print(f"transition probabilities: {transition_probabilities}")
     # Contruct edges and combine multiple labels for the same edge to one
     edges = defaultdict(list)
     for u in range(transition_probabilities.shape[0]):

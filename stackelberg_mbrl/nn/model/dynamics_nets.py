@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from nn.mlp import MLP
+from stackelberg_mbrl.nn.mlp import MLP
 
 class DynamicsNetMLP(nn.Module):
     """ Simple fully connected dynamics model that is parameterized as f_theta(s,a) -> s """
