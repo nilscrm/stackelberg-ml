@@ -1,6 +1,6 @@
-from policies.policy import APolicy
+from stackelberg_mbrl.policies.policy import APolicy
 from stable_baselines3.common.policies import BasePolicy
-from util.tensor_util import extract_one_hot_index_inputs, one_hot
+from stackelberg_mbrl.util.tensor_util import extract_one_hot_index_inputs, one_hot
 
 class SB3DiscretePolicy(APolicy):
     """ Wraps a SB3 discrete policy as an APolicy (so it can be used with the rest of our code) """

@@ -1,9 +1,9 @@
 # NOTE: stripped it down to what we need, see original file if additional functionality needed
 import numpy as np
 
-from nn.baseline.baselines import ABaseline
-from util.trajectories import TrajectoryList
-from algos.npg_cg import NPG
+from stackelberg_mbrl.nn.baseline.baselines import ABaseline
+from stackelberg_mbrl.util.trajectories import TrajectoryList
+from stackelberg_mbrl.algos.npg_cg import NPG
 
 class ModelBasedNPG(NPG):
     def train_step(self, trajectories: TrajectoryList, baseline: ABaseline, gamma=0.995, gae_lambda=0.97):

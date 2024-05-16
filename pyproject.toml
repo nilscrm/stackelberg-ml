@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stackelberg_mbrl"
+version = "0.0.1"
+authors = [
+  { name="Yannick Zengaffinen" },
+  { name="Nils Cremer" },
+  { name="Kacper Ozieblowski" },
+]
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "ray[rllib]==2.2.0",
+    "torch>=1.12.0",
+    "gym>=0.21.0",
+    "numpy==1.23.0",
+    "pydantic<2.0.0",
+    "stable-baselines3>=2.3.0",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/nilscrm/stackelberg-ml"
+
+[tool.setuptools]
+packages = ["stackelberg_mbrl"]
+
+[project.optional-dependencies]
+format = [
+  'black >= 23.7.0',
+  'isort >= 5.10.1',
+]
+
+# Options for isort, black, etc.
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 140

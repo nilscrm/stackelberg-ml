@@ -2,7 +2,7 @@
 import torch
 import torch.nn as nn
 
-from nn.mlp import MLP
+from stackelberg_mbrl.nn.mlp import MLP
 
 class RewardNetMLP(nn.Module):
     """ Simple fully connected reward network that is parameterized as f_theta(s, a, s_next) """

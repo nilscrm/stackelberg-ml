@@ -1,7 +1,7 @@
 import gymnasium.spaces as spaces
 
 import torch
-from util.tensor_util import tensorize_array_inputs
+from stackelberg_mbrl.util.tensor_util import tensorize_array_inputs
 
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 

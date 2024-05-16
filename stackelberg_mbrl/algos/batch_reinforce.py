@@ -7,11 +7,11 @@ Also has function to perform linesearch on KL (improves stability)
 
 import logging
 
-from policies.policy import ATrainablePolicy
+from stackelberg_mbrl.policies.policy import ATrainablePolicy
 logging.disable(logging.CRITICAL)
 import torch
 from torch.autograd import Variable
-from util.logger import DataLog
+from stackelberg_mbrl.util.logger import DataLog
 
 
 class BatchREINFORCE:

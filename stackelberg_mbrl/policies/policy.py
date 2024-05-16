@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 import torch
-from util.tensor_util import OneHot, tensorize_array_inputs
+from stackelberg_mbrl.util.tensor_util import OneHot, tensorize_array_inputs
 
 class APolicy(ABC):
 

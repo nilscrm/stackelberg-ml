@@ -3,9 +3,9 @@
 import numpy as np
 import torch
 import torch.nn as nn
-from nn.mlp import MLP
-from policies.policy import ATrainablePolicy
-from util.tensor_util import tensorize_array_inputs
+from stackelberg_mbrl.nn.mlp import MLP
+from stackelberg_mbrl.policies.policy import ATrainablePolicy
+from stackelberg_mbrl.util.tensor_util import tensorize_array_inputs
 import torch.nn.functional as F
 
 class PolicyMLP(nn.Module, ATrainablePolicy):
