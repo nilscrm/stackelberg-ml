@@ -43,6 +43,7 @@ def train_contextualized_MAL():
         "max_episode_steps": 50,
         "num_models": 4,
         "learn_reward": False,
+        "pretrained_policy_save_file": "stackelberg_mbrl/experiments/evaluate_pretrained_policy_simple_mdp/checkpoints/pretrained_policy",
     }
 
     np.random.seed(config["seed"])
@@ -82,7 +83,7 @@ def train_contextualized_MAL():
     action_space = F.one_hot(torch.arange(env_true.action_dim, requires_grad=False), num_classes=env_true.action_dim).float()
 
     dynamics_queries = list(product(observation_space, action_space))
-    reward_queries = list(product(observation_space, action_space, observation_space))
+    reward_queries = list(product(observation_space, action_space, observation_space)) if config["learn_reward"] else []
     context_size = len(dynamics_queries) * env_true.observation_dim + len(reward_queries)
 
     policy_kwargs = dict(
@@ -145,6 +146,8 @@ def train_contextualized_MAL():
 
         # TODO: how do we know we have converged? => we should do some sort of validation to see if we are still improving
 
+    trainer.save(path=config["pretrained_policy_save_file"])
+
     # Train model (leader)
     # NOTE: We are not using a replay buffer because then some trajectories are produced by best-response policies to older world models, violating the follower-best-reponse criteria.
     #       Even though we are only using the trajectories to learn to predict the next states given a state-action-pair, having a non-best-response state-visitation distribution, will skew the weighting in the loss, giving us a sub-optimal policy-model combination.
@@ -182,7 +185,9 @@ def train_contextualized_MAL():
             
             print(f"\tState Visitation Frequency: {np.mean(states, axis=0)}")
             print(f'\tSample Trajectory: {env_trajectories[0].to_string(["A", "B", "C"], ["X", "Y"])}')
-        
+
+    model.draw_mdp("mdps/model/final.png")
+
 
 if __name__ == '__main__':
     train_contextualized_MAL()
