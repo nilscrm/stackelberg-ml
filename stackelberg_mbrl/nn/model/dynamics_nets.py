@@ -23,4 +23,4 @@ class DynamicsNetMLP(nn.Module):
 
     def forward(self, s, a):
         assert s.dim() == a.dim(), "State and action inputs should be of the same size"
-        return self.mlp.forward(torch.cat([s, a], -1))
+        return F.softmax(self.mlp.forward(torch.cat([s, a], -1)))

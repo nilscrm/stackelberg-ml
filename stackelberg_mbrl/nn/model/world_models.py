@@ -78,7 +78,7 @@ class WorldModel(AWorldModel):
         self.dynamics_net = DynamicsNetMLP(state_dim, act_dim, hidden_sizes, nonlinearity=activation)
 
         self.dynamics_opt = torch.optim.Adam(self.dynamics_net.parameters(), lr=fit_lr, weight_decay=fit_weight_decay)
-        self.dynamics_loss = torch.nn.MSELoss()
+        self.dynamics_loss = torch.nn.CrossEntropyLoss()
 
         # construct the reward model (if reward is learned)
         if self.reward_function is None:
