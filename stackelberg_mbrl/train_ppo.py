@@ -182,7 +182,8 @@ def train_contextualized_MAL(experiment_name: str = "ergodic_1"):
     model_ppo.learn(total_timesteps=config["model_training_steps"], progress_bar=True)
 
     print(f"Model reward: {evaluate_policy(model_ppo.policy, leader_env)}")
-    print(f"True Env reward: {evaluate_policy(model_ppo.policy, env_true)}")
+    # TODO: make this work somehow
+    # print(f"True Env reward: {evaluate_policy(model_ppo.policy, env_true)}")
 
     if config["model_save_file"] is not None:
         model_ppo.save(config["model_save_file"])
