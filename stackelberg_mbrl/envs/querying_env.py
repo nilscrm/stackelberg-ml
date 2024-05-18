@@ -81,7 +81,7 @@ class LeaderEnv(AEnv):
             return obs, reward, terminated, truncated, {}
         else:
             # Make one step in the environment to see if the prediction of the model was accurate
-            self.true_env_obs, _, terminated, truncated, info = self.true_env.step(self.next_policy_action)
+            self.true_env_obs, env_reward, terminated, truncated, info = self.true_env.step(self.next_policy_action)
             # To calculate the reward, we want to know how good the prediction of the world model was.
             # Note that the `action` is the prediction of the world model.
             if self.step_count >= len(self.queries):
@@ -93,6 +93,9 @@ class LeaderEnv(AEnv):
                 next_state_prediction = np.array(next_state_prediction)
                 next_state_prediction[self.true_env_obs] -= 1
                 self.total_loss += np.sum(np.square(next_state_prediction))
+                # print(cross_entropy(action, one_hot(self.true_env_obs, self.true_env.observation_dim).float()))
+                # print(env_reward)
+                # self.total_loss -= 100*env_reward
 
             self.next_policy_action, _ = self.policy.predict(self.true_env_obs)
 

@@ -4,7 +4,7 @@ import numpy as np
 
 from stackelberg_mbrl.envs.learned_env import DiscreteLearnedEnv
 from stackelberg_mbrl.envs.querying_env import LeaderEnv
-from stackelberg_mbrl.envs.simple_mdp import simple_mdp_1, simple_mdp_1_variant, simple_mdp_2, simple_mdp_2_variant
+from stackelberg_mbrl.envs.simple_mdp import *
 from stackelberg_mbrl.envs.env_util import transition_probabilities_from_world_model, draw_mdp
 from stackelberg_mbrl.nn.model.world_models import WorldModel, StaticDiscreteModel
 from stackelberg_mbrl.nn.policy.stable_baseline_policy_networks import SB3ContextualizedFeatureExtractor
@@ -18,7 +18,7 @@ from stable_baselines3.ppo import PPO
 from stable_baselines3.common.evaluation import evaluate_policy
 
 
-def train_contextualized_MAL():
+def train_contextualized_MAL(experiment_name: str = "ergodic_1"):
     """
         In contextualized MAL we condition and pretrain the policy on random models. 
         This way we get an oracle that behaves like the best policy conditioned on each model.
@@ -47,20 +47,20 @@ def train_contextualized_MAL():
         "num_models": 4,
         "learn_reward": False,
         # Set to None for no loading
-        "load_pretrained_policy_file": "stackelberg_mbrl/experiments/evaluate_pretrained_policy_simple_mdp/checkpoints/pretrained_policy2",
+        "load_pretrained_policy_file": None, #f"stackelberg_mbrl/experiments/{experiment_name}/checkpoints/pretrained_policy",
         "pretrained_policy_save_file": None,
-        "model_save_file": "stackelberg_mbrl/experiments/train_model/checkpoints/model2",
+        "model_save_file": f"stackelberg_mbrl/experiments/{experiment_name}/train_model/checkpoints/model",
     }
 
     np.random.seed(config["seed"])
     torch.random.manual_seed(config["seed"])
 
     # Groundtruth environment, which we sample from
-    env_true = simple_mdp_2(max_episode_steps=config["max_episode_steps"])
+    env_true = ergodic_mdp_1(max_episode_steps=config["max_episode_steps"])
     env_variant = simple_mdp_2_variant(max_episode_steps=config["max_episode_steps"])
 
-    env_true.draw_mdp("mdps/env_true.png")
-    env_variant.draw_mdp("mdps/env_varient.png")
+    env_true.draw_mdp(f"stackelberg_mbrl/experiments/{experiment_name}/mdps/env_true.png")
+    env_variant.draw_mdp(f"stackelberg_mbrl/experiments/{experiment_name}/mdps/env_variant.png")
 
     reward_func = None
     if not config["learn_reward"]:
@@ -77,12 +77,12 @@ def train_contextualized_MAL():
 
     # NOTE: in this scenario it does not make sense to have multiple world models, as they would all converge to a stackelberg equilibrium and not help to find the best policy
     model = WorldModel(state_dim=env_true.observation_dim, act_dim=env_true.action_dim, hidden_sizes=(64,64), reward_func=reward_func)
-    model.draw_mdp("mdps/model/0.png")
+    model.draw_mdp(f"stackelberg_mbrl/experiments/{experiment_name}/mdps/model/0.png")
     # TODO: figure out how to sample random rewards...
     random_model = StaticDiscreteModel(env_true, init_state_probs, termination_func, reward_func)
     random_model_env = DiscreteLearnedEnv(random_model, env_true.action_space, env_true.observation_space, config["max_episode_steps"])
 
-    random_model.draw_mdp("mdps/random_model.png")
+    random_model.draw_mdp(f"stackelberg_mbrl/experiments/{experiment_name}/mdps/random_model.png")
 
     # context = in which state will we land (+ what reward we get) for each query
     observation_space = F.one_hot(torch.arange(env_true.observation_dim, requires_grad=False), num_classes=env_true.observation_dim).float()
@@ -113,7 +113,7 @@ def train_contextualized_MAL():
         for i in range(1)]
     
     for i, eval_model in enumerate(eval_random_models):
-        eval_model.env_model.draw_mdp(f"mdps/eval_models/eval_model_{i}.png")
+        eval_model.env_model.draw_mdp(f"stackelberg_mbrl/experiments/{experiment_name}/mdps/eval_models/eval_model_{i}.png")
 
     # check how good we are currently doing on the best possible environment (the true one)
     eval_true_env = DiscreteLearnedEnv(StaticDiscreteModel(env_true, init_state_probs, termination_func, reward_func), 
@@ -141,10 +141,10 @@ def train_contextualized_MAL():
             print(f"Pretraining Iteration {iter}")
             with torch.no_grad():
                 eval_rand_means = []
-                for eval_random_model_env in eval_random_models:
-                    trainer.policy.features_extractor.set_context(eval_random_model_env.env_model.query(dynamics_queries, reward_queries))  
-                    eval_rand_mean, eval_rand_std = evaluate_policy(trainer.policy, eval_random_model_env, n_eval_episodes=5)
-                    eval_rand_means.append(eval_rand_mean)
+                # for eval_random_model_env in eval_random_models:
+                #     trainer.policy.features_extractor.set_context(eval_random_model_env.env_model.query(dynamics_queries, reward_queries))  
+                #     eval_rand_mean, eval_rand_std = evaluate_policy(trainer.policy, eval_random_model_env, n_eval_episodes=5)
+                #     eval_rand_means.append(eval_rand_mean)
                 
                 # print(f"\tAvg Reward (random models): {np.mean(eval_rand_mean):.3f}")
 
@@ -170,18 +170,19 @@ def train_contextualized_MAL():
     dynamics_queries = list(product(range(env_true.observation_dim), range(env_true.action_dim)))
     leader_env = LeaderEnv(env_true, trainer.policy, dynamics_queries)
 
-    model_ppo = PPO("MlpPolicy", leader_env, tensorboard_log="stackelberg_mbrl/experiments/train_model/tb", gamma=1.0)
+    model_ppo = PPO("MlpPolicy", leader_env, tensorboard_log="stackelberg_mbrl/experiments/train_model/tb", gamma=0.99, use_sde=True)
 
     draw_mdp(
         transition_probabilities_from_world_model(model_ppo.policy, env_true.observation_dim, env_true.action_dim),
         env_true.rewards,
-        "stackelberg_mbrl/experiments/train_model/mdps/initial_model2.png"
+        f"stackelberg_mbrl/experiments/{experiment_name}/mdps/initial_model.png"
     )
 
     print("Training model")
     model_ppo.learn(total_timesteps=config["model_training_steps"], progress_bar=True)
 
     print(f"Model reward: {evaluate_policy(model_ppo.policy, leader_env)}")
+    print(f"True Env reward: {evaluate_policy(model_ppo.policy, env_true)}")
 
     if config["model_save_file"] is not None:
         model_ppo.save(config["model_save_file"])
@@ -189,7 +190,7 @@ def train_contextualized_MAL():
     draw_mdp(
         transition_probabilities_from_world_model(model_ppo.policy, env_true.observation_dim, env_true.action_dim),
         env_true.rewards,
-        "stackelberg_mbrl/experiments/train_model/mdps/final_model2.png"
+        f"stackelberg_mbrl/experiments/{experiment_name}/mdps/final_model.png"
     )
 
     # for iter in range(config["training_iterations"]):
@@ -224,7 +225,7 @@ def train_contextualized_MAL():
     #         print(f"\tState Visitation Frequency: {np.mean(states, axis=0)}")
     #         print(f'\tSample Trajectory: {env_trajectories[0].to_string(["A", "B", "C"], ["X", "Y"])}')
 
-    model.draw_mdp("mdps/model/final.png")
+    # model.draw_mdp(f"stackelberg_mbrl/experiments/{experiment_name}/mdps/model/final.png")
 
 
 if __name__ == '__main__':
