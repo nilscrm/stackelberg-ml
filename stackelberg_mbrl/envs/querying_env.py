@@ -59,14 +59,16 @@ class LeaderEnv(AEnv):
     def step(self, action: torch.Tensor | np.ndarray):
         if isinstance(action, np.ndarray):
             action = torch.from_numpy(action)
-        # # As action can be an arbitrary Box(3) we apply softmax to get a distribution
+        # As action can be an arbitrary Box(3) we apply softmax to get a distribution
         next_state_prediction = softmax(action)
+
+        # print("action:", action, ", distribution:", next_state_prediction)
 
         if self.step_count < len(self.queries) - 1:
             # The action is an answer to a query and we have more queries to do
             self.query_answers.append(next_state_prediction)
-            query = self.queries[self.step_count]
             self.step_count += 1
+            query = self.queries[self.step_count]
             return query, 0, False, False, {}
         elif self.step_count == len(self.queries) - 1:
             # The action in the answer to the last query

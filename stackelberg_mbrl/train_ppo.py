@@ -37,7 +37,7 @@ def train_contextualized_MAL(experiment_name: str = "experiment_name"):
         "npg_step_size": 0.05,
         "training_iterations": 1000,
         "init_samples": 500,
-        "policy_pretrain_steps": 3_000,# TODO: make this sth large, like 1000,
+        "policy_pretrain_steps": 0,# TODO: make this sth large, like 1000,
         "model_training_steps": 1_000_000,
         "policy_inner_training_steps": 1,
         "model_batch_size": 64,
@@ -47,7 +47,7 @@ def train_contextualized_MAL(experiment_name: str = "experiment_name"):
         "num_models": 4,
         "learn_reward": False,
         # Set to None for no loading
-        "load_pretrained_policy_file": None, # f"stackelberg_mbrl/experiments/{experiment_name}/checkpoints/pretrained_policy",
+        "load_pretrained_policy_file": f"stackelberg_mbrl/experiments/{experiment_name}/checkpoints/pretrained_policy",
         "pretrained_policy_save_file": f"stackelberg_mbrl/experiments/{experiment_name}/checkpoints/pretrained_policy",
         "model_save_file": f"stackelberg_mbrl/experiments/{experiment_name}/checkpoints/model",
     }
@@ -170,7 +170,7 @@ def train_contextualized_MAL(experiment_name: str = "experiment_name"):
     dynamics_queries = list(product(range(env_true.observation_dim), range(env_true.action_dim)))
     leader_env = LeaderEnv(env_true, trainer.policy, dynamics_queries)
 
-    model_ppo = PPO("MlpPolicy", leader_env, tensorboard_log="stackelberg_mbrl/experiments/train_model/tb", gamma=0.99, use_sde=True)
+    model_ppo = PPO("MlpPolicy", leader_env, tensorboard_log=f"stackelberg_mbrl/experiments/{experiment_name}/tb", gamma=0.99, use_sde=True)
 
     draw_mdp(
         transition_probabilities_from_world_model(model_ppo.policy, env_true.observation_dim, env_true.action_dim),
