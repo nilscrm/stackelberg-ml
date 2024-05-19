@@ -37,7 +37,7 @@ def train_contextualized_MAL(experiment_name: str = "ergodic_1"):
         "npg_step_size": 0.05,
         "training_iterations": 1000,
         "init_samples": 500,
-        "policy_pretrain_steps": 0,# TODO: make this sth large, like 1000,
+        "policy_pretrain_steps": 25_000,# TODO: make this sth large, like 1000,
         "model_training_steps": 1_000_000,
         "policy_inner_training_steps": 1,
         "model_batch_size": 64,
@@ -49,7 +49,7 @@ def train_contextualized_MAL(experiment_name: str = "ergodic_1"):
         # Set to None for no loading
         "load_pretrained_policy_file": None, #f"stackelberg_mbrl/experiments/{experiment_name}/checkpoints/pretrained_policy",
         "pretrained_policy_save_file": None,
-        "model_save_file": f"stackelberg_mbrl/experiments/{experiment_name}/train_model/checkpoints/model",
+        "model_save_file": f"stackelberg_mbrl/experiments/{experiment_name}/checkpoints/model",
     }
 
     np.random.seed(config["seed"])

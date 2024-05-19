@@ -90,6 +90,8 @@ class LeaderEnv(AEnv):
                 # print("cross entropy", cross_entropy(action, one_hot(self.true_env_obs, self.true_env.observation_dim).float()))
                 
                 # self.total_loss += cross_entropy(action, one_hot(self.true_env_obs, self.true_env.observation_dim).float())
+
+                # Compute the l2 loss between prediction and actual next state
                 next_state_prediction = np.array(next_state_prediction)
                 next_state_prediction[self.true_env_obs] -= 1
                 self.total_loss += np.sum(np.square(next_state_prediction))
