@@ -18,7 +18,7 @@ from stable_baselines3.ppo import PPO
 from stable_baselines3.common.evaluation import evaluate_policy
 
 
-def train_contextualized_MAL(experiment_name: str = "ergodic_1"):
+def train_contextualized_MAL(experiment_name: str = "experiment_name"):
     """
         In contextualized MAL we condition and pretrain the policy on random models. 
         This way we get an oracle that behaves like the best policy conditioned on each model.
@@ -37,7 +37,7 @@ def train_contextualized_MAL(experiment_name: str = "ergodic_1"):
         "npg_step_size": 0.05,
         "training_iterations": 1000,
         "init_samples": 500,
-        "policy_pretrain_steps": 25_000,# TODO: make this sth large, like 1000,
+        "policy_pretrain_steps": 3_000,# TODO: make this sth large, like 1000,
         "model_training_steps": 1_000_000,
         "policy_inner_training_steps": 1,
         "model_batch_size": 64,
@@ -47,8 +47,8 @@ def train_contextualized_MAL(experiment_name: str = "ergodic_1"):
         "num_models": 4,
         "learn_reward": False,
         # Set to None for no loading
-        "load_pretrained_policy_file": None, #f"stackelberg_mbrl/experiments/{experiment_name}/checkpoints/pretrained_policy",
-        "pretrained_policy_save_file": None,
+        "load_pretrained_policy_file": None, # f"stackelberg_mbrl/experiments/{experiment_name}/checkpoints/pretrained_policy",
+        "pretrained_policy_save_file": f"stackelberg_mbrl/experiments/{experiment_name}/checkpoints/pretrained_policy",
         "model_save_file": f"stackelberg_mbrl/experiments/{experiment_name}/checkpoints/model",
     }
 
@@ -56,7 +56,7 @@ def train_contextualized_MAL(experiment_name: str = "ergodic_1"):
     torch.random.manual_seed(config["seed"])
 
     # Groundtruth environment, which we sample from
-    env_true = ergodic_mdp_1(max_episode_steps=config["max_episode_steps"])
+    env_true = simple_mdp_2(max_episode_steps=config["max_episode_steps"])
     env_variant = simple_mdp_2_variant(max_episode_steps=config["max_episode_steps"])
 
     env_true.draw_mdp(f"stackelberg_mbrl/experiments/{experiment_name}/mdps/env_true.png")

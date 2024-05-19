@@ -46,8 +46,6 @@ class LeaderEnv(AEnv):
     def reset(self, seed: int | None = None):
         self.query_answers = []
         self.step_count = 0
-        self.true_env_obs, _ = self.true_env.reset(seed=seed)
-        self.next_policy_action, _ = self.policy.predict(self.true_env_obs)
         self.total_loss = 0.0
 
         if self.step_count < len(self.queries):
@@ -64,44 +62,36 @@ class LeaderEnv(AEnv):
         # # As action can be an arbitrary Box(3) we apply softmax to get a distribution
         next_state_prediction = softmax(action)
 
-        # If the action was an answer to a query, save it
-        if self.step_count < len(self.queries):
-            self.query_answers.append(next_state_prediction)
-        # If that was the last query, update the context of the policy
-        if self.step_count == len(self.queries) - 1:
-            self.policy.features_extractor.set_context(torch.concat(self.query_answers))
-
         if self.step_count < len(self.queries) - 1:
-            # We are still in the querying phase
-            obs = self.queries[self.step_count]
+            # The action is an answer to a query and we have more queries to do
+            self.query_answers.append(next_state_prediction)
+            query = self.queries[self.step_count]
             self.step_count += 1
-            reward = 0
-            terminated = False
-            truncated = False
-            return obs, reward, terminated, truncated, {}
+            return query, 0, False, False, {}
+        elif self.step_count == len(self.queries) - 1:
+            # The action in the answer to the last query
+            # This is the beginning of the real environment
+            self.query_answers.append(next_state_prediction)
+            self.policy.features_extractor.set_context(torch.concat(self.query_answers))
+            
+            true_env_obs, _ = self.true_env.reset()
+            self.policy_action, _ = self.policy.predict(true_env_obs)
+
+            self.step_count += 1
+            return (true_env_obs, self.policy_action), 0, False, False, {}
         else:
-            # Make one step in the environment to see if the prediction of the model was accurate
-            self.true_env_obs, env_reward, terminated, truncated, info = self.true_env.step(self.next_policy_action)
-            # To calculate the reward, we want to know how good the prediction of the world model was.
-            # Note that the `action` is the prediction of the world model.
-            if self.step_count >= len(self.queries):
-                # print("predicted next state", action)
-                # print("actual next state", one_hot(self.true_env_obs, self.true_env.observation_dim).float())
-                # print("cross entropy", cross_entropy(action, one_hot(self.true_env_obs, self.true_env.observation_dim).float()))
-                
-                # self.total_loss += cross_entropy(action, one_hot(self.true_env_obs, self.true_env.observation_dim).float())
+            # Step real environment with the policy action decided before
+            true_env_obs, _, terminated, truncated, info = self.true_env.step(self.policy_action)
+            # Calculate reward based on l2 divergence between the next state and the predicted next state
+            next_state_prediction = np.array(next_state_prediction)
+            next_state_prediction[true_env_obs] -= 1
+            self.total_loss += np.sum(np.square(next_state_prediction))
 
-                # Compute the l2 loss between prediction and actual next state
-                next_state_prediction = np.array(next_state_prediction)
-                next_state_prediction[self.true_env_obs] -= 1
-                self.total_loss += np.sum(np.square(next_state_prediction))
-                # print(cross_entropy(action, one_hot(self.true_env_obs, self.true_env.observation_dim).float()))
-                # print(env_reward)
-                # self.total_loss -= 100*env_reward
+            # Determine next policy action
+            self.policy_action, _ = self.policy.predict(true_env_obs)
 
-            self.next_policy_action, _ = self.policy.predict(self.true_env_obs)
-
-            self.step_count += 1
+            # If this is the last step give the model reward based on the average prediction loss
+            # We do an average instead of a sum so that the model is not encouraged to play short games.
             reward = - self.total_loss / (self.step_count - len(self.queries) + 1) if terminated or truncated else 0
-            # print("reward", reward)
-            return (self.true_env_obs, self.next_policy_action), reward, terminated, truncated, info
+            self.step_count += 1
+            return (true_env_obs, self.policy_action), reward, terminated, truncated, info
