@@ -82,6 +82,55 @@ transitions_ergodic_1 = np.array([
      [0.1, 0.0, 0.9]],   # Action Y
 ])
 
+# additionally: this mdp is ergodic even if we only look at one single type of action
+rewards_4states_1 = np.array([
+    #  s0   s1   s2  s3     <- New State
+    # Old State s0
+    [[0.0, 0.1, 0.0, 0.0],    # Action a0
+     [0.0, 0.0, 0.0, 0.0]],   # Action a1
+    # Old State s1
+    [[0.0, 0.0, 0.0, 0.0],    # Action a0
+     [0.1, 0.0, 0.0, 0.0]],   # Action a1
+    # Old State s2
+    [[0.0, 0.0, 0.0, 9.9],    # Action a0
+     [0.0, 0.0, 0.0, 0.0]],   # Action a1
+    # Old State s3
+    [[0.0, 0.0, 0.0, 0.0],    # Action a0
+     [0.0, 0.0, 9.9, 0.0]],   # Action a1
+])
+
+transitions_ergodic_2 = np.array([
+    #  s0   s1   s2  s3     <- New State
+    # Old State s0
+    [[0.0, 1.0, 0.0, 0.0],    # Action a0
+     [0.0, 0.0, 0.0, 1.0]],   # Action a1
+    # Old State s1
+    [[0.0, 0.0, 1.0, 0.0],    # Action a0
+     [1.0, 0.0, 0.0, 0.0]],   # Action a1
+    # Old State s2
+    [[0.0, 0.0, 0.1, 0.9],    # Action a0
+     [0.0, 1.0, 0.0, 0.0]],   # Action a1
+    # Old State s3
+    [[1.0, 0.0, 0.0, 0.0],    # Action a0
+     [0.0, 0.0, 0.9, 0.1]],   # Action a1
+])
+
+transitions_discrete_1 = np.array([
+    #  s0   s1   s2  s3     <- New State
+    # Old State s0
+    [[0.0, 1.0, 0.0, 0.0],    # Action a0
+     [0.0, 0.0, 0.0, 1.0]],   # Action a1
+    # Old State s1
+    [[0.0, 0.0, 1.0, 0.0],    # Action a0
+     [1.0, 0.0, 0.0, 0.0]],   # Action a1
+    # Old State s2
+    [[0.0, 0.0, 0.0, 1.0],    # Action a0
+     [0.0, 1.0, 0.0, 0.0]],   # Action a1
+    # Old State s3
+    [[1.0, 0.0, 0.0, 0.0],    # Action a0
+     [0.0, 0.0, 1.0, 0.0]],   # Action a1
+])
+
 register("simple_mdp_1", 
          entry_point=(lambda max_ep_steps:
                       MatrixMDP(max_ep_steps, transitions, rewards_1, initial_state=1, final_state=2)))
@@ -105,3 +154,11 @@ register("simple_mdp_2_variant_2",
 register("ergodic_mdp_1", 
          entry_point=(lambda max_ep_steps: 
                       MatrixMDP(max_ep_steps, transitions_ergodic_1, rewards_2, initial_state=1)))
+
+register("ergodic_mdp_2", 
+         entry_point=(lambda max_ep_steps: 
+                      MatrixMDP(max_ep_steps, transitions_ergodic_2, rewards_4states_1, initial_state=0)))
+
+register("discrete_mdp_1", 
+         entry_point=(lambda max_ep_steps: 
+                      MatrixMDP(max_ep_steps, transitions_discrete_1, rewards_4states_1, initial_state=0)))
