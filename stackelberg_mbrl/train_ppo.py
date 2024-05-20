@@ -27,7 +27,7 @@ def train_contextualized_MAL(config: ExperimentConfig):
     torch.random.manual_seed(config.seed)
 
     # Groundtruth environment, which we sample from
-    env_true = gymnasium.make(config.env_config.env_true_id, max_ep_steps=config.env_config.max_episode_steps)
+    env_true = gymnasium.make(config.env_config.env_true_id, max_ep_steps=config.env_config.max_episode_steps).unwrapped
     queries = list(product(range(env_true.num_states), range(env_true.num_actions)))
     querying_env_true = ModelQueryingEnv(env_true, queries)
     env_eval = gymnasium.make(config.env_config.env_eval_id, max_ep_steps=config.env_config.max_episode_steps)
@@ -100,7 +100,8 @@ def train_contextualized_MAL(config: ExperimentConfig):
             if policy_config.model_save_name is not None:
                 policy_ppo.save(config.output_dir / config.experiment_name / "checkpoints" / policy_config.model_save_name)
 
-    leader_env = LeaderEnv(env_true, policy_ppo.policy, queries)
+    temperature = lambda step: max(0.01, np.exp(-(step / model_config.total_training_steps) * -np.log(0.005)))
+    leader_env = LeaderEnv(env_true, policy_ppo.policy, queries, temperature)
 
     match config.world_model_config:
         case LoadWorldModel():
@@ -128,6 +129,7 @@ def train_contextualized_MAL(config: ExperimentConfig):
                 model_ppo.save(config.output_dir / config.experiment_name / "checkpoints" / model_config.model_save_name)
 
     # Evaluation of model
+    leader_env.temperature = lambda step: 0.0
     print(f"Model reward: {evaluate_policy(model_ppo.policy, leader_env)}")
 
     model_querying_env = ModelQueryingEnv(

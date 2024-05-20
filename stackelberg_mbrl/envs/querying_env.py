@@ -3,7 +3,7 @@ from gymnasium import spaces
 import numpy as np
 import torch
 from torch.functional import F
-from typing import Any
+from typing import Any, Callable
 from stable_baselines3.common.policies import BasePolicy
 
 from stackelberg_mbrl.envs.env_util import WorldModel
@@ -59,10 +59,12 @@ class LeaderEnv(gymnasium.Env):
     The reward is the l2 divergacne of the predicted distribution and the actual next state according to the true env.
     """
 
-    def __init__(self, true_env: gymnasium.Env[int, int], policy: BasePolicy, queries: list[tuple[int, int]]):
+    def __init__(self, true_env: gymnasium.Env[int, int], policy: BasePolicy, queries: list[tuple[int, int]], temperature: Callable[[int],float] = lambda x: 0.0):
         self.true_env = true_env
         self.policy = policy
         self.queries = queries
+        self.temperature = temperature
+        self.temperature_step = 0
 
         self.true_env_num_states = true_env.observation_space.n
         self.true_env_num_actions = true_env.action_space.n
@@ -88,6 +90,9 @@ class LeaderEnv(gymnasium.Env):
         # An action is a prediction over the next state
         action = torch.from_numpy(action)
         next_state_prediction = F.softmax(action, dim=-1)
+
+        self.temperature_step += 1
+        if self.temperature_step % 10_000 == 0: print("YEEET", self.temperature(self.temperature_step))
 
         if self.step_count < len(self.queries) - 1:
             # The action is an answer to a query and we have more queries to do
@@ -117,9 +122,16 @@ class LeaderEnv(gymnasium.Env):
             self.total_loss += np.sum(np.square(next_state_prediction))
 
             # Determine next policy action
-            self.policy_action, _ = self.policy.predict(
-                np.concatenate((self.query_answers, one_hot(true_env_obs, self.true_env_num_states)))
-            )
+            # Decide between a random action and querying the best response oracle
+            if self.temperature(self.temperature_step) > np.random.rand():
+                # random action
+                self.policy_action = np.random.choice(self.true_env_num_actions)
+            else:
+                # query the best-response oracle
+                self.policy_action, _ = self.policy.predict(
+                    np.concatenate((self.query_answers, one_hot(true_env_obs, self.true_env_num_states)))
+                )
+
 
             # If this is the last step give the model reward based on the average prediction loss
             # We do an average instead of a sum so that the model is not encouraged to play short games.
