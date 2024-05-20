@@ -1,9 +1,10 @@
 from pathlib import Path
 from pydantic import BaseModel, FilePath, DirectoryPath, ConfigDict
-from typing import Union
 
 
 class EnvConfig(BaseModel):
+    env_true_id: str
+    env_eval_id: str # handcrafted environment that the pretrained policy oracle can be tested on
     max_episode_steps: int = 50
 
 class PolicyConfig(BaseModel):

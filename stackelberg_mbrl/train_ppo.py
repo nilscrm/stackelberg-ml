@@ -3,9 +3,10 @@ import numpy as np
 from stable_baselines3.ppo import PPO
 from stable_baselines3.common.evaluation import evaluate_policy
 import torch
+import gymnasium
 
+import stackelberg_mbrl.envs.simple_mdp
 from stackelberg_mbrl.envs.querying_env import LeaderEnv, ModelQueryingEnv
-from stackelberg_mbrl.envs.simple_mdp import *
 from stackelberg_mbrl.envs.env_util import transition_probabilities_from_world_model, draw_mdp, RandomMDP, LearnableWorldModel
 from stackelberg_mbrl.experiments.experiment_config import ExperimentConfig, LoadPolicy, PolicyConfig, LoadWorldModel, WorldModelConfig
 from stackelberg_mbrl.experiments.model_rl.config import model_rl_config
@@ -26,34 +27,34 @@ def train_contextualized_MAL(config: ExperimentConfig):
     torch.random.manual_seed(config.seed)
 
     # Groundtruth environment, which we sample from
-    env_true = simple_mdp_2_variant_2(max_episode_steps=config.env_config.max_episode_steps)
+    env_true = gymnasium.make(config.env_config.env_true_id, max_ep_steps=config.env_config.max_episode_steps)
     queries = list(product(range(env_true.num_states), range(env_true.num_actions)))
     querying_env_true = ModelQueryingEnv(env_true, queries)
-    env_variant = simple_mdp_2_variant_1(config.env_config.max_episode_steps)
-    querying_env_variant = ModelQueryingEnv(env_variant, queries)
+    env_eval = gymnasium.make(config.env_config.env_eval_id, max_ep_steps=config.env_config.max_episode_steps)
+    querying_env_eval = ModelQueryingEnv(env_eval, queries)
 
     env_true.draw_mdp(config.output_dir / config.experiment_name / "mdps" / "env_true.png")
-    env_variant.draw_mdp(config.output_dir / config.experiment_name / "mdps" / "env_variant.png")
+    env_eval.draw_mdp(config.output_dir / config.experiment_name / "mdps" / "env_variant.png")
 
     random_mdp = RandomMDP(
-        config.env_config.max_episode_steps,
         num_states=env_true.num_states,
         num_actions=env_true.num_actions,
         rewards=env_true.rewards,
         initial_state=env_true.initial_state,
         final_state=env_true.final_state,
+        max_ep_steps=env_true.max_ep_steps,
     )
     querying_random_mdp = ModelQueryingEnv(random_mdp, queries)
 
     eval_envs = [
         ModelQueryingEnv(
             RandomMDP(
-                config.env_config.max_episode_steps,
-                num_states=3,
-                num_actions=2,
+                num_states=env_true.num_states,
+                num_actions=env_true.num_actions,
                 rewards=env_true.rewards,
                 initial_state=env_true.initial_state,
-                final_state=env_true,
+                final_state=env_true.final_state,
+                max_ep_steps=env_true.max_ep_steps,
                 randomize_on_reset=False,
             ),
             queries,
@@ -91,8 +92,8 @@ def train_contextualized_MAL(config: ExperimentConfig):
                     eval_true_mean, eval_true_std = evaluate_policy(policy_ppo.policy, querying_env_true, n_eval_episodes=10)
                     print(f"\tAvg Reward (true env):      {eval_true_mean:.3f} ± {eval_true_std:.3f}")
 
-                    eval_variant_mean, eval_variant_std = evaluate_policy(policy_ppo.policy, querying_env_variant, n_eval_episodes=10)
-                    print(f"\tAvg Reward (variant env):   {eval_variant_mean:.3f} ± {eval_variant_std:.3f}")
+                    eval_variant_mean, eval_variant_std = evaluate_policy(policy_ppo.policy, querying_env_eval, n_eval_episodes=10)
+                    print(f"\tAvg Reward (eval env):   {eval_variant_mean:.3f} ± {eval_variant_std:.3f}")
 
                 # TODO: how do we know we have converged? => we should do some sort of validation to see if we are still improving
 
@@ -134,7 +135,7 @@ def train_contextualized_MAL(config: ExperimentConfig):
             model_ppo.policy,
             env_true.num_states,
             env_true.num_actions,
-            env_true.max_episode_steps,
+            env_true.max_ep_steps,
             env_true.rewards,
             env_true.initial_state,
             env_true.final_state,

@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 import gymnasium
 from gymnasium import spaces
+from gymnasium.envs.registration import EnvSpec
 import numpy as np
 from pathlib import Path
 import pygraphviz as pgv
@@ -25,9 +26,9 @@ class WorldModel(ABC, gymnasium.Env):
 
 class MatrixMDP(WorldModel):
     def __init__(
-        self, max_episode_steps: int, transition_probabilities: np.ndarray, rewards: np.ndarray, initial_state: int, final_state: int = -1
+        self, max_ep_steps: int, transition_probabilities: np.ndarray, rewards: np.ndarray, initial_state: int, final_state: int = -1
     ):
-        self.max_episode_steps = max_episode_steps
+        self.max_ep_steps = max_ep_steps
         self.rewards = rewards
         self.transition_probabilities = transition_probabilities
         self.initial_state = initial_state
@@ -56,7 +57,7 @@ class MatrixMDP(WorldModel):
         self.state = np.random.choice(self.num_states, p=self.transition_probabilities[self.state][action])
         self.step_cnt += 1
 
-        truncated = self.step_cnt >= self.max_episode_steps
+        truncated = self.step_cnt >= self.max_ep_steps
 
         return self.state, self.reward(old_state, action, self.state), self.is_done(self.state), truncated, {}
 
@@ -73,7 +74,7 @@ class MatrixMDP(WorldModel):
 class RandomMDP(MatrixMDP):
     def __init__(
         self,
-        max_episode_steps: int,
+        max_ep_steps: int,
         num_states: int,
         num_actions: int,
         rewards: np.ndarray,
@@ -81,7 +82,7 @@ class RandomMDP(MatrixMDP):
         final_state: int = -1,
         randomize_on_reset: bool = True,
     ):
-        super().__init__(max_episode_steps, self._random_transition_matrix(num_states, num_actions), rewards, initial_state, final_state)
+        super().__init__(max_ep_steps, self._random_transition_matrix(num_states, num_actions), rewards, initial_state, final_state)
         self.randomize_on_reset = randomize_on_reset
 
     def _random_transition_matrix(self, num_states: int, num_actions: int) -> np.ndarray:
@@ -134,7 +135,7 @@ class LearnableWorldModel(WorldModel):
         learnable_model: BasePolicy,
         num_states: int,
         num_actions: int,
-        max_episode_steps: int,
+        max_ep_steps: int,
         rewards: np.ndarray,
         initial_state: int,
         final_state: int = -1,
@@ -142,10 +143,12 @@ class LearnableWorldModel(WorldModel):
         self.learnable_model = learnable_model
         self.num_states = num_states
         self.num_actions = num_actions
-        self.max_episode_steps = max_episode_steps
+        self.max_ep_steps = max_ep_steps
         self.rewards = rewards
         self.initial_state = initial_state
         self.final_state = final_state
+
+        self.max_ep_steps = max_ep_steps
 
         self.observation_space = spaces.Discrete(self.num_states)
         self.action_space = spaces.Discrete(self.num_actions)
@@ -167,7 +170,7 @@ class LearnableWorldModel(WorldModel):
         self.state = np.random.choice(self.num_states, p=self.next_state_distribution(self.state, action))
         self.step_cnt += 1
 
-        truncated = self.step_cnt >= self.max_episode_steps
+        truncated = self.step_cnt >= self.max_ep_steps
 
         return self.state, self.reward(old_state, action, self.state), self.is_done(self.state), truncated, {}
 

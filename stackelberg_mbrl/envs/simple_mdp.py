@@ -1,4 +1,5 @@
 import numpy as np
+from gymnasium import register
 
 from stackelberg_mbrl.envs.env_util import MatrixMDP
 
@@ -81,21 +82,26 @@ transitions_ergodic_1 = np.array([
      [0.1, 0.0, 0.9]],   # Action Y
 ])
 
+register("simple_mdp_1", 
+         entry_point=(lambda max_ep_steps:
+                      MatrixMDP(max_ep_steps, transitions, rewards_1, initial_state=1, final_state=2)))
 
-def simple_mdp_1(max_episode_steps: int) -> MatrixMDP:
-    return MatrixMDP(max_episode_steps, transitions, rewards_1, initial_state=1, final_state=2)
+register("simple_mdp_1_variant_1", 
+         entry_point=(lambda max_ep_steps:
+                      MatrixMDP(max_ep_steps, transitions_variant_1, rewards_1, initial_state=1, final_state=2)))
 
-def simple_mdp_1_variant_1(max_episode_steps: int) -> MatrixMDP:
-    return MatrixMDP(max_episode_steps, transitions_variant_1, rewards_1, initial_state=1, final_state=2)
+register("simple_mdp_2", 
+         entry_point=(lambda max_ep_steps: 
+                      MatrixMDP(max_ep_steps, transitions, rewards_2, initial_state=1, final_state=2)))
 
-def simple_mdp_2(max_episode_steps: int) -> MatrixMDP:
-    return MatrixMDP(max_episode_steps, transitions, rewards_2, initial_state=1, final_state=2)
+register("simple_mdp_2_variant_1", 
+         entry_point=(lambda max_ep_steps: 
+                      MatrixMDP(max_ep_steps, transitions_variant_1, rewards_2, initial_state=1, final_state=2)))
 
-def simple_mdp_2_variant_1(max_episode_steps: int) -> MatrixMDP:
-    return MatrixMDP(max_episode_steps, transitions_variant_1, rewards_1, initial_state=1, final_state=2)
+register("simple_mdp_2_variant_2", 
+         entry_point=(lambda max_ep_steps: 
+                      MatrixMDP(max_ep_steps, transitions_variant_2, rewards_2, initial_state=1, final_state=2)))
 
-def simple_mdp_2_variant_2(max_episode_steps: int) -> MatrixMDP:
-    return MatrixMDP(max_episode_steps, transitions_variant_2, rewards_1, initial_state=1, final_state=2)
-
-def ergodic_mdp_1(max_episode_steps: int) -> MatrixMDP:
-    return MatrixMDP(max_episode_steps, transitions_ergodic_1, rewards_2, initial_state=1)
+register("ergodic_mdp_1", 
+         entry_point=(lambda max_ep_steps: 
+                      MatrixMDP(max_ep_steps, transitions_ergodic_1, rewards_2, initial_state=1)))
