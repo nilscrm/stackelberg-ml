@@ -19,10 +19,12 @@ class LoadPolicy(BaseModel):
     path: FilePath
 
 class WorldModelConfig(BaseModel):
+    leader_reward: str = "kldiv"
     total_training_steps: int = 1_000_000
     model_save_name: str | None = None
 
 class LoadWorldModel(BaseModel):
+    leader_reward: str = "kldiv"
     path: FilePath
 
 class ExperimentConfig(BaseModel):
