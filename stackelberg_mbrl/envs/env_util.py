@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 import gymnasium
 from gymnasium import spaces
-from gymnasium.envs.registration import EnvSpec
 import numpy as np
 from pathlib import Path
 import pygraphviz as pgv

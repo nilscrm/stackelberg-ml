@@ -100,7 +100,7 @@ def train_contextualized_MAL(config: ExperimentConfig):
             if policy_config.model_save_name is not None:
                 policy_ppo.save(config.output_dir / config.experiment_name / "checkpoints" / policy_config.model_save_name)
 
-    leader_env = LeaderEnv(env_true, policy_ppo.policy, queries)
+    leader_env = LeaderEnv(env_true, policy_ppo.policy, queries, reward=config.world_model_config.leader_reward)
 
     match config.world_model_config:
         case LoadWorldModel():

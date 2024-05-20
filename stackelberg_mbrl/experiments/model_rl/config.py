@@ -12,6 +12,7 @@ model_rl_config = ExperimentConfig(
         path="stackelberg_mbrl/experiments/model_rl/checkpoints/policy.zip",
     ),
     world_model_config=WorldModelConfig(
+        leader_reward = "kldiv",
         model_save_name="model",
     ),
 )
