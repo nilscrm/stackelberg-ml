@@ -115,7 +115,7 @@ transitions_ergodic_2 = np.array([
      [0.0, 0.0, 0.9, 0.1]],   # Action a1
 ])
 
-transitions_discrete_1 = np.array([
+transitions_deterministic_1 = np.array([
     #  s0   s1   s2  s3     <- New State
     # Old State s0
     [[0.0, 1.0, 0.0, 0.0],    # Action a0
@@ -159,6 +159,6 @@ register("ergodic_mdp_2",
          entry_point=(lambda max_ep_steps: 
                       MatrixMDP(max_ep_steps, transitions_ergodic_2, rewards_4states_1, initial_state=0)))
 
-register("discrete_mdp_1", 
+register("deterministic_mdp_1", 
          entry_point=(lambda max_ep_steps: 
-                      MatrixMDP(max_ep_steps, transitions_discrete_1, rewards_4states_1, initial_state=0)))
+                      MatrixMDP(max_ep_steps, transitions_deterministic_1, rewards_4states_1, initial_state=0)))
