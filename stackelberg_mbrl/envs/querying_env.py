@@ -1,14 +1,55 @@
+import gymnasium
 from gymnasium import spaces
 import numpy as np
 import torch
-from torch.nn.functional import cross_entropy, softmax
+from torch.functional import F
+from typing import Any
 from stable_baselines3.common.policies import BasePolicy
 
-from stackelberg_mbrl.envs.env_util import AEnv
-from stackelberg_mbrl.util.tensor_util import OneHot, one_hot
+from stackelberg_mbrl.envs.env_util import WorldModel
+from stackelberg_mbrl.utils import one_hot
+
+# We only handle discrete envs for now
+State = int
+Action = int
 
 
-class LeaderEnv(AEnv):
+class ModelQueryingEnv(gymnasium.Env):
+    """This is a wrapper for world model in which a policy can play. It additionally gets the model as queried context."""
+
+    def __init__(self, world_model: WorldModel, queries: list[tuple[State, Action]]):
+        """Wraps a world model and asks it a list of state/action queries before playing in it."""
+        self.world_model = world_model
+        self.queries = queries
+
+        self.num_states = world_model.observation_space.n
+
+        # One observation is the context which is all answers to the queries plus one one-hot-encoded current state
+        self.observation_space = spaces.Box(low=0.0, high=1.0, shape=((len(queries) + 1) * self.num_states,))
+        self.action_space = world_model.action_space
+
+    def _get_obs(self, model_state: State):
+        return np.concatenate((self.query_answers, one_hot(model_state, self.num_states)))
+
+    def step(self, action: Action) -> tuple[np.ndarray, float, bool, bool, dict[str, Any]]:
+        model_state, reward, terminated, truncated, info = self.world_model.step(action)
+        return self._get_obs(model_state), reward, terminated, truncated, info
+
+    def reset(self, seed: int | None = None) -> tuple[np.ndarray, dict[str, Any]]:
+        model_state, info = self.world_model.reset(seed=seed)
+        # print("transitions matrix:", self.world_model.transition_probabilities)
+        self.query_answers = np.concatenate([self.world_model.next_state_distribution(state, action) for (state, action) in self.queries])
+        # print("query answers:", self.query_answers)
+        return self._get_obs(model_state), info
+
+    def render(self):
+        return self.world_model.render()
+
+    def close(self):
+        self.world_model.close()
+
+
+class LeaderEnv(gymnasium.Env):
     """
     This is a wrapper around an environemnt to create the leader MDP.
 
@@ -17,32 +58,20 @@ class LeaderEnv(AEnv):
     Observations are state, action pairs of the policy and the actions (of the model) are distributions over new states.
     The reward is the l2 divergacne of the predicted distribution and the actual next state according to the true env.
     """
-    def __init__(self, true_env: AEnv, policy: BasePolicy, queries: list[tuple[OneHot, OneHot]]):
-        super().__init__()
+
+    def __init__(self, true_env: gymnasium.Env[int, int], policy: BasePolicy, queries: list[tuple[int, int]]):
         self.true_env = true_env
         self.policy = policy
         self.queries = queries
 
+        self.true_env_num_states = true_env.observation_space.n
+        self.true_env_num_actions = true_env.action_space.n
+
         # An observation is a state\action pair
-        self.observation_space = spaces.MultiDiscrete([true_env.observation_dim, true_env.action_dim])
+        self.observation_space = spaces.MultiDiscrete([self.true_env_num_states, self.true_env_num_actions])
         # An action is a prediction for the next state
-        self.action_space = spaces.Box(-1e10, 1e10, (true_env.observation_dim, ))
+        self.action_space = spaces.Box(-1e10, 1e10, (self.true_env_num_states,))
 
-    @property
-    def max_episode_steps(self):
-        # We have the inital segment of querying and then one episode of the true env
-        return len(self.queries) + self.true_env.max_episode_steps
-
-    @property
-    def observation_dim(self):
-        # Each observation is one state\action pair.
-        return self.true_env.observation_dim + self.true_env.action_dim
-
-    @property
-    def action_dim(self):
-        # Each action is a stachastic prediction (probability distribution) of the next observation
-        return self.true_env.observation_dim
-    
     def reset(self, seed: int | None = None):
         self.query_answers = []
         self.step_count = 0
@@ -51,18 +80,14 @@ class LeaderEnv(AEnv):
         if self.step_count < len(self.queries):
             obs = self.queries[self.step_count]
         else:
-            # This branch is for the case that we have no queries at all.
-            obs = (self.true_env_ob, self.next_policy_action)
+            raise NotImplemented("LeaderEnv can't handle the case of no queries yet.")
 
         return obs, {}
 
-    def step(self, action: torch.Tensor | np.ndarray):
-        if isinstance(action, np.ndarray):
-            action = torch.from_numpy(action)
-        # As action can be an arbitrary Box(3) we apply softmax to get a distribution
-        next_state_prediction = softmax(action)
-
-        # print("action:", action, ", distribution:", next_state_prediction)
+    def step(self, action: np.ndarray):
+        # An action is a prediction over the next state
+        action = torch.from_numpy(action)
+        next_state_prediction = F.softmax(action, dim=-1)
 
         if self.step_count < len(self.queries) - 1:
             # The action is an answer to a query and we have more queries to do
@@ -74,10 +99,12 @@ class LeaderEnv(AEnv):
             # The action in the answer to the last query
             # This is the beginning of the real environment
             self.query_answers.append(next_state_prediction)
-            self.policy.features_extractor.set_context(torch.concat(self.query_answers))
-            
+            self.query_answers = np.concatenate(self.query_answers)
+
             true_env_obs, _ = self.true_env.reset()
-            self.policy_action, _ = self.policy.predict(true_env_obs)
+            self.policy_action, _ = self.policy.predict(
+                np.concatenate((self.query_answers, one_hot(true_env_obs, self.true_env_num_states)))
+            )
 
             self.step_count += 1
             return (true_env_obs, self.policy_action), 0, False, False, {}
@@ -90,10 +117,12 @@ class LeaderEnv(AEnv):
             self.total_loss += np.sum(np.square(next_state_prediction))
 
             # Determine next policy action
-            self.policy_action, _ = self.policy.predict(true_env_obs)
+            self.policy_action, _ = self.policy.predict(
+                np.concatenate((self.query_answers, one_hot(true_env_obs, self.true_env_num_states)))
+            )
 
             # If this is the last step give the model reward based on the average prediction loss
             # We do an average instead of a sum so that the model is not encouraged to play short games.
-            reward = - self.total_loss / (self.step_count - len(self.queries) + 1) if terminated or truncated else 0
+            reward = -self.total_loss / (self.step_count - len(self.queries) + 1) if terminated or truncated else 0
             self.step_count += 1
             return (true_env_obs, self.policy_action), reward, terminated, truncated, info
