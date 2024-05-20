@@ -26,10 +26,10 @@ def train_contextualized_MAL(config: ExperimentConfig):
     torch.random.manual_seed(config.seed)
 
     # Groundtruth environment, which we sample from
-    env_true = simple_mdp_2(max_episode_steps=config.env_config.max_episode_steps)
+    env_true = simple_mdp_2_variant_2(max_episode_steps=config.env_config.max_episode_steps)
     queries = list(product(range(env_true.num_states), range(env_true.num_actions)))
     querying_env_true = ModelQueryingEnv(env_true, queries)
-    env_variant = simple_mdp_2_variant(config.env_config.max_episode_steps)
+    env_variant = simple_mdp_2_variant_1(config.env_config.max_episode_steps)
     querying_env_variant = ModelQueryingEnv(env_variant, queries)
 
     env_true.draw_mdp(config.output_dir / config.experiment_name / "mdps" / "env_true.png")
