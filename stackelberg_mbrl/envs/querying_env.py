@@ -79,12 +79,12 @@ class PolicyQueryingEnv(gymnasium.Env):
     # TODO: merge with ModelQueryingEnv
     """This is a wrapper for an environment in which a policy can play. It additionally gets the policy as queried context."""
 
-    def __init__(self, env: gymnasium.Env, queries: list[State], on_reset: callable = None, policy: APolicy = None):
-        """Wraps an environment and asks the policy a list of state queries before playing in it. Allows for custom callable-action after reset. """
+    def __init__(self, env: gymnasium.Env, queries: list[State], before_reset: callable = None, policy: APolicy = None):
+        """Wraps an environment and asks the policy a list of state queries before playing in it. Allows for custom callable-action before reset. """
         self.env = env
         self.policy = policy
         self.queries = queries
-        self.on_reset = on_reset
+        self.before_reset = before_reset
 
         self.num_states = env.observation_space.n
 
@@ -94,6 +94,9 @@ class PolicyQueryingEnv(gymnasium.Env):
 
     def set_policy(self, policy: APolicy):
         self.policy = policy
+        self.update_query_answers()
+
+    def update_query_answers(self):
         self.query_answers = np.concatenate([self.policy.next_action_distribution(state) for state in self.queries])
 
     def _get_obs(self, model_state: State):
@@ -104,12 +107,11 @@ class PolicyQueryingEnv(gymnasium.Env):
         return self._get_obs(model_state), reward, terminated, truncated, info
 
     def reset(self, seed: int | None = None) -> tuple[np.ndarray, dict[str, Any]]:
+        if self.before_reset:
+            self.before_reset(seed)
+        
         model_state, info = self.env.reset(seed=seed)
-        self.query_answers = np.concatenate([self.policy.next_action_distribution(state) for state in self.queries])
-
-        if self.on_reset:
-            self.on_reset(seed)
-            
+        self.update_query_answers()
         return self._get_obs(model_state), info
 
     def render(self):

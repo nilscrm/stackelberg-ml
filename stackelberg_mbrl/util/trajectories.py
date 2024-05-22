@@ -1,7 +1,7 @@
 from typing import List
+import gymnasium
 import numpy as np
 import torch
-from stackelberg_mbrl.envs.env_util import AEnv
 from stackelberg_mbrl.nn.baseline.baselines import ABaseline
 from stackelberg_mbrl.policies.policy import APolicy
 from stackelberg_mbrl.util.tensor_util import one_hot, one_hot_to_idx
@@ -111,10 +111,10 @@ class TrajectoryList:
 ###     Sampling     ###
 ########################
 
-def sample_trajectories(env: AEnv, policy: APolicy, num_trajectories: int, max_steps: int | None = None) -> TrajectoryList:
+def sample_trajectories(env: gymnasium.Env, policy: APolicy, num_trajectories: int, max_steps: int | None = None) -> TrajectoryList:
     return TrajectoryList([sample_trajectory(env, policy, max_steps) for i in range(num_trajectories)])
 
-def sample_trajectory(env: AEnv, policy: APolicy, max_steps: int | None = None):
+def sample_trajectory(env: gymnasium.Env, policy: APolicy, max_steps: int | None = None):
     """ Sample a trajectory in an environment using a policy """
 
     state, _ = env.reset()
@@ -129,12 +129,13 @@ def sample_trajectory(env: AEnv, policy: APolicy, max_steps: int | None = None):
 
     with torch.no_grad():
         while (not terminated) and (not truncated) and (max_steps is None or steps <= max_steps):
-            action = one_hot_to_idx(policy.sample_next_action(one_hot(state, env.observation_dim)))
-            next_state, reward, terminated, truncated, info = env.step(action)
+            action_idx = policy.sample_next_action(state)
+            action = one_hot(action_idx, policy.num_actions)
+            next_state, reward, terminated, truncated, info = env.step(action_idx)
 
-            states.append(one_hot(state, env.observation_dim))
-            actions.append(one_hot(action, env.action_dim))
-            next_states.append(one_hot(next_state, env.observation_dim))
+            states.append(state)
+            actions.append(action)
+            next_states.append(next_state)
             rewards.append(reward)
 
             state = next_state

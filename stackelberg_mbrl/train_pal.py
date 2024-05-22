@@ -28,36 +28,63 @@ def train_contextualized_PAL(config: ExperimentConfig):
     # Groundtruth environment, which we sample from
     real_env = gymnasium.make(config.env_config.env_true_id, max_ep_steps=config.env_config.max_episode_steps)
     queries = list(range(real_env.num_states))
-
-    random_policy = RandomPolicy(real_env.num_states, real_env.num_actions)
+    context_size = len(queries)*real_env.num_actions
 
     # Pretrain the model conditioned on a policy
+    random_policy = RandomPolicy(real_env.num_states, real_env.num_actions, context_size)
     contextualized_real_env = PolicyQueryingEnv(
         env=real_env, 
         policy=random_policy, 
         queries=queries, 
-        on_reset=random_policy.randomize)
-    contextualized_model = ContextualizedWorldModel(len(queries)*real_env.num_actions, ...)
+        before_reset=random_policy.randomize)
+    
+    # TODO: remove sanity check
+    # trajectories = sample_trajectories(contextualized_real_env, random_policy, 2, 10000)
+    # for t in trajectories:
+    #     print("........")
+    #     print(t.states)
+    #     print(t.actions)
+    #     print(t.next_states)
+    #     print(t.rewards)
+
+    learn_reward = True # TODO: from config
+    rewards = None if learn_reward else None
+    contextualized_model = ContextualizedWorldModel( # TODO: properly parameterize from config
+        context_size=context_size,
+        state_dim=real_env.num_states,
+        act_dim=real_env.num_actions,
+        rewards=rewards
+    )
 
     print("Pretraining world model")
+    pretrain_iterations = 100 # TODO: from config
     for iter in range(pretrain_iterations):
+        print(f"Pretraining iteration {iter}")
         # TODO: can potentially re-use samples from real-env?
         # Does some pretraining of the model oracle under random policies
         
         # generate rollouts on the real environment (using the current policy)
+        num_trajectories = 250 # TODO: from config
+        max_steps = 10_000 # TODO: from config
         trajectories = sample_trajectories(contextualized_real_env, random_policy, num_trajectories, max_steps)
 
-        s = trajectories.states
-        a = trajectories.actions
-        r = trajectories.rewards
-        s_next = trajectories.next_states
+        s = np.concatenate(trajectories.states)
+        a = np.concatenate(trajectories.actions)
+        r = np.concatenate(trajectories.rewards)
+        s_next = np.concatenate(trajectories.next_states)
 
         # use sgd to match the transitions
-        contextualized_model.fit_dynamics(s, a, s_next) # use CE-loss (but only on state, not the context!)
+        fit_mb_size = 16 # TODO: from config
+        fit_epochs = 1 # TODO: from config
+        dynamics_loss = contextualized_model.fit_dynamics(s, a, s_next, fit_mb_size, fit_epochs) # use CE-loss (but only on state, not the context!)
+        
+        print(f"\tDynamics Loss: {dynamics_loss}")
 
         if learn_reward:
-            contextualized_model.fit_reward(s, a, s_next, r)
+            rewards_loss = contextualized_model.fit_reward(s, a, s_next, r, fit_mb_size, fit_epochs)
+            print(f"\tRewards Loss: {rewards_loss}")
 
+    return
 
         # TODO: SGD on samples from model under random policies
         # for any given policy, we only need the model to be accurate in predicting s_next of (s,a) that actually occur

@@ -4,14 +4,17 @@ import torch
 from stackelberg_mbrl.util.tensor_util import OneHot, tensorize_array_inputs
 
 class APolicy(ABC):
+    @property
+    def num_actions(self) -> int:
+        ...
 
     @abstractmethod
     def next_action_distribution(self, observation: OneHot) -> torch.Tensor:
-        pass
+        ...
 
     @abstractmethod
     def sample_next_action(self, observation: OneHot) -> OneHot:
-        pass
+        ...
 
     @tensorize_array_inputs
     def sample_next_actions(self, observations: OneHot) -> OneHot:
