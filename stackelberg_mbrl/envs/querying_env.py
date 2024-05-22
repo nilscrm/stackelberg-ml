@@ -82,13 +82,17 @@ class LeaderEnv(gymnasium.Env):
     Each episode starts by querying the leader model (the env_model), then updating the follower (the policy with the query answers)
     and then starting the real environment.
     Observations are state, action pairs of the policy and the actions (of the model) are distributions over new states.
-    The reward is the l2 divergacne of the predicted distribution and the actual next state according to the true env.
+
+    env_reward_weight: How much weight will be given to the reward signal from the true environment vs the error the model makes on the predictions.
+        (e.g. 0 corresponds to just standard l2 divergence of the predicted distribution and the actual next state according to the true env,
+              1 corresponds to just the reward that the policy achieves in the true env)
     """
 
-    def __init__(self, true_env: gymnasium.Env[int, int], policy: BasePolicy, queries: list[tuple[int, int]]):
+    def __init__(self, true_env: gymnasium.Env[int, int], policy: BasePolicy, queries: list[tuple[int, int]], env_reward_weight: float = 0.0):
         self.true_env = true_env
         self.policy = policy
         self.queries = queries
+        self.env_reward_weight = env_reward_weight
 
         self.true_env_num_states = true_env.observation_space.n
         self.true_env_num_actions = true_env.action_space.n
@@ -136,7 +140,7 @@ class LeaderEnv(gymnasium.Env):
             return (true_env_obs, self.policy_action), 0, False, False, {}
         else:
             # Step real environment with the policy action decided before
-            true_env_obs, _, terminated, truncated, info = self.true_env.step(self.policy_action)
+            true_env_obs, env_reward, terminated, truncated, info = self.true_env.step(self.policy_action)
             # Calculate reward based on l2 divergence between the next state and the predicted next state
             next_state_prediction = np.array(next_state_prediction)
             next_state_prediction[true_env_obs] -= 1
@@ -147,8 +151,12 @@ class LeaderEnv(gymnasium.Env):
                 np.concatenate((self.query_answers, one_hot(true_env_obs, self.true_env_num_states)))
             )
 
-            # If this is the last step give the model reward based on the average prediction loss
-            # We do an average instead of a sum so that the model is not encouraged to play short games.
-            reward = -self.total_loss / (self.step_count - len(self.queries) + 1) if terminated or truncated else 0
+            reward = self.env_reward_weight * env_reward
+            if terminated or truncated:
+                # If this is the last step give the model reward based on the average prediction loss
+                # We do an average instead of a sum so that the model is not encouraged to play short games.
+                reward -= (1.0 - self.env_reward_weight) * self.total_loss / (self.step_count - len(self.queries) + 1)
+
             self.step_count += 1
+
             return (true_env_obs, self.policy_action), reward, terminated, truncated, info

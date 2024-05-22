@@ -18,6 +18,9 @@ class PolicyConfig(BaseModel):
 class LoadPolicy(BaseModel):
     path: FilePath
 
+class LeaderEnvConfig(BaseModel):
+    env_reward_weight: float = 0.0
+
 class WorldModelConfig(BaseModel):
     total_training_steps: int = 1_000_000
     model_save_name: str | None = None
@@ -33,6 +36,7 @@ class ExperimentConfig(BaseModel):
 
     env_config: EnvConfig
     policy_config: PolicyConfig | LoadPolicy
+    leader_env_config: LeaderEnvConfig
     world_model_config: WorldModelConfig | LoadWorldModel
 
     output_dir: DirectoryPath = Path("stackelberg_mbrl/experiments/")
