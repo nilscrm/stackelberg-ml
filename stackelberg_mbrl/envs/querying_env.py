@@ -13,6 +13,32 @@ from stackelberg_mbrl.utils import one_hot
 State = int
 Action = int
 
+class CountedEnvWrapper(gymnasium.Env):
+    """This is a wrapper which counts how much data is collected from the environment (trajectories and samples)"""
+    def __init__(self, env: gymnasium.Env):
+        self.env = env
+        self.trajectories = 0
+        self.samples = 0
+
+    def __getattribute__(self, name: str) -> Any:
+        # This is a magic method that is called when you use the dot operator on an object.
+        # We use it to delegate all calls (excluding the ones in the following dict) to the wrapped environment
+        if name in {"step", "reset", "env", "trajectories", "samples"}:
+            return super().__getattribute__(name)
+        else:
+            return getattr(self.env, name)
+
+    def step(self, action: Any):
+        ret = self.env.step(action)
+        self.samples += 1
+        return ret
+    
+    def reset(self, seed: int | None = None):
+        ret = self.env.reset(seed=seed)
+        self.trajectories += 1
+        self.samples += 1
+        return ret
+    
 
 class ModelQueryingEnv(gymnasium.Env):
     """This is a wrapper for world model in which a policy can play. It additionally gets the model as queried context."""
