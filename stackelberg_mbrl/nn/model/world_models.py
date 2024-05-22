@@ -150,6 +150,61 @@ class WorldModel(AWorldModel):
 
         draw_mdp(np.array(transition_probs), np.array(rewards), filepath, format)
 
+class ContextualizedWorldModel(WorldModel):
+    """ 
+        Model that operates on contextualized states
+
+        - Dynamics: (context, s), a -> (context, s_next)
+        - Reward: (context, s), a -> r
+    """
+    def __init__(self, context_size, state_dim, act_dim,
+                 hidden_sizes=(64,64),
+                 activation=torch.relu,
+                 reward_func=None, # reward will be learned if no reward function is provided
+                 fit_lr=1e-3,
+                 fit_weight_decay=0.0):
+        super().__init__(state_dim, act_dim, hidden_sizes, activation, reward_func, fit_lr, fit_weight_decay)
+
+        self.context_size = context_size
+        
+    @tensorize_array_inputs
+    def next_state_distribution(self, s, a):
+        out = self.dynamics_net.forward(s, a)
+        return F.softmax(out, dim=-1)
+    
+    @tensorize_array_inputs
+    def sample_next_state(self, s, a):
+        state_idx = torch.multinomial(self.next_state_distribution(s, a), num_samples=1)
+        return F.one_hot(state_idx, num_classes=self.state_dim)[0] # convert to non-batched
+
+    @tensorize_array_inputs
+    def reward(self, s, a, s_next):
+        if self.reward_function:
+            return self.reward_function(s, a, s_next)
+        else:
+            return self.reward_net.forward(s, a, s_next)
+
+    @tensorize_array_inputs
+    def fit_dynamics(self, s, a, s_next, fit_mb_size, fit_epochs, max_steps=1e4):
+        assert s.shape[0] == a.shape[0] == s_next.shape[0]
+
+        X = (s, a)
+        Y = s_next
+        return fit_tuple(self.dynamics_net, X, Y, self.dynamics_opt, self.dynamics_loss, 
+                         fit_mb_size, fit_epochs, max_steps=max_steps)
+
+    @tensorize_array_inputs
+    def fit_reward(self, s, a, s_next, r, fit_mb_size, fit_epochs, max_steps=1e4):
+        assert self.reward_function is None, "Reward model was not initialized to be learnable. Use the reward function from env."
+
+        assert len(r.shape) == 2 and r.shape[1] == 1  # r should be a 2D tensor, i.e. shape (N, 1)
+        assert s.shape[0] == a.shape[0] == r.shape[0] == s_next.shape[0]
+
+        X = (s, a, s_next)
+        Y = r
+        return fit_tuple(self.reward_net, X, Y, self.reward_opt, self.reward_loss,
+                         fit_mb_size, fit_epochs, max_steps=max_steps)
+    
 
 class StaticDiscreteModel(AWorldModel):
     """ Random model of the world with a discrete action and observation space that has non-learnable transition probabilities """

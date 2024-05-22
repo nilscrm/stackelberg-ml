@@ -1,6 +1,7 @@
 import gymnasium
 from gymnasium import spaces
 import numpy as np
+from stackelberg_mbrl.policies.policy import APolicy
 import torch
 from torch.functional import F
 from typing import Any
@@ -73,6 +74,49 @@ class ModelQueryingEnv(gymnasium.Env):
 
     def close(self):
         self.world_model.close()
+
+class PolicyQueryingEnv(gymnasium.Env):
+    # TODO: merge with ModelQueryingEnv
+    """This is a wrapper for an environment in which a policy can play. It additionally gets the policy as queried context."""
+
+    def __init__(self, env: gymnasium.Env, queries: list[State], on_reset: callable = None, policy: APolicy = None):
+        """Wraps an environment and asks the policy a list of state queries before playing in it. Allows for custom callable-action after reset. """
+        self.env = env
+        self.policy = policy
+        self.queries = queries
+        self.on_reset = on_reset
+
+        self.num_states = env.observation_space.n
+
+        # One observation is the context which is all answers to the queries plus one one-hot-encoded current state
+        self.observation_space = spaces.Box(low=0.0, high=1.0, shape=((len(queries) + 1) * self.num_states,))
+        self.action_space = env.action_space
+
+    def set_policy(self, policy: APolicy):
+        self.policy = policy
+        self.query_answers = np.concatenate([self.policy.next_action_distribution(state) for state in self.queries])
+
+    def _get_obs(self, model_state: State):
+        return np.concatenate((self.query_answers, one_hot(model_state, self.num_states)))
+
+    def step(self, action: Action) -> tuple[np.ndarray, float, bool, bool, dict[str, Any]]:
+        model_state, reward, terminated, truncated, info = self.env.step(action)
+        return self._get_obs(model_state), reward, terminated, truncated, info
+
+    def reset(self, seed: int | None = None) -> tuple[np.ndarray, dict[str, Any]]:
+        model_state, info = self.env.reset(seed=seed)
+        self.query_answers = np.concatenate([self.policy.next_action_distribution(state) for state in self.queries])
+
+        if self.on_reset:
+            self.on_reset(seed)
+            
+        return self._get_obs(model_state), info
+
+    def render(self):
+        return self.env.render()
+
+    def close(self):
+        self.env.close()
 
 
 class LeaderEnv(gymnasium.Env):
