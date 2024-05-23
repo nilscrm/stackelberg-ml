@@ -229,7 +229,7 @@ class StaticDiscreteModel(AWorldModel):
 
 
 
-class ContextualizedWorldModel(AWorldModel, gymnasium.Env):
+class ContextualizedWorldModel(AWorldModel):
     """ 
         Model that operates on contextualized states
 

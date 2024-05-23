@@ -57,9 +57,8 @@ def train_contextualized_PAL(config: ExperimentConfig):
     )
 
     print("Pretraining world model")
-    pretrain_iterations = 1 # TODO: from config
+    pretrain_iterations = 1_000 # TODO: from config
     for iter in range(pretrain_iterations):
-        print(f"Pretraining iteration {iter}")
         # TODO: can potentially re-use samples from real-env?
         # Does some pretraining of the model oracle under random policies
         
@@ -68,21 +67,26 @@ def train_contextualized_PAL(config: ExperimentConfig):
         max_steps = 10_000 # TODO: from config
         trajectories = sample_trajectories(contextualized_real_env, random_policy, num_trajectories, max_steps)
 
-        s = np.concatenate(trajectories.states)
-        a = np.concatenate(trajectories.actions)
-        r = np.concatenate(trajectories.rewards)
-        s_next = np.concatenate(trajectories.next_states)
+        observations = np.concatenate(trajectories.states)
+        actions = np.concatenate(trajectories.actions)
+        rewards = np.concatenate(trajectories.rewards)
+        observations_next = np.concatenate(trajectories.next_states)
 
         # use sgd to match the transitions
         fit_mb_size = 16 # TODO: from config
         fit_epochs = 1 # TODO: from config
-        dynamics_loss = contextualized_model.fit_dynamics(s, a, s_next, fit_mb_size, fit_epochs) # use CE-loss (but only on state, not the context!)
+        dynamics_loss = contextualized_model.fit_dynamics(observations, actions, observations_next, fit_mb_size, fit_epochs) # use CE-loss (but only on state, not the context!)
         
-        print(f"\tDynamics Loss: {dynamics_loss}")
-
         if learn_reward:
-            rewards_loss = contextualized_model.fit_reward(s, a, s_next, r, fit_mb_size, fit_epochs)
-            print(f"\tRewards Loss: {rewards_loss}")
+            rewards_loss = contextualized_model.fit_reward(observations, actions, observations_next, rewards, fit_mb_size, fit_epochs)
+
+        if iter % 25 == 0:
+            print(f"Pretraining iteration {iter}")
+            print(f"\tDynamics Loss: {dynamics_loss}")
+
+            if learn_reward:
+                print(f"\tRewards Loss: {rewards_loss}")
+
 
         # TODO: SGD on samples from model under random policies
         # for any given policy, we only need the model to be accurate in predicting s_next of (s,a) that actually occur
@@ -144,8 +148,8 @@ def train_contextualized_PAL(config: ExperimentConfig):
 
     contextualized_leader_env.set_policy(policy_ppo.policy)
     
-    samples_per_training_iteration = 100 # TODO: from config
-    policy_ppo.learn(samples_per_training_iteration, tb_log_name="Policy", reset_num_timesteps=False)
+    total_training_steps = 1_000_000 # TODO: from config
+    policy_ppo.learn(total_training_steps, tb_log_name="Policy", reset_num_timesteps=False, progress_bar=True)
 
 
 if __name__ == "__main__":
