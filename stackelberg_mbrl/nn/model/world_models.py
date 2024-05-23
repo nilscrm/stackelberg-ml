@@ -302,9 +302,11 @@ class ContextualizedWorldModel(AWorldModel):
         context, state = self._split_context_state(observation)
         _,state_next = self._split_context_state(observation_next)
 
-        if self.rewards:
-            raise NotImplementedError()
-            return self.rewards[s, a, s_next]
+        if self.rewards is not None:
+            state_idx = state.argmax().item()
+            action_idx = action.argmax().item()
+            state_next_idx = state_next.argmax().item()
+            return self.rewards[state_idx, action_idx, state_next_idx]
         else:
             x = torch.cat([context, state, action, state_next])
             return self.rewards_net.forward(x)

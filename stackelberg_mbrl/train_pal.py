@@ -47,8 +47,8 @@ def train_contextualized_PAL(config: ExperimentConfig):
     #     print(t.next_states)
     #     print(t.rewards)
 
-    learn_reward = True # TODO: from config
-    rewards = None if learn_reward else None
+    learn_reward = False # TODO: from config
+    rewards = None if learn_reward else real_env.rewards
     contextualized_model = ContextualizedWorldModel( # TODO: properly parameterize from config
         context_size=context_size,
         state_dim=real_env.num_states,
