@@ -115,7 +115,7 @@ def draw_mdp(transition_probabilities: np.ndarray, rewards: np.ndarray, filepath
         for a in range(transition_probabilities.shape[1]):
             for v in range(transition_probabilities.shape[2]):
                 if transition_probabilities[u][a][v] > 0:
-                    edges[(u, v)].append(f"a{a} | {transition_probabilities[u][a][v]:.2f} | {rewards[u][a][v]}")
+                    edges[(u, v)].append(f"a{a} | {transition_probabilities[u][a][v]:.2f} | {rewards[u][a][v]:.2f}")
 
     mdp = pgv.AGraph(directed=True)
 
