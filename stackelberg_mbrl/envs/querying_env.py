@@ -1,6 +1,8 @@
 import gymnasium
 from gymnasium import spaces
 import numpy as np
+from stackelberg_mbrl.nn.model.world_models import ContextualizedWorldModel
+from stackelberg_mbrl.policies.policy import APolicy
 import torch
 from torch.functional import F
 from typing import Any
@@ -73,6 +75,51 @@ class ModelQueryingEnv(gymnasium.Env):
 
     def close(self):
         self.world_model.close()
+
+class PolicyQueryingEnv(gymnasium.Env):
+    # TODO: merge with ModelQueryingEnv
+    """This is a wrapper for an environment in which a policy can play. It additionally gets the policy as queried context."""
+
+    def __init__(self, env: gymnasium.Env, queries: list[State], before_reset: callable = None, policy: APolicy = None):
+        """Wraps an environment and asks the policy a list of state queries before playing in it. Allows for custom callable-action before reset. """
+        self.env = env
+        self.policy = policy
+        self.queries = queries
+        self.before_reset = before_reset
+
+        self.num_states = env.observation_space.n
+
+        # One observation is the context which is all answers to the queries plus one one-hot-encoded current state
+        self.observation_space = spaces.Box(low=0.0, high=1.0, shape=((len(queries) + 1) * self.num_states,))
+        self.action_space = env.action_space
+
+    def set_policy(self, policy: APolicy):
+        self.policy = policy
+        self.update_query_answers()
+
+    def update_query_answers(self):
+        self.query_answers = np.concatenate([self.policy.next_action_distribution(state) for state in self.queries])
+
+    def _get_obs(self, model_state: State):
+        return np.concatenate((self.query_answers, one_hot(model_state, self.num_states)))
+
+    def step(self, action: Action) -> tuple[np.ndarray, float, bool, bool, dict[str, Any]]:
+        model_state, reward, terminated, truncated, info = self.env.step(action)
+        return self._get_obs(model_state), reward, terminated, truncated, info
+
+    def reset(self, seed: int | None = None) -> tuple[np.ndarray, dict[str, Any]]:
+        if self.before_reset:
+            self.before_reset(seed)
+        
+        self.update_query_answers()
+        model_state, info = self.env.reset(seed=seed)
+        return self._get_obs(model_state), info
+
+    def render(self):
+        return self.env.render()
+
+    def close(self):
+        self.env.close()
 
 
 class LeaderEnv(gymnasium.Env):
@@ -160,3 +207,61 @@ class LeaderEnv(gymnasium.Env):
             self.step_count += 1
 
             return (true_env_obs, self.policy_action), reward, terminated, truncated, info
+
+
+class PALLeaderEnv(gymnasium.Env[int,int]):
+    """
+        This is a wrapper around a contextualized world model that the leader can play in.
+        First, all the queries will be returned with 0 reward, before starting to simulate an environment using a learned contextualized model
+    """
+    def __init__(self, ctx_world_model: ContextualizedWorldModel, initial_state: int, queries: list[int], max_ep_steps: int, final_state: int = None):
+        self.ctx_world_model = ctx_world_model
+        self.initial_state = initial_state
+        self.final_state = final_state
+        self.max_ep_steps = max_ep_steps
+        self.queries = queries
+
+        self.observation_space = spaces.Discrete(ctx_world_model.observation_dim)
+        self.action_space = spaces.Discrete(ctx_world_model.action_dim)
+
+    def set_policy(self, policy: BasePolicy):
+        self.policy = policy
+        self.update_context()
+
+    def update_context(self):
+        self.context = np.concatenate([one_hot(self.policy.predict(query)[0], self.ctx_world_model.action_dim) for query in self.queries])
+        self.context_size = self.context.shape[0]
+
+    def reset(self, seed: int | None = None):
+        self.update_context() # TODO: dont update on every reset but instead have callback in PPO after training step
+        self.step_count = 0
+        return self.queries[0], {}
+
+    def step(self, action_idx: int):
+        if self.step_count < len(self.queries):
+            # query
+            observation = self.queries[self.step_count] # TODO: one_hot?
+            self.step_count += 1
+            return observation, 0, False, False, {}
+        elif self.step_count == len(self.queries):
+            # reset on env
+            self.current_state_idx = self.initial_state
+            self.step_count += 1
+            return self.initial_state, 0, False, False, {}
+        else:
+            # step on env
+            observation = np.concatenate([self.context, one_hot(self.current_state_idx, self.ctx_world_model.observation_dim)])
+            action = one_hot(action_idx, self.ctx_world_model.action_dim)
+            observation_next = self.ctx_world_model.sample_next_state(observation, action)
+            state_next = observation_next[self.context_size:]
+            state_next_idx = state_next.argmax().item()
+
+            reward = self.ctx_world_model.reward(observation, action, observation_next)
+
+            self.step_count += 1
+            self.current_state_idx = state_next_idx
+
+            terminated = (state_next_idx == self.final_state)
+            truncated = (self.step_count >= self.max_ep_steps)
+        
+            return state_next_idx, reward, terminated, truncated, {}
