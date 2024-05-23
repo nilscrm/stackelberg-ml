@@ -180,3 +180,56 @@ class LearnableWorldModel(WorldModel):
 
     def render(self):
         print(f"Current state: {self.state}")
+
+
+class LearnableWorldModel(WorldModel):
+    def __init__(
+        self,
+        learnable_model: BasePolicy,
+        num_states: int,
+        num_actions: int,
+        max_ep_steps: int,
+        rewards: np.ndarray,
+        initial_state: int,
+        final_state: int = -1,
+    ):
+        self.learnable_model = learnable_model
+        self.num_states = num_states
+        self.num_actions = num_actions
+        self.max_ep_steps = max_ep_steps
+        self.rewards = rewards
+        self.initial_state = initial_state
+        self.final_state = final_state
+
+        self.max_ep_steps = max_ep_steps
+
+        self.observation_space = spaces.Discrete(self.num_states)
+        self.action_space = spaces.Discrete(self.num_actions)
+
+    def reset(self, seed=None):
+        self.step_cnt = 0
+        self.state = self.initial_state
+        return self.state, {}
+
+    def is_done(self, state):
+        return state == self.final_state
+
+    def reward(self, state: int, action: int, next_state: int):
+        return self.rewards[state][action][next_state]
+
+    def step(self, action: int):
+        old_state = self.state
+
+        self.state = np.random.choice(self.num_states, p=self.next_state_distribution(self.state, action))
+        self.step_cnt += 1
+
+        truncated = self.step_cnt >= self.max_ep_steps
+
+        return self.state, self.reward(old_state, action, self.state), self.is_done(self.state), truncated, {}
+
+    def next_state_distribution(self, observation: int, action: int) -> np.ndarray:
+        next_state_predictions, _ = self.learnable_model.predict((observation, action))
+        return F.softmax(torch.from_numpy(next_state_predictions), dim=-1).numpy()
+
+    def render(self):
+        print(f"Current state: {self.state}")

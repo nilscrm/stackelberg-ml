@@ -1,6 +1,7 @@
 from typing import Callable, Optional, Literal
 
 from abc import abstractmethod
+import gymnasium
 import numpy as np
 from pathlib import Path
 import torch
@@ -228,7 +229,7 @@ class StaticDiscreteModel(AWorldModel):
 
 
 
-class ContextualizedWorldModel(AWorldModel):
+class ContextualizedWorldModel(AWorldModel, gymnasium.Env):
     """ 
         Model that operates on contextualized states
 
@@ -241,6 +242,8 @@ class ContextualizedWorldModel(AWorldModel):
                  rewards: np.ndarray=None, # reward will be learned if no rewards are provided
                  fit_lr=1e-3,
                  fit_weight_decay=0.0):
+        self.state_dim = state_dim
+        self.act_dim = act_dim
         self.context_size = context_size
 
         # dynamics
@@ -265,6 +268,14 @@ class ContextualizedWorldModel(AWorldModel):
             self.rewards_opt = torch.optim.Adam(self.rewards_net.parameters(), lr=fit_lr, weight_decay=fit_weight_decay)
             self.rewards_loss = torch.nn.MSELoss()
         
+    @property
+    def action_dim(self):
+        return self.act_dim
+
+    @property
+    def observation_dim(self):
+        return self.state_dim
+
     def _split_context_state(self, observation: torch.Tensor) -> torch.Tensor:
         if observation.ndim == 1:
             return observation[:self.context_size], observation[self.context_size:]
@@ -284,7 +295,7 @@ class ContextualizedWorldModel(AWorldModel):
         context,_ = self._split_context_state(observation)
         state_idx = torch.multinomial(self.next_state_distribution(observation, action), num_samples=1)
         out = F.one_hot(state_idx, num_classes=self.state_dim)[0] # convert to non-batched
-        return torch.cat([out, context])
+        return torch.cat([context, out])
 
     @tensorize_array_inputs
     def reward(self, observation, action, observation_next):

@@ -8,7 +8,7 @@ import torch
 import gymnasium
 
 import stackelberg_mbrl.envs.simple_mdp
-from stackelberg_mbrl.envs.querying_env import LeaderEnv, ModelQueryingEnv, PolicyQueryingEnv
+from stackelberg_mbrl.envs.querying_env import LeaderEnv, ModelQueryingEnv, PALLeaderEnv, PolicyQueryingEnv
 from stackelberg_mbrl.envs.env_util import transition_probabilities_from_world_model, draw_mdp, RandomMDP, LearnableWorldModel
 from stackelberg_mbrl.experiments.experiment_config import ExperimentConfig, LoadPolicy, PolicyConfig, LoadWorldModel, WorldModelConfig
 from stackelberg_mbrl.experiments.model_rl.config import model_rl_config
@@ -57,7 +57,7 @@ def train_contextualized_PAL(config: ExperimentConfig):
     )
 
     print("Pretraining world model")
-    pretrain_iterations = 100 # TODO: from config
+    pretrain_iterations = 1 # TODO: from config
     for iter in range(pretrain_iterations):
         print(f"Pretraining iteration {iter}")
         # TODO: can potentially re-use samples from real-env?
@@ -83,8 +83,6 @@ def train_contextualized_PAL(config: ExperimentConfig):
         if learn_reward:
             rewards_loss = contextualized_model.fit_reward(s, a, s_next, r, fit_mb_size, fit_epochs)
             print(f"\tRewards Loss: {rewards_loss}")
-
-    return
 
         # TODO: SGD on samples from model under random policies
         # for any given policy, we only need the model to be accurate in predicting s_next of (s,a) that actually occur
@@ -119,9 +117,21 @@ def train_contextualized_PAL(config: ExperimentConfig):
     print("Training policy")
     # env where the first steps are the s from the queries (and 0 reward is given) 
     # before it uses the pretrained best responding model to simulate the world
-    contextualized_leader_env = PolicyQueryingEnv(
-        env=SimpleLeaderEnv(contextualized_model, ), 
-        queries=queries)
+    # TODO: actually, does this really give the leader the queries? bc it will only observe its sampled answers :/
+    # TODO: contextualized_model should be best response to current policy
+    # TODO: where do we get context from here? Need to wrap contextualized_model as environment
+
+    # contextualized_model = (context, s), action -> (context, s_next)
+    
+    # so we need an env that automatically prepends the context and uses the contextualized models prediction to transition to the next state (but only return the actual state)
+
+    contextualized_leader_env = PALLeaderEnv(
+        contextualized_model, 
+        initial_state=real_env.initial_state,
+        queries=queries, 
+        final_state=real_env.final_state,
+        max_ep_steps=config.env_config.max_episode_steps
+    )
 
     policy_config: PolicyConfig = config.policy_config
     # TODO: need custom PPO implementation that has callback before doing rollouts (so we can load the oracle weights and finetune it to the current policy)
@@ -131,9 +141,10 @@ def train_contextualized_PAL(config: ExperimentConfig):
         policy_kwargs=policy_config.policy_kwargs,
         tensorboard_log=config.output_dir / config.experiment_name / "tb",
     )
-    
 
-    # I hope their PPO can handle (context, s) as inputs to the environment...
+    contextualized_leader_env.set_policy(policy_ppo.policy)
+    
+    samples_per_training_iteration = 100 # TODO: from config
     policy_ppo.learn(samples_per_training_iteration, tb_log_name="Policy", reset_num_timesteps=False)
 
 

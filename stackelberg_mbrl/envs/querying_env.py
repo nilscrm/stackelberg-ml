@@ -1,6 +1,7 @@
 import gymnasium
 from gymnasium import spaces
 import numpy as np
+from stackelberg_mbrl.nn.model.world_models import ContextualizedWorldModel
 from stackelberg_mbrl.policies.policy import APolicy
 import torch
 from torch.functional import F
@@ -110,8 +111,8 @@ class PolicyQueryingEnv(gymnasium.Env):
         if self.before_reset:
             self.before_reset(seed)
         
-        model_state, info = self.env.reset(seed=seed)
         self.update_query_answers()
+        model_state, info = self.env.reset(seed=seed)
         return self._get_obs(model_state), info
 
     def render(self):
@@ -206,3 +207,59 @@ class LeaderEnv(gymnasium.Env):
             self.step_count += 1
 
             return (true_env_obs, self.policy_action), reward, terminated, truncated, info
+
+
+class PALLeaderEnv(gymnasium.Env[int,int]):
+    """
+        This is a wrapper around a contextualized world model that the leader can play in.
+        First, all the queries will be returned with 0 reward, before starting to simulate an environment using a learned contextualized model
+    """
+    def __init__(self, ctx_world_model: ContextualizedWorldModel, initial_state: int, queries: list[int], max_ep_steps: int, final_state: int = None):
+        self.ctx_world_model = ctx_world_model
+        self.initial_state = initial_state
+        self.final_state = final_state
+        self.max_ep_steps = max_ep_steps
+        self.queries = queries
+
+        self.observation_space = spaces.Discrete(ctx_world_model.observation_dim)
+        self.action_space = spaces.Discrete(ctx_world_model.action_dim)
+
+    def set_policy(self, policy: BasePolicy):
+        self.policy = policy
+        self.update_context()
+
+    def update_context(self):
+        self.context = np.concatenate([self.policy.predict(query) for query in self.queries])
+        self.context_size = self.context.shape[0]
+
+    def reset(self, seed: int | None = None):
+        self.update_context() # TODO: dont update on every reset but instead have callback in PPO after training step
+        self.step_count = 0
+        return self.queries[0], {}
+
+    def step(self, action):
+        if self.step_count < len(self.queries):
+            # query
+            observation = self.queries[self.step_count] # TODO: one_hot?
+            self.step_count += 1
+            return observation, 0, False, False, {}
+        elif self.step_count == len(self.queries):
+            # reset on env
+            self.current_state = self.initial_state
+            self.step_count += 1
+            return self.initial_state, 0, False, False, {}
+        else:
+            # step on env
+            observation = np.concatenate([self.context, self.current_state])
+            observation_next = self.ctx_world_model.sample_next_state(observation, action)
+            state_next = observation_next[self.context_size:]
+
+            reward = self.ctx_world_model.reward(observation, action, observation_next)
+
+            self.step_count += 1
+            self.current_state = state_next
+
+            terminated = (state_next == self.final_state)
+            truncated = (self.step_count >= self.max_ep_steps)
+
+            return state_next, reward, terminated, truncated, {}
