@@ -81,7 +81,7 @@ def train_contextualized_MAL(config: ExperimentConfig):
             # Pretrain the policy conditioned on a world model
             print("Pretraining policy model")
             for iter in range(policy_config.pretrain_iterations):
-                policy_ppo.learn(policy_config.samples_per_training_iteration, tb_log_name="Policy", reset_num_timesteps=False)
+                policy_ppo.learn(policy_config.samples_per_training_iteration, tb_log_name="Policy", reset_num_timesteps=(iter==0))
 
                 print(f"Pretraining Iteration {iter}")
                 with torch.no_grad():
