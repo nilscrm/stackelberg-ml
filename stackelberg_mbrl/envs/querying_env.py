@@ -1,6 +1,7 @@
 import gymnasium
 from gymnasium import spaces
 import numpy as np
+from stackelberg_mbrl.policies.random_policy import RandomPolicy
 import torch
 from torch.functional import F
 from typing import Any, Callable
@@ -61,13 +62,18 @@ class LeaderEnv(gymnasium.Env):
 
     def __init__(self, true_env: gymnasium.Env[int, int], policy: BasePolicy, queries: list[tuple[int, int]], temperature: Callable[[int],float] = lambda x: 0.0):
         self.true_env = true_env
-        self.policy = policy
+        self.true_env_num_states = true_env.observation_space.n
+        self.true_env_num_actions = true_env.action_space.n
+        
+        self.sample_random = False
+        self.original_policy = policy
+        self.random_policy = RandomPolicy(self.true_env_num_states, self.true_env_num_actions, 0)
+        
         self.queries = queries
+        
         self.temperature = temperature
         self.temperature_step = 0
 
-        self.true_env_num_states = true_env.observation_space.n
-        self.true_env_num_actions = true_env.action_space.n
 
         # An observation is a state\action pair
         self.observation_space = spaces.MultiDiscrete([self.true_env_num_states, self.true_env_num_actions])
@@ -83,8 +89,26 @@ class LeaderEnv(gymnasium.Env):
             obs = self.queries[self.step_count]
         else:
             raise NotImplemented("LeaderEnv can't handle the case of no queries yet.")
+        
+        # Determine next policy
+        # Decide between a random policy and the best response oracle
+        if self.temperature(self.temperature_step) > np.random.rand():
+            self.sample_random = True
+            self.random_policy.randomize()
+        else:
+            self.sample_random = False
+            
 
         return obs, {}
+    
+    def sample_policy_action(self, obs: np.ndarray):
+        if self.sample_random:
+            return self.random_policy.sample_next_action(obs)
+        else:
+            policy_action, _ = self.original_policy.predict(
+                    np.concatenate((self.query_answers, one_hot(obs, self.true_env_num_states)))
+                )
+            return policy_action
 
     def step(self, action: np.ndarray):
         # An action is a prediction over the next state
@@ -92,7 +116,7 @@ class LeaderEnv(gymnasium.Env):
         next_state_prediction = F.softmax(action, dim=-1)
 
         self.temperature_step += 1
-        if self.temperature_step % 10_000 == 0: print("YEEET", self.temperature(self.temperature_step))
+        if self.temperature_step % 10_000 == 0: print("temperature", self.temperature(self.temperature_step))
 
         if self.step_count < len(self.queries) - 1:
             # The action is an answer to a query and we have more queries to do
@@ -107,9 +131,8 @@ class LeaderEnv(gymnasium.Env):
             self.query_answers = np.concatenate(self.query_answers)
 
             true_env_obs, _ = self.true_env.reset()
-            self.policy_action, _ = self.policy.predict(
-                np.concatenate((self.query_answers, one_hot(true_env_obs, self.true_env_num_states)))
-            )
+
+            self.policy_action = self.sample_policy_action(true_env_obs)
 
             self.step_count += 1
             return (true_env_obs, self.policy_action), 0, False, False, {}
@@ -122,16 +145,7 @@ class LeaderEnv(gymnasium.Env):
             self.total_loss += np.sum(np.square(next_state_prediction))
 
             # Determine next policy action
-            # Decide between a random action and querying the best response oracle
-            if self.temperature(self.temperature_step) > np.random.rand():
-                # random action
-                self.policy_action = np.random.choice(self.true_env_num_actions)
-            else:
-                # query the best-response oracle
-                self.policy_action, _ = self.policy.predict(
-                    np.concatenate((self.query_answers, one_hot(true_env_obs, self.true_env_num_states)))
-                )
-
+            self.policy_action = self.sample_policy_action(true_env_obs)
 
             # If this is the last step give the model reward based on the average prediction loss
             # We do an average instead of a sum so that the model is not encouraged to play short games.

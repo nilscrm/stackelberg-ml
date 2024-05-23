@@ -100,7 +100,8 @@ def train_contextualized_MAL(config: ExperimentConfig):
             if policy_config.model_save_name is not None:
                 policy_ppo.save(config.output_dir / config.experiment_name / "checkpoints" / policy_config.model_save_name)
 
-    temperature = lambda step: max(0.01, np.exp(-(step / model_config.total_training_steps) * -np.log(0.005)))
+    # temperature = lambda step: np.exp(-(step / model_config.total_training_steps) * -np.log(0.5))
+    temperature = lambda step: 1.0
     leader_env = LeaderEnv(env_true, policy_ppo.policy, queries, temperature)
 
     match config.world_model_config:
