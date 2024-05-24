@@ -2,7 +2,7 @@ from stackelberg_mbrl.experiments.experiment_config import ExperimentConfig, Env
 
 
 poster_config = ExperimentConfig(
-    experiment_name="poster_pal",
+    experiment_name="poster",
     env_config=EnvConfig(
         env_true_id="simple_mdp_2",
         env_eval_id="simple_mdp_2",

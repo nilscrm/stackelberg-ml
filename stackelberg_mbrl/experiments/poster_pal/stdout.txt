@@ -1,0 +1,11 @@
+Pretraining world model
+Pretraining iteration 0, taken steps 1552
+	Dynamics Loss: [0.7880093355973562]
+Pretraining iteration 25, taken steps 41236
+	Dynamics Loss: [0.41015399973603744]
+Pretraining iteration 50, taken steps 82191
+	Dynamics Loss: [0.4075381967676691]
+Pretraining iteration 75, taken steps 124425
+	Dynamics Loss: [0.3502909352904872]
+Training policy
+ 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100,352/100,000  [ 0:00:48 < 0:00:00 , 2,005 it/s ]
