@@ -13,7 +13,7 @@ from stackelberg_mbrl.envs.querying_env import LeaderEnv, ModelQueryingEnv, PALL
 from stackelberg_mbrl.envs.env_util import transition_probabilities_from_world_model, draw_mdp, RandomMDP, LearnableWorldModel
 from stackelberg_mbrl.experiments.experiment_config import ExperimentConfig, LoadPolicy, PolicyConfig, LoadWorldModel, WorldModelConfig
 from stackelberg_mbrl.experiments.model_rl.config import model_rl_config
-from stackelberg_mbrl.experiments.pal.config import pal_config
+from stackelberg_mbrl.experiments.poster.config import poster_config
 
 from stackelberg_mbrl.util.trajectories import sample_trajectories
 
@@ -194,4 +194,4 @@ def train_contextualized_PAL(config: ExperimentConfig):
 
 
 if __name__ == "__main__":
-    train_contextualized_PAL(pal_config)
+    train_contextualized_PAL(poster_config)

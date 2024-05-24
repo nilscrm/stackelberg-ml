@@ -189,6 +189,10 @@ register("simple_mdp_2",
          entry_point=(lambda max_ep_steps: 
                       MatrixMDP(max_ep_steps, transitions, rewards_2, initial_state=1, final_state=2)))
 
+register("simple_mdp_2_endless", 
+         entry_point=(lambda max_ep_steps: 
+                      MatrixMDP(max_ep_steps, transitions, rewards_2, initial_state=1)))
+
 register("simple_mdp_2_variant_1", 
          entry_point=(lambda max_ep_steps: 
                       MatrixMDP(max_ep_steps, transitions_variant_1, rewards_2, initial_state=1, final_state=2)))

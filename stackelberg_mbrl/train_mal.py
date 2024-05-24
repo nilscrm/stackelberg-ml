@@ -9,7 +9,7 @@ import stackelberg_mbrl.envs.simple_mdp
 from stackelberg_mbrl.envs.querying_env import LeaderEnv, ModelQueryingEnv
 from stackelberg_mbrl.envs.env_util import transition_probabilities_from_world_model, draw_mdp, RandomMDP, LearnableWorldModel
 from stackelberg_mbrl.experiments.experiment_config import ExperimentConfig, LoadPolicy, PolicyConfig, LoadWorldModel, WorldModelConfig
-from stackelberg_mbrl.experiments.model_rl.config import model_rl_config
+from stackelberg_mbrl.experiments.poster.config import poster_config
 
 
 def train_contextualized_MAL(config: ExperimentConfig):
@@ -154,4 +154,4 @@ def train_contextualized_MAL(config: ExperimentConfig):
 
 
 if __name__ == "__main__":
-    train_contextualized_MAL(model_rl_config)
+    train_contextualized_MAL(poster_config)
