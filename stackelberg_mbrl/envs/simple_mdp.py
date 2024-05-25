@@ -131,6 +131,52 @@ transitions_deterministic_1 = np.array([
      [0.0, 0.0, 1.0, 0.0]],   # Action a1
 ])
 
+transitions_erg_det_2 = np.array([
+    #  s0   s1      <- New State
+    # Old State s0
+    [[0.0, 1.0],    # Action a0
+     [1.0, 0.0]],   # Action a1
+    # Old State s1
+    [[0.0, 1.0],    # Action a0
+     [1.0, 0.0]],   # Action a1
+])
+
+rewards_erg_det_2 = np.array([
+    #  s0   s1      <- New State
+    # Old State s0
+    [[0.0, 1.0],    # Action a0
+     [1.0, 0.0]],   # Action a1
+    # Old State s1
+    [[0.0, 5.0],    # Action a0
+     [1.0, 0.0]],   # Action a1
+])
+
+transitions_erg_det_3 = np.array([
+    #  s0   s1   s2      <- New State
+    # Old State s0
+    [[0.0, 1.0, 0.0],    # Action a0
+     [0.0, 0.0, 1.0]],   # Action a1
+    # Old State s1
+    [[0.0, 0.0, 1.0],    # Action a0
+     [1.0, 0.0, 0.0]],   # Action a1
+    # Old State s2
+    [[1.0, 0.0, 0.0],    # Action a0
+     [0.0, 1.0, 0.0]],   # Action a1
+])
+
+rewards_erg_det_3 = np.array([
+    #  s0   s1   s2      <- New State
+    # Old State s0
+    [[0.0, 1.0, 0.0],    # Action a0
+     [0.0, 0.0, 1.0]],   # Action a1
+    # Old State s1
+    [[0.0, 0.0, 5.0],    # Action a0
+     [1.0, 0.0, 0.0]],   # Action a1
+    # Old State s2
+    [[1.0, 0.0, 0.0],    # Action a0
+     [0.0, 5.0, 0.0]],   # Action a1
+])
+
 register("simple_mdp_1", 
          entry_point=(lambda max_ep_steps:
                       MatrixMDP(max_ep_steps, transitions, rewards_1, initial_state=1, final_state=2)))
@@ -142,6 +188,10 @@ register("simple_mdp_1_variant_1",
 register("simple_mdp_2", 
          entry_point=(lambda max_ep_steps: 
                       MatrixMDP(max_ep_steps, transitions, rewards_2, initial_state=1, final_state=2)))
+
+register("simple_mdp_2_endless", 
+         entry_point=(lambda max_ep_steps: 
+                      MatrixMDP(max_ep_steps, transitions, rewards_2, initial_state=1)))
 
 register("simple_mdp_2_variant_1", 
          entry_point=(lambda max_ep_steps: 
@@ -162,3 +212,13 @@ register("ergodic_mdp_2",
 register("deterministic_mdp_1", 
          entry_point=(lambda max_ep_steps: 
                       MatrixMDP(max_ep_steps, transitions_deterministic_1, rewards_4states_1, initial_state=0)))
+
+
+register("mdp_erg_det_2", 
+         entry_point=(lambda max_ep_steps: 
+                      MatrixMDP(max_ep_steps, transitions_erg_det_2, rewards_erg_det_2, initial_state=0)))
+
+
+register("mdp_erg_det_3", 
+         entry_point=(lambda max_ep_steps: 
+                      MatrixMDP(max_ep_steps, transitions_erg_det_3, rewards_erg_det_3, initial_state=0)))

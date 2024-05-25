@@ -1,0 +1,13 @@
+Pretraining world model
+Pretraining iteration 0, taken steps 1602
+	Dynamics Loss: [0.7785085269383022]
+Pretraining iteration 25, taken steps 43171
+	Dynamics Loss: [0.3976977149353308]
+Pretraining iteration 50, taken steps 84640
+	Dynamics Loss: [0.4126445796386695]
+Pretraining iteration 75, taken steps 125574
+	Dynamics Loss: [0.4470738335638433]
+Training policy
+ 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100,352/100,000  [ 0:00:49 < 0:00:00 , 1,998 it/s ]
+Avg Policy Reward on learned model:   32.490 ± 2.313
+Avg Policy Reward on real environment:   36.850 ± 0.537
