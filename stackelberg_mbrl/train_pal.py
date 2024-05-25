@@ -192,6 +192,12 @@ def train_contextualized_PAL(config: ExperimentConfig):
     context = contextualized_leader_env.context
     contextualized_model.draw_mdp(context, config.output_dir / config.experiment_name / "mdps" / "after_training_ppo_policy.png")
 
+    policy_reward, policy_reward_std = evaluate_policy(policy_ppo.policy, contextualized_leader_env)
+    print(f"Avg Policy Reward on learned model:   {policy_reward:.3f} ± {policy_reward_std:.3f}")
+
+    policy_reward_real_env, policy_reward_std_real_env = evaluate_policy(policy_ppo.policy, real_env)
+    print(f"Avg Policy Reward on real environment:   {policy_reward_real_env:.3f} ± {policy_reward_std_real_env:.3f}")
+
 
 if __name__ == "__main__":
     train_contextualized_PAL(poster_config)

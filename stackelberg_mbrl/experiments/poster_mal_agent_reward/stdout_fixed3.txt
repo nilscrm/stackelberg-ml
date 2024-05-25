@@ -1,0 +1,20 @@
+Pretraining policy model
+ 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 501,760/500,000  [ 0:02:24 < 0:00:00 , 3,439 it/s ]
+Pretraining Iteration 0
+	Avg Reward (random model 0):      1.000 ± 0.000
+	Avg Reward (random model 1):      7.610 ± 6.400
+	Avg Reward (random model 2):      1.970 ± 0.940
+	Avg Reward (random model 3):      1.220 ± 0.674
+	Avg Reward (random model 4):      12.130 ± 7.326
+	Avg Reward (random model 5):      5.710 ± 6.536
+	Avg Reward (random model 6):      0.990 ± 0.020
+	Avg Reward (random model 7):      0.970 ± 0.040
+	Avg Reward (random model 8):      0.850 ± 0.939
+	Avg Reward (random model 9):      1.370 ± 0.815
+	Avg Reward (true env):      36.690 ± 0.950
+	Avg Reward (eval env):   36.690 ± 1.015
+Training world model
+ 100% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 501,760/500,000  [ 0:03:45 < 0:00:00 , 2,208 it/s ]
+Model reward: (36.60999999940395, 0.7838367184206217)
+Avg Policy Reward on learned model:   29.150 ± 7.553
+Avg Policy Reward on learned model:   37.090 ± 0.320

@@ -76,6 +76,39 @@ class ModelQueryingEnv(gymnasium.Env):
     def close(self):
         self.world_model.close()
 
+
+class ConstantContextEnv(gymnasium.Env):
+    """This is a wrapper for world model in which a policy can play. It additionally gets the model as queried context."""
+
+    def __init__(self, env: gymnasium.Env, context: np.ndarray):
+        """Wraps a world model and asks it a list of state/action queries before playing in it."""
+        self.env = env
+        self.context = context
+
+        self.num_states = env.observation_space.n
+
+        # One observation is the context which is all answers to the queries plus one one-hot-encoded current state
+        self.observation_space = spaces.Box(low=0.0, high=1.0, shape=(len(context) + self.num_states,))
+        self.action_space = env.action_space
+
+    def _get_obs(self, model_state: State):
+        return np.concatenate((self.context, one_hot(model_state, self.num_states)))
+
+    def step(self, action: Action) -> tuple[np.ndarray, float, bool, bool, dict[str, Any]]:
+        model_state, reward, terminated, truncated, info = self.env.step(action)
+        return self._get_obs(model_state), reward, terminated, truncated, info
+
+    def reset(self, seed: int | None = None) -> tuple[np.ndarray, dict[str, Any]]:
+        model_state, info = self.env.reset(seed=seed)
+        return self._get_obs(model_state), info
+
+    def render(self):
+        return self.env.render()
+
+    def close(self):
+        self.env.close()
+
+
 class PolicyQueryingEnv(gymnasium.Env):
     # TODO: merge with ModelQueryingEnv
     """This is a wrapper for an environment in which a policy can play. It additionally gets the policy as queried context."""

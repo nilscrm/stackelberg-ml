@@ -6,7 +6,7 @@ import torch
 import gymnasium
 
 import stackelberg_mbrl.envs.simple_mdp
-from stackelberg_mbrl.envs.querying_env import LeaderEnv, ModelQueryingEnv
+from stackelberg_mbrl.envs.querying_env import LeaderEnv, ModelQueryingEnv, ConstantContextEnv
 from stackelberg_mbrl.envs.env_util import transition_probabilities_from_world_model, draw_mdp, RandomMDP, LearnableWorldModel
 from stackelberg_mbrl.experiments.experiment_config import ExperimentConfig, LoadPolicy, PolicyConfig, LoadWorldModel, WorldModelConfig
 from stackelberg_mbrl.experiments.poster.config import poster_config
@@ -130,8 +130,7 @@ def train_contextualized_MAL(config: ExperimentConfig):
     # Evaluation of model
     print(f"Model reward: {evaluate_policy(model_ppo.policy, leader_env)}")
 
-    model_querying_env = ModelQueryingEnv(
-        LearnableWorldModel(
+    learned_world_model = LearnableWorldModel(
             model_ppo.policy,
             env_true.num_states,
             env_true.num_actions,
@@ -139,12 +138,17 @@ def train_contextualized_MAL(config: ExperimentConfig):
             env_true.rewards,
             env_true.initial_state,
             env_true.final_state,
-        ),
-        queries,
-    )
+        )
+    model_querying_env = ModelQueryingEnv(learned_world_model, queries)
     with torch.no_grad():
-        policy_reward, policy_reward_std = evaluate_policy(policy_ppo.policy, model_querying_env, n_eval_episodes=10)
-        print(f"Avg Policy Reward on learned model:   {policy_reward:.3f} ± {policy_reward_std:.3f}")
+        policy_reward_model, policy_reward_std_model = evaluate_policy(policy_ppo.policy, model_querying_env, n_eval_episodes=10)
+        print(f"Avg Policy Reward on learned model:   {policy_reward_model:.3f} ± {policy_reward_std_model:.3f}")
+
+    model_query_answers = np.concatenate([learned_world_model.next_state_distribution(state, action) for (state, action) in queries])
+    real_eval_env = ConstantContextEnv(env_true, model_query_answers)
+
+    policy_reward, policy_reward_std = evaluate_policy(policy_ppo.policy, real_eval_env, n_eval_episodes=10)
+    print(f"Avg Policy Reward on real env:   {policy_reward:.3f} ± {policy_reward_std:.3f}")
 
     draw_mdp(
         transition_probabilities_from_world_model(model_ppo.policy, env_true.num_states, env_true.num_actions),
