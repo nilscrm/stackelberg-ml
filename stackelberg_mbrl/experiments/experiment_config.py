@@ -36,4 +36,4 @@ class ExperimentConfig(BaseModel):
     world_model_config: WorldModelConfig | LoadWorldModel
 
     output_dir: DirectoryPath = Path("stackelberg_mbrl/experiments/")
-    seed: int = 12
+    seed: int = 37
