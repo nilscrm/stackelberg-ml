@@ -28,6 +28,12 @@ class WorldModelConfig(BaseModel):
 class LoadWorldModel(BaseModel):
     path: FilePath
 
+class SampleEfficiency(BaseModel):
+    sample_eval_rate: int = 30 # how many samples inbetween two evaluations?
+    n_eval_episodes: int = 15
+    max_samples: int = 200
+    log_save_name: str
+
 class ExperimentConfig(BaseModel):
     # Make config immutable
     model_config = ConfigDict(frozen=True)
@@ -38,6 +44,8 @@ class ExperimentConfig(BaseModel):
     policy_config: PolicyConfig | LoadPolicy
     leader_env_config: LeaderEnvConfig
     world_model_config: WorldModelConfig | LoadWorldModel
+    sample_efficiency: SampleEfficiency | None
 
     output_dir: DirectoryPath = Path("stackelberg_mbrl/experiments/")
     seed: int = 12
+

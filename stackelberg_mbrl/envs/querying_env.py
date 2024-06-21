@@ -38,7 +38,7 @@ class CountedEnvWrapper(gymnasium.Env):
     def reset(self, seed: int | None = None):
         ret = self.env.reset(seed=seed)
         self.trajectories += 1
-        self.samples += 1
+        # self.samples += 1
         return ret
     
 

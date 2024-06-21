@@ -4,13 +4,15 @@ from stable_baselines3.ppo import PPO
 from stable_baselines3.common.evaluation import evaluate_policy
 import torch
 import gymnasium
+import csv
+from stable_baselines3.common.callbacks import BaseCallback
 
 import stackelberg_mbrl.envs.simple_mdp
-from stackelberg_mbrl.envs.querying_env import LeaderEnv, ModelQueryingEnv, ConstantContextEnv
+from stackelberg_mbrl.envs.querying_env import CountedEnvWrapper, LeaderEnv, ModelQueryingEnv, ConstantContextEnv
 from stackelberg_mbrl.envs.env_util import transition_probabilities_from_world_model, draw_mdp, RandomMDP, LearnableWorldModel
 from stackelberg_mbrl.experiments.experiment_config import ExperimentConfig, LoadPolicy, PolicyConfig, LoadWorldModel, WorldModelConfig
-from stackelberg_mbrl.experiments.poster.config import poster_config
-
+# from stackelberg_mbrl.experiments.poster.config import poster_config
+from stackelberg_mbrl.experiments.poster_mal_agent_reward.config import poster_config
 
 def train_contextualized_MAL(config: ExperimentConfig):
     """
@@ -100,7 +102,46 @@ def train_contextualized_MAL(config: ExperimentConfig):
             if policy_config.model_save_name is not None:
                 policy_ppo.save(config.output_dir / config.experiment_name / "checkpoints" / policy_config.model_save_name)
 
-    leader_env = LeaderEnv(env_true, policy_ppo.policy, queries, config.leader_env_config.env_reward_weight)
+    env_true_count = CountedEnvWrapper(env_true)
+    leader_env = LeaderEnv(env_true_count, policy_ppo.policy, queries, config.leader_env_config.env_reward_weight)
+    
+    class CountedPPOCallback(BaseCallback):
+        def __init__(self, model):
+            super().__init__(verbose=0)
+            self.model = model
+            
+            self.next_eval = 0
+            self.evals = []
+
+        def _on_training_start(self) -> None: pass
+        def _on_rollout_start(self) -> None: pass
+        def _on_training_end(self) -> None: pass
+        def _on_step(self) -> bool: return config.sample_efficiency.max_samples is None or self.samples < config.sample_efficiency.max_samples
+        @property
+        def samples(self) -> int: return env_true_count.samples
+        def _on_rollout_end(self) -> None:
+            if self.samples >= self.next_eval:
+                with torch.no_grad():
+                    learned_world_model = LearnableWorldModel(
+                        self.model.policy,
+                        env_true.num_states,
+                        env_true.num_actions,
+                        env_true.max_ep_steps,
+                        env_true.rewards,
+                        env_true.initial_state,
+                        env_true.final_state,
+                        )
+                    model_query_answers = np.concatenate([learned_world_model.next_state_distribution(state, action) for (state, action) in queries])
+                    real_eval_env = ConstantContextEnv(env_true, model_query_answers)
+                    
+                    r_mean,r_std = evaluate_policy(policy_ppo.policy, real_eval_env, n_eval_episodes=config.sample_efficiency.n_eval_episodes)
+                    self.evals.append((self.samples, r_mean))
+                    self.next_eval += config.sample_efficiency.sample_eval_rate
+        def save(self, filename):
+            print(f"saving {len(self.evals)} records into {filename}.")
+            with open(filename, 'w', newline='') as file:
+                sw = csv.writer(file)
+                sw.writerows(self.evals)
 
     match config.world_model_config:
         case LoadWorldModel():
@@ -112,6 +153,7 @@ def train_contextualized_MAL(config: ExperimentConfig):
                 leader_env,
                 tensorboard_log=config.output_dir / config.experiment_name / "tb",
                 gamma=1.0,
+                n_steps=config.sample_efficiency.sample_eval_rate if config.sample_efficiency else 2048
                 # use_sde=True,
             )
 
@@ -121,8 +163,16 @@ def train_contextualized_MAL(config: ExperimentConfig):
                 config.output_dir / config.experiment_name / "mdps" / "initial_model.png",
             )
 
+            if config.sample_efficiency is not None:
+                callback = CountedPPOCallback(model=model_ppo)
+            else:
+                callback = None
+
             print("Training world model")
-            model_ppo.learn(total_timesteps=model_config.total_training_steps, progress_bar=True, tb_log_name="WorldModel")
+            model_ppo.learn(total_timesteps=model_config.total_training_steps, progress_bar=True, tb_log_name="WorldModel", callback=callback)
+
+            if config.sample_efficiency is not None and config.sample_efficiency.log_save_name is not None:
+                callback.save(config.output_dir / config.experiment_name / "sample_efficiency" / config.sample_efficiency.log_save_name)
 
             if model_config.model_save_name is not None:
                 model_ppo.save(config.output_dir / config.experiment_name / "checkpoints" / model_config.model_save_name)
