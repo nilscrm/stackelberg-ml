@@ -81,13 +81,6 @@ class MLP(torch.nn.Module):
     # Network forward
     # ============================================
     def forward(self, observations):
-        # import traceback
-        # print("traceback")
-        # for line in traceback.format_stack():
-        #     print(line.strip())
-        #     continue
-        # print("end traceback")
-        # raise Exception
         if type(observations) == np.ndarray: observations = torch.from_numpy(observations).float()
         assert type(observations) == torch.Tensor
         observations = observations.to(self.device)
@@ -96,33 +89,10 @@ class MLP(torch.nn.Module):
             out = self.fc_layers[i](out)
             out = self.nonlinearity(out)
         out = self.fc_layers[-1](out) * self.out_scale + self.out_shift
-        return out
-    
-        # if type(observations) == np.ndarray: observations = torch.from_numpy(observations).float()
-        # assert type(observations) == torch.Tensor
-        # observations = observations.to(self.device)
-        # out = (observations - self.in_shift) / (self.in_scale + 1e-6)
-        # for i in range(len(self.fc_layers)-1):
-        #     out = self.fc_layers[i](out)
-        #     out = self.nonlinearity(out)
-        # out = self.fc_layers[-1](out) * self.out_scale + self.out_shift
-
-        # next_action_distributions = F.softmax(out, dim=-1)
-        
-        # actions = []
-        # for i in range(next_action_distributions.shape[0]):
-        #     action_idx = torch.multinomial(next_action_distributions[i], num_samples=1)
-        #     action = F.one_hot(action_idx, num_classes=self.action_dim)
-        #     actions.append(action)
-        # res = torch.concat(actions, dim=0)
-
-        # return res
-    
-    def next_action_distribution(self, s):
-        return F.softmax(self.forward(s), dim=-1)
+        return F.softmax(out, dim=-1)
     
     def sample_next_action(self, s):
-        nads = self.next_action_distribution(s)
+        nads = self.forward(s)
         actions = []
         for i in range(nads.shape[0]):
             action_idx = torch.multinomial(nads[i], num_samples=1)
@@ -181,26 +151,18 @@ class MLP(torch.nn.Module):
             self.to('cpu')
         o = np.float32(observation.reshape(1, -1))
         self.obs_var.data = torch.from_numpy(o)
-        mean = self.forward(self.obs_var).to('cpu').data.numpy().ravel()
-        noise = np.exp(self.log_std_val) * np.random.randn(self.action_dim)
-        action = mean + noise
-        return [action, {'mean': mean, 'log_std': self.log_std_val, 'evaluation': mean}]
+        action = self.sample_next_action(self.obs_var).to('cpu').data.numpy().ravel()
+        return [action, {'mean': action, 'log_std': 0.0, 'evaluation': action}]
 
     def mean_LL(self, observations, actions, log_std=None, *args, **kwargs):
         if type(observations) == np.ndarray: observations = torch.from_numpy(observations).float()
         if type(actions) == np.ndarray: actions = torch.from_numpy(actions).float()
         observations, actions = observations.to(self.device), actions.to(self.device)
         log_std = self.log_std if log_std is None else log_std
-        mean = self.forward(observations)
-        zs = (actions - mean) / torch.exp(self.log_std)
-        LL = - 0.5 * torch.sum(zs ** 2, dim=1) + \
-             - torch.sum(log_std) + \
-             - 0.5 * self.action_dim * np.log(2 * np.pi)
-        return mean, LL
-
-    def log_likelihood(self, observations, actions, *args, **kwargs):
-        mean, LL = self.mean_LL(observations, actions)
-        return LL.to('cpu').data.numpy()
+        action_probs = self.forward(observations)
+        action_oh = F.gumbel_softmax(torch.log(actions + 1e-10), hard=True) # NOTE: need to use this instead of sampling to stay differentiable
+        LL = -F.nll_loss(torch.log(action_probs + 1e-10), action_oh.argmax(dim=-1), reduction='none') 
+        return action_probs, LL + 1e-9*self.log_std.sum() + 1e-9*log_std.sum() # NOTE: adding log_std's is hacky workaround to avoid dealing with unused parameters
 
     def mean_kl(self, observations, *args, **kwargs):
         new_log_std = self.log_std
@@ -214,4 +176,9 @@ class MLP(torch.nn.Module):
         Nr = (old_mean - new_mean) ** 2 + old_std ** 2 - new_std ** 2
         Dr = 2 * new_std ** 2 + 1e-8
         sample_kl = torch.sum(Nr / Dr + new_log_std - old_log_std, dim=1)
-        return torch.mean(sample_kl)
+        legacy_value = torch.mean(sample_kl)
+        
+        new_mean = new_mean.mean(dim=0, keepdim=True) + 1e-10
+        old_mean = old_mean.mean(dim=0, keepdim=True) + 1e-10
+
+        return F.kl_div(new_mean.log(), old_mean) + 1e-9*legacy_value

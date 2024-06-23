@@ -19,7 +19,7 @@ import mjrl.samplers.core as sampler
 import mjrl.utils.tensor_utils as tensor_utils
 from tqdm import tqdm
 from tabulate import tabulate
-from mjrl.policies.gaussian_mlp import MLP
+from mjrl.policies.mlp import MLP
 from mjrl.baselines.mlp_baseline import MLPBaseline
 from mjrl.baselines.quadratic_baseline import QuadraticBaseline
 from mjrl.utils.gym_env import GymEnv
