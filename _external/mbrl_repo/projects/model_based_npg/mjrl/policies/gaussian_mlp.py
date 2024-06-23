@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+import torch.nn.functional as F
 from mjrl.utils.tensor_utils import tensorize
 from torch.autograd import Variable
 
@@ -80,6 +81,13 @@ class MLP(torch.nn.Module):
     # Network forward
     # ============================================
     def forward(self, observations):
+        # import traceback
+        # print("traceback")
+        # for line in traceback.format_stack():
+        #     print(line.strip())
+        #     continue
+        # print("end traceback")
+        # raise Exception
         if type(observations) == np.ndarray: observations = torch.from_numpy(observations).float()
         assert type(observations) == torch.Tensor
         observations = observations.to(self.device)
@@ -89,6 +97,39 @@ class MLP(torch.nn.Module):
             out = self.nonlinearity(out)
         out = self.fc_layers[-1](out) * self.out_scale + self.out_shift
         return out
+    
+        # if type(observations) == np.ndarray: observations = torch.from_numpy(observations).float()
+        # assert type(observations) == torch.Tensor
+        # observations = observations.to(self.device)
+        # out = (observations - self.in_shift) / (self.in_scale + 1e-6)
+        # for i in range(len(self.fc_layers)-1):
+        #     out = self.fc_layers[i](out)
+        #     out = self.nonlinearity(out)
+        # out = self.fc_layers[-1](out) * self.out_scale + self.out_shift
+
+        # next_action_distributions = F.softmax(out, dim=-1)
+        
+        # actions = []
+        # for i in range(next_action_distributions.shape[0]):
+        #     action_idx = torch.multinomial(next_action_distributions[i], num_samples=1)
+        #     action = F.one_hot(action_idx, num_classes=self.action_dim)
+        #     actions.append(action)
+        # res = torch.concat(actions, dim=0)
+
+        # return res
+    
+    def next_action_distribution(self, s):
+        return F.softmax(self.forward(s), dim=-1)
+    
+    def sample_next_action(self, s):
+        nads = self.next_action_distribution(s)
+        actions = []
+        for i in range(nads.shape[0]):
+            action_idx = torch.multinomial(nads[i], num_samples=1)
+            action = F.one_hot(action_idx, num_classes=self.action_dim)
+            actions.append(action)
+        res = torch.concat(actions, dim=0)
+        return res 
 
 
     # Utility functions

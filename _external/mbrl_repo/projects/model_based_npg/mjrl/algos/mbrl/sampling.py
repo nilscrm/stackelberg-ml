@@ -6,6 +6,7 @@ logging.disable(logging.CRITICAL)
 import multiprocessing as mp
 import time as timer
 import torch
+import torch.nn.functional as F
 logging.disable(logging.CRITICAL)
 
 
@@ -71,9 +72,12 @@ def policy_rollout(
     for t in range(horizon):
         # TODO(Aravind): Below assumes gaussian policy. Instead expand the get_action function
         # in the policy class to make this more generally applicable.
-        at = policy.forward(st)
-        if eval_mode is not True:
-            at = at + torch.randn(at.shape).to(policy.device) * torch.exp(policy.log_std)
+        at = policy.sample_next_action(st)
+
+        # TODO(yanick): do we need this? doesnt make sense on one-hot encoded states
+        # if eval_mode is not True:
+        #     at = at + torch.randn(at.shape).to(policy.device) * torch.exp(policy.log_std)
+
         # clamp states and actions to avoid blowup
         at = enforce_tensor_bounds(at, a_min, a_max, large_value)
         stp1 = learned_model.forward(st, at)

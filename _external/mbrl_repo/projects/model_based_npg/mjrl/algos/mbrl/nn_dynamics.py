@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from tqdm import tqdm
 
 
@@ -51,7 +52,29 @@ class WorldModel:
             a = torch.from_numpy(a).float()
         s = s.to(self.device)
         a = a.to(self.device)
-        return self.dynamics_net.forward(s, a)
+        out = self.dynamics_net.forward(s, a)
+
+        next_state_distributions = F.softmax(out, dim=-1)
+        states = []
+        for i in range(next_state_distributions.shape[0]):
+            state_idx = torch.multinomial(next_state_distributions[i], num_samples=1)
+            state = F.one_hot(state_idx, num_classes=self.state_dim)
+            states.append(state)
+        res = torch.concat(states, dim=0)
+        return res 
+    
+    def next_state_distribution(self, s, a):
+        return F.softmax(self.forward(s,a), dim=-1)
+    
+    def sample_next_state(self, s, a):
+        nsds = self.next_state_distribution(s,a)
+        states = []
+        for i in range(nsds.shape[0]):
+            state_idx = torch.multinomial(nsds[i], num_samples=1)
+            state = F.one_hot(state_idx, num_classes=self.state_dim)
+            states.append(state)
+        res = torch.concat(states, dim=0)
+        return res 
 
     def predict(self, s, a):
         s = torch.from_numpy(s).float()
