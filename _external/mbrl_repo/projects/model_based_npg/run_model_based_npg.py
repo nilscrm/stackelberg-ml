@@ -193,8 +193,9 @@ for outer_iter in range(job_data['num_iter']):
     # =================================
     agent.learned_model = models
     for inner_step in range(job_data['inner_steps']):
+        is_log_epoch = (inner_step % 10 == 0)
         if job_data['start_state'] == 'init':
-            print('sampling from initial state distribution')
+            # if is_log_epoch: print('sampling from initial state distribution')
             buffer_rand_idx = np.random.choice(len(init_states_buffer), size=job_data['update_paths'], replace=True).tolist()
             init_states = [init_states_buffer[idx] for idx in buffer_rand_idx]
         else:
@@ -214,7 +215,8 @@ for outer_iter in range(job_data['num_iter']):
         agent.train_step(N=len(init_states), init_states=init_states, horizon=job_data['horizon'])
         print_data = sorted(filter(lambda v: np.asarray(v[1]).size == 1,
                                    agent.logger.get_current_log().items()))
-        if inner_step % 5 == 0:
+        if is_log_epoch:
+            agent.policy.render()
             print(tabulate(print_data))
 
     t3 = timer.time()

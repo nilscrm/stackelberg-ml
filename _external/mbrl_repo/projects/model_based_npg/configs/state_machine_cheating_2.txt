@@ -34,7 +34,7 @@
 # NPG params
 
 'policy_size'   :   (16, 16),
-'inner_steps'   :   5,  # large for MAL
+'inner_steps'   :   25,  # large for MAL
 'step_size'     :   0.01,
 'update_paths'  :   250,
 'start_state'	:   'init',

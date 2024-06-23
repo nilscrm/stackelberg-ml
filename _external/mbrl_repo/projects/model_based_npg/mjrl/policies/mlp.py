@@ -140,3 +140,10 @@ class MLP(torch.nn.Module):
         old_mean = old_mean.mean(dim=0, keepdim=True) + 1e-10
 
         return F.kl_div(new_mean.log(), old_mean)
+    
+    def render(self):
+        print("Action Probabilities in State")
+        for state_idx in range(self.observation_dim):
+            obs = np.zeros([self.observation_dim])
+            obs[state_idx] = 1
+            print(f"\t{state_idx}: {self.forward(obs)}")
