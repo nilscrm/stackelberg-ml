@@ -67,7 +67,6 @@ class PPO(BatchREINFORCE):
         pg_surr = self.pg_surrogate(observations, actions, advantages)
         surr_before = pg_surr.to('cpu').data.numpy().ravel()[0]
         old_mean = self.policy.forward(observations).detach().clone()
-        old_log_std = self.policy.log_std.detach().clone()
         old_LL = self.policy.mean_LL(observations, actions)[1].detach().clone()
         params_before_opt = self.policy.get_param_values()
 
@@ -89,7 +88,7 @@ class PPO(BatchREINFORCE):
         self.policy.set_param_values(params_after_opt.clone())
         pg_surr = self.pg_surrogate(observations, actions, advantages)
         surr_after = pg_surr.to('cpu').data.numpy().ravel()[0]
-        kl_divergence = self.kl_old_new(observations, old_mean, old_log_std)
+        kl_divergence = self.kl_old_new(observations, old_mean)
         t_opt = timer.time() - ts
 
         # Log information

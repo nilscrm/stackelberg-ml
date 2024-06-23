@@ -74,10 +74,6 @@ def policy_rollout(
         # in the policy class to make this more generally applicable.
         at = policy.sample_next_action(st)
 
-        # TODO(yanick): do we need this? doesnt make sense on one-hot encoded states
-        # if eval_mode is not True:
-        #     at = at + torch.randn(at.shape).to(policy.device) * torch.exp(policy.log_std)
-
         # clamp states and actions to avoid blowup
         at = enforce_tensor_bounds(at, a_min, a_max, large_value)
         stp1 = learned_model.forward(st, at)

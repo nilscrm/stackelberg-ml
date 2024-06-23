@@ -97,7 +97,6 @@ class NPG(BatchREINFORCE):
         pg_surr = self.pg_surrogate(observations, actions, advantages)
         surr_before = pg_surr.to('cpu').data.numpy().ravel()[0]
         old_mean = self.policy.forward(observations).detach().clone()
-        old_log_std = self.policy.log_std.detach().clone()
 
         # VPG
         ts = timer.time()
@@ -131,7 +130,7 @@ class NPG(BatchREINFORCE):
         self.policy.set_param_values(new_params.clone())
         pg_surr = self.pg_surrogate(observations, actions, advantages)
         surr_after = pg_surr.to('cpu').data.numpy().ravel()[0]
-        kl_divergence = self.kl_old_new(observations, old_mean, old_log_std)
+        kl_divergence = self.kl_old_new(observations, old_mean, None)
 
         # Log information
         if self.save_logs:

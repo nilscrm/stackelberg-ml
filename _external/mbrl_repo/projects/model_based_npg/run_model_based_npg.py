@@ -214,7 +214,8 @@ for outer_iter in range(job_data['num_iter']):
         agent.train_step(N=len(init_states), init_states=init_states, horizon=job_data['horizon'])
         print_data = sorted(filter(lambda v: np.asarray(v[1]).size == 1,
                                    agent.logger.get_current_log().items()))
-        print(tabulate(print_data))
+        if inner_step % 5 == 0:
+            print(tabulate(print_data))
 
     t3 = timer.time()
     logger.log_kv('policy_update_time', t3-t2)
@@ -246,13 +247,10 @@ for outer_iter in range(job_data['num_iter']):
         # convert to CPU before pickling
         agent.to('cpu')
         # make observation mask part of policy for easy deployment in environment
-        old_in_scale = policy.in_scale
-        for pi in [policy, best_policy]: pi.set_transformations(in_scale = 1.0 / env.obs_mask)
         pickle.dump(agent, open(OUT_DIR + '/iterations/agent_' + str(outer_iter) + '.pickle', 'wb'))
         pickle.dump(policy, open(OUT_DIR + '/iterations/policy_' + str(outer_iter) + '.pickle', 'wb'))
         pickle.dump(best_policy, open(OUT_DIR + '/iterations/best_policy.pickle', 'wb'))
         agent.to(job_data['device'])
-        for pi in [policy, best_policy]: pi.set_transformations(in_scale = old_in_scale)
 
     tf = timer.time()
     logger.log_kv('eval_log_time', tf-t3)
@@ -266,5 +264,4 @@ for outer_iter in range(job_data['num_iter']):
 
 # final save
 pickle.dump(agent, open(OUT_DIR + '/iterations/agent_final.pickle', 'wb'))
-policy.set_transformations(in_scale = 1.0 / env.obs_mask)
 pickle.dump(policy, open(OUT_DIR + '/iterations/policy_final.pickle', 'wb'))

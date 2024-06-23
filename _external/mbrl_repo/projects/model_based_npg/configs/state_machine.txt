@@ -18,7 +18,7 @@
 'activation'    :   'relu',
 'fit_lr'        :   1e-3,
 'fit_wd'        :   0.0,
-'buffer_size'   :   20000,
+'buffer_size'   :   20000, # large for MAL
 'fit_mb_size'   :   64,
 'fit_epochs'    :   20,
 'refresh_fit'   :   False,
@@ -34,7 +34,7 @@
 # NPG params
 
 'policy_size'   :   (64, 64),
-'inner_steps'   :   5,
+'inner_steps'   :   5,  # large for MAL
 'step_size'     :   0.05,
 'update_paths'  :   250,
 'start_state'	:   'init',
