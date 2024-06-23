@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Callable
 from pydantic import BaseModel, FilePath, DirectoryPath, ConfigDict
 
 
@@ -20,6 +21,7 @@ class LoadPolicy(BaseModel):
 
 class LeaderEnvConfig(BaseModel):
     env_reward_weight: float = 0.0
+    env_noise_weight: Callable[[int],float] = lambda x: 0.0 # given the current step, output the probability of a random trajectory
 
 class WorldModelConfig(BaseModel):
     total_training_steps: int = 1_000_000

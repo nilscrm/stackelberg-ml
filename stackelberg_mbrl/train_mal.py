@@ -5,6 +5,7 @@ from stable_baselines3.common.evaluation import evaluate_policy
 import torch
 import gymnasium
 import csv
+import pathlib
 from stable_baselines3.common.callbacks import BaseCallback
 
 import stackelberg_mbrl.envs.simple_mdp
@@ -103,16 +104,15 @@ def train_contextualized_MAL(config: ExperimentConfig):
                 policy_ppo.save(config.output_dir / config.experiment_name / "checkpoints" / policy_config.model_save_name)
 
     env_true_count = CountedEnvWrapper(env_true)
-    leader_env = LeaderEnv(env_true_count, policy_ppo.policy, queries, config.leader_env_config.env_reward_weight)
+    leader_env = LeaderEnv(env_true_count, policy_ppo.policy, queries, config.leader_env_config.env_reward_weight, config.leader_env_config.env_noise_weight)
+    leader_env_eval = LeaderEnv(env_true, policy_ppo.policy, queries)
     
     class CountedPPOCallback(BaseCallback):
         def __init__(self, model):
             super().__init__(verbose=0)
             self.model = model
-            
             self.next_eval = 0
             self.evals = []
-
         def _on_training_start(self) -> None: pass
         def _on_rollout_start(self) -> None: pass
         def _on_training_end(self) -> None: pass
@@ -138,7 +138,8 @@ def train_contextualized_MAL(config: ExperimentConfig):
                     self.evals.append((self.samples, r_mean))
                     self.next_eval += config.sample_efficiency.sample_eval_rate
         def save(self, filename):
-            print(f"saving {len(self.evals)} records into {filename}.")
+            filename = pathlib.Path(filename)
+            if not filename.parent.exists(): filename.parent.mkdir()
             with open(filename, 'w', newline='') as file:
                 sw = csv.writer(file)
                 sw.writerows(self.evals)
@@ -178,7 +179,7 @@ def train_contextualized_MAL(config: ExperimentConfig):
                 model_ppo.save(config.output_dir / config.experiment_name / "checkpoints" / model_config.model_save_name)
 
     # Evaluation of model
-    print(f"Model reward: {evaluate_policy(model_ppo.policy, leader_env)}")
+    print(f"Model reward: {evaluate_policy(model_ppo.policy, leader_env_eval)}")
 
     learned_world_model = LearnableWorldModel(
             model_ppo.policy,

@@ -5,10 +5,11 @@ from stackelberg_mbrl.nn.model.world_models import ContextualizedWorldModel
 from stackelberg_mbrl.policies.policy import APolicy
 import torch
 from torch.functional import F
-from typing import Any
+from typing import Any, Callable
 from stable_baselines3.common.policies import BasePolicy
 
 from stackelberg_mbrl.envs.env_util import WorldModel
+from stackelberg_mbrl.policies.random_policy import RandomPolicy
 from stackelberg_mbrl.utils import one_hot
 
 # We only handle discrete envs for now
@@ -166,16 +167,31 @@ class LeaderEnv(gymnasium.Env):
     env_reward_weight: How much weight will be given to the reward signal from the true environment vs the error the model makes on the predictions.
         (e.g. 0 corresponds to just standard l2 divergence of the predicted distribution and the actual next state according to the true env,
               1 corresponds to just the reward that the policy achieves in the true env)
+    noise_temperature: What is the chance that a random trajectory is picked over an oracle-based
+        trajectory given the step count (i.e. how many times we called step. i.e. num of samples)
     """
 
-    def __init__(self, true_env: gymnasium.Env[int, int], policy: BasePolicy, queries: list[tuple[int, int]], env_reward_weight: float = 0.0):
+    def __init__(self, 
+                 true_env: gymnasium.Env[int, int], 
+                 policy: BasePolicy, 
+                 queries: list[tuple[int, int]], 
+                 env_reward_weight: float = 0.0,
+                 noise_temperature: Callable[[int],float] = lambda x: 0.0):
+        
         self.true_env = true_env
-        self.policy = policy
-        self.queries = queries
-        self.env_reward_weight = env_reward_weight
-
         self.true_env_num_states = true_env.observation_space.n
         self.true_env_num_actions = true_env.action_space.n
+        
+        # MAL + Reward
+        self.env_reward_weight = env_reward_weight
+        
+        # MAL + Noise
+        self.temperature_f = noise_temperature
+        self.sample_random = False
+        
+        self.tru_policy = policy
+        self.queries = queries
+        self.rnd_policy = RandomPolicy(self.true_env_num_states, self.true_env_num_actions, 0)
 
         # An observation is a state\action pair
         self.observation_space = spaces.MultiDiscrete([self.true_env_num_states, self.true_env_num_actions])
@@ -192,7 +208,22 @@ class LeaderEnv(gymnasium.Env):
         else:
             raise NotImplemented("LeaderEnv can't handle the case of no queries yet.")
 
+        # Determine next policy
+        # Decide between a random policy and the best response oracle
+        self.sample_random = self.temperature_f(self.step_count) > np.random.rand()
+        if self.sample_random:
+            self.rnd_policy.randomize()
+
         return obs, {}
+    
+    def sample_policy_action(self, obs: np.ndarray):
+        if self.sample_random:
+            return self.rnd_policy.sample_next_action(obs)
+        else:
+            policy_action, _ = self.tru_policy.predict(
+                    np.concatenate((self.query_answers, one_hot(obs, self.true_env_num_states)))
+                )
+            return policy_action
 
     def step(self, action: np.ndarray):
         # An action is a prediction over the next state
@@ -212,9 +243,7 @@ class LeaderEnv(gymnasium.Env):
             self.query_answers = np.concatenate(self.query_answers)
 
             true_env_obs, _ = self.true_env.reset()
-            self.policy_action, _ = self.policy.predict(
-                np.concatenate((self.query_answers, one_hot(true_env_obs, self.true_env_num_states)))
-            )
+            self.policy_action = self.sample_policy_action(true_env_obs)
 
             self.step_count += 1
             return (true_env_obs, self.policy_action), 0, False, False, {}
@@ -227,9 +256,7 @@ class LeaderEnv(gymnasium.Env):
             self.total_loss += np.sum(np.square(next_state_prediction))
 
             # Determine next policy action
-            self.policy_action, _ = self.policy.predict(
-                np.concatenate((self.query_answers, one_hot(true_env_obs, self.true_env_num_states)))
-            )
+            self.policy_action = self.sample_policy_action(true_env_obs)
 
             reward = self.env_reward_weight * env_reward
             if terminated or truncated:
@@ -240,6 +267,7 @@ class LeaderEnv(gymnasium.Env):
             self.step_count += 1
 
             return (true_env_obs, self.policy_action), reward, terminated, truncated, info
+
 
 
 class PALLeaderEnv(gymnasium.Env[int,int]):
