@@ -12,8 +12,7 @@ import stackelberg_mbrl.envs.simple_mdp
 from stackelberg_mbrl.envs.querying_env import CountedEnvWrapper, LeaderEnv, ModelQueryingEnv, ConstantContextEnv
 from stackelberg_mbrl.envs.env_util import transition_probabilities_from_world_model, draw_mdp, RandomMDP, LearnableWorldModel
 from stackelberg_mbrl.experiments.experiment_config import ExperimentConfig, LoadPolicy, PolicyConfig, LoadWorldModel, WorldModelConfig
-# from stackelberg_mbrl.experiments.poster.config import poster_config
-from stackelberg_mbrl.experiments.poster_mal_agent_reward.config import poster_config
+from stackelberg_mbrl.experiments.poster.config import poster_config
 
 def train_contextualized_MAL(config: ExperimentConfig):
     """
