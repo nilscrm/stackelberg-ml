@@ -148,13 +148,17 @@ def train_contextualized_MAL(config: ExperimentConfig):
             model_ppo = PPO.load(config.world_model_config.path, leader_env)
         case WorldModelConfig():
             model_config: WorldModelConfig = config.world_model_config
+            kwargs = {}
+            if config.leader_env_config.learning_rate is not None:
+                kwargs["learning_rate"] = config.leader_env_config.learning_rate
             model_ppo = PPO(
                 "MlpPolicy",
                 leader_env,
                 tensorboard_log=config.output_dir / config.experiment_name / "tb",
                 gamma=1.0,
-                n_steps=config.sample_efficiency.sample_eval_rate if config.sample_efficiency else 2048
+                n_steps=config.sample_efficiency.sample_eval_rate if config.sample_efficiency else 2048,
                 # use_sde=True,
+                **kwargs
             )
 
             draw_mdp(

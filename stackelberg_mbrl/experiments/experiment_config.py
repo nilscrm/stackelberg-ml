@@ -20,6 +20,7 @@ class LoadPolicy(BaseModel):
     path: FilePath
 
 class LeaderEnvConfig(BaseModel):
+    learning_rate: float | None = None
     env_reward_weight: float = 0.0
     env_noise_weight: Callable[[int],float] = lambda x: 0.0 # given the current step, output the probability of a random trajectory
 
