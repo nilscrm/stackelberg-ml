@@ -21,7 +21,7 @@ poster_config = ExperimentConfig(
         eps = 1e-8,
         noise = 0.3,
         batch_size = 1,
-        max_training_samples = 50,
+        max_training_samples = 30,
         init_sample_trajectories = 0,
     ),
     seed=14

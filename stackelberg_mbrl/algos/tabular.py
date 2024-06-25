@@ -13,6 +13,18 @@ from stable_baselines3.common.policies import ActorCriticPolicy
 from stackelberg_mbrl.util.trajectories import sample_trajectories
 
 
+def take(samples: List[torch.Tensor], max_samples: int, vec_size: int):
+    out = []
+    count = 0
+    for sample in samples:
+        mask = sample[vec_size:]
+        add_count = torch.sum(mask)
+        if add_count + count > max_samples: break
+        out.append(sample)
+        count += add_count
+    return out
+
+
 def Tabular(env_true: gymnasium.Env, oracle: ActorCriticPolicy, config: TableWorldModelConfig):
     ns = env_true.num_states
     na = env_true.num_actions
@@ -36,7 +48,7 @@ def Tabular(env_true: gymnasium.Env, oracle: ActorCriticPolicy, config: TableWor
         
         old_model = model
         
-        sx = torch.stack(samples)
+        sx = torch.stack(take(samples, config.max_training_samples, vec_size))
         model = torch.sum(sx[:, :vec_size].reshape(-1, ns*na, ns) * sx[:, vec_size:, None], dim=0) / (sx[:, vec_size:].sum(dim=0)[:, None] + 0.0001)
         model = model.reshape(-1)
         if torch.norm(model - old_model) < config.eps: break
