@@ -86,6 +86,7 @@ class ConstantContextEnv(gymnasium.Env):
         self.context = context
 
         self.num_states = env.observation_space.n
+        self.num_actions = env.action_space.n
 
         # One observation is the context which is all answers to the queries plus one one-hot-encoded current state
         self.observation_space = spaces.Box(low=0.0, high=1.0, shape=(len(context) + self.num_states,))
