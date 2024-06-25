@@ -156,7 +156,7 @@ class TrajectoryList:
 ########################
 
 def sample_trajectories(env: gymnasium.Env, policy: APolicy | ActorCriticPolicy, num_trajectories: int, max_steps: int | None = None, context: np.ndarray | None = None, w_one_hot: bool = True) -> TrajectoryList:
-    return TrajectoryList([sample_trajectory(env, policy, context, max_steps, w_one_hot=w_one_hot) for i in range(num_trajectories)])
+    return TrajectoryList([sample_trajectory(env=env, policy=policy, context=context, max_steps=max_steps, w_one_hot=w_one_hot) for i in range(num_trajectories)])
 
 def sample_trajectory(env: gymnasium.Env, policy: APolicy | ActorCriticPolicy, max_steps: int | None = None, context: np.ndarray | None = None, w_one_hot: bool = True):
     """ Sample a trajectory in an environment using a policy """
@@ -171,6 +171,13 @@ def sample_trajectory(env: gymnasium.Env, policy: APolicy | ActorCriticPolicy, m
     # next_states = []
     rewards = []
 
+    if hasattr(policy, 'num_actions'):
+        num_actions = policy.num_actions
+    elif hasattr(env, 'num_actions'):
+        num_actions = env.num_actions
+    else:
+        raise ValueError("cannot find num_actions anywhere")
+
     with torch.no_grad():
         while (not terminated) and (not truncated) and (max_steps is None or steps <= max_steps):
             match policy:
@@ -184,7 +191,7 @@ def sample_trajectory(env: gymnasium.Env, policy: APolicy | ActorCriticPolicy, m
             next_state, reward, terminated, truncated, info = env.step(action_idx)
 
             if w_one_hot:
-                actions.append(one_hot(action_idx, policy.num_actions))
+                actions.append(one_hot(action_idx, num_actions))
             else:
                 actions.append(action_idx)
             states.append(next_state)
@@ -197,7 +204,7 @@ def sample_trajectory(env: gymnasium.Env, policy: APolicy | ActorCriticPolicy, m
         actions = np.stack(actions, axis=0)
         rewards = np.array(rewards)
 
-    return Trajectory(states, actions, rewards, terminated, policy.num_actions, env.num_states)
+    return Trajectory(states, actions, rewards, terminated, num_actions, env.num_states)
 
 
 ########################
