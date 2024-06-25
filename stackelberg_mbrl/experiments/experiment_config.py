@@ -25,6 +25,13 @@ class WorldModelConfig(BaseModel):
     total_training_steps: int = 1_000_000
     model_save_name: str | None = None
 
+class TableWorldModelConfig(BaseModel):
+    eps: float = 1e-8 # model distance before we consider that we converged
+    noise: float = 0.3 # how many random trajectories
+    batch_size: int = 10 # how many trajectories per vector update
+    max_training_samples: int = 100 # max samples -> calls to step of the env
+    init_sample_trajectories: int = 5 # how many random trajectories to init with
+
 class LoadWorldModel(BaseModel):
     path: FilePath
 
@@ -37,7 +44,7 @@ class ExperimentConfig(BaseModel):
     env_config: EnvConfig
     policy_config: PolicyConfig | LoadPolicy
     leader_env_config: LeaderEnvConfig
-    world_model_config: WorldModelConfig | LoadWorldModel
+    world_model_config: WorldModelConfig | LoadWorldModel | TableWorldModelConfig
 
     output_dir: DirectoryPath = Path("stackelberg_mbrl/experiments/")
     seed: int = 12
