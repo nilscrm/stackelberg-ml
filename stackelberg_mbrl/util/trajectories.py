@@ -1,23 +1,40 @@
-from typing import List
+from typing import List, Callable, Any
 import gymnasium
 import numpy as np
 import torch
+import torch.nn.functional as F
 from stackelberg_mbrl.nn.baseline.baselines import ABaseline
 from stackelberg_mbrl.policies.policy import APolicy
 from stackelberg_mbrl.util.tensor_util import one_hot, one_hot_to_idx
+from stable_baselines3.common.policies import ActorCriticPolicy
 
 
 class Trajectory:
     # TODO: should we also store the context we used?
-    def __init__(self, states: np.ndarray, actions: np.ndarray, next_states: np.ndarray, rewards: np.ndarray, terminated: bool):
-        self.length = states.shape[0]
-        self.states = states
+    def __init__(self, states: np.ndarray, actions: np.ndarray, rewards: np.ndarray, terminated: bool, num_actions: int, num_states: int):
+        self.length = states.shape[0] - 1
+        self._states = states
         self.actions = actions
-        self.next_states = next_states
         self.rewards = rewards
-        self.terminated = terminated
+        assert self.length == self.actions.shape[0]
+        assert self.length == self.rewards.shape[0]
 
+        self.terminated = terminated
+        self.num_actions = num_actions
+        self.num_states = num_states
         self.total_reward = np.sum(self.rewards)
+
+    @property
+    def states(self):
+        return self._states[:-1]
+    
+    @property
+    def next_states(self):
+        return self._states[1:]
+    
+    @property
+    def query_shape(self):
+        return (self.num_states, self.num_actions, self.num_states)
 
     def compute_discounted_rewards(self, gamma = 1.0, terminal = 0.0):
         return compute_discounted_rewards(self.rewards, gamma, terminal)
@@ -47,7 +64,20 @@ class Trajectory:
         for (s,a,s_next,r) in zip(state_idx, action_idx, next_state_idx, self.rewards):
             as_str += f"-{action_names[a]}-({r})->{state_names[s_next]}"
         return as_str
+    
+    def to_query_tensor(self):
+        next_states_OH = torch.tensor(self.next_states).long()
+        next_states_OH = F.one_hot(next_states_OH, num_classes=self.num_states).float()
 
+        query_tensor = torch.zeros(self.num_states, self.num_actions, self.num_states)
+        mask = torch.zeros(self.num_states, self.num_actions)
+
+        for s, a, oh in zip(self.states, self.actions, next_states_OH):
+            query_tensor[s, a] += oh
+            mask[s, a] += 1
+
+        # TODO also try softmax
+        return query_tensor, mask
 
 class TrajectoryList:
     def __init__(self, trajectories: List[Trajectory]):
@@ -74,6 +104,10 @@ class TrajectoryList:
         return [trajectory.total_reward for trajectory in self.trajectories]
     
     @property
+    def total_length(self):
+        return np.sum([t.length for t in self.trajectories])
+    
+    @property
     def next_states(self):
         return [trajectory.next_states for trajectory in self.trajectories]
     
@@ -81,6 +115,16 @@ class TrajectoryList:
     def num_trajectories(self):
         return len(self.trajectories)
     
+    @property
+    def query_shape(self):
+        return self.trajectories[0].query_shape
+    
+    def to_query_tensor(self):
+        big = [trajectory.to_query_tensor() for trajectory in self.trajectories]
+        query_tensors = [x[0] for x in big]
+        masks = [x[1] for x in big]
+        return torch.sum(torch.stack(query_tensors), dim=0), torch.sum(torch.stack(masks), dim=0)
+        
     @property
     def num_samples(self):
         return np.sum([trajectory.length for trajectory in self.trajectories])
@@ -111,10 +155,10 @@ class TrajectoryList:
 ###     Sampling     ###
 ########################
 
-def sample_trajectories(env: gymnasium.Env, policy: APolicy, num_trajectories: int, max_steps: int | None = None) -> TrajectoryList:
-    return TrajectoryList([sample_trajectory(env, policy, max_steps) for i in range(num_trajectories)])
+def sample_trajectories(env: gymnasium.Env, policy: APolicy | ActorCriticPolicy, num_trajectories: int, max_steps: int | None = None, context: np.ndarray | None = None, w_one_hot: bool = True) -> TrajectoryList:
+    return TrajectoryList([sample_trajectory(env, policy, context, max_steps, w_one_hot=w_one_hot) for i in range(num_trajectories)])
 
-def sample_trajectory(env: gymnasium.Env, policy: APolicy, max_steps: int | None = None):
+def sample_trajectory(env: gymnasium.Env, policy: APolicy | ActorCriticPolicy, max_steps: int | None = None, context: np.ndarray | None = None, w_one_hot: bool = True):
     """ Sample a trajectory in an environment using a policy """
 
     state, _ = env.reset()
@@ -122,20 +166,28 @@ def sample_trajectory(env: gymnasium.Env, policy: APolicy, max_steps: int | None
     truncated = False
     steps = 0
 
-    states = []
+    states = [state]
     actions = []
-    next_states = []
+    # next_states = []
     rewards = []
 
     with torch.no_grad():
         while (not terminated) and (not truncated) and (max_steps is None or steps <= max_steps):
-            action_idx = policy.sample_next_action(state)
-            action = one_hot(action_idx, policy.num_actions)
+            match policy:
+                case APolicy():
+                    action_idx = policy.sample_next_action(state)
+                case ActorCriticPolicy():
+                    action, _ = policy.predict(np.concatenate((context, one_hot(state, env.num_states))))
+                    action_idx = np.argmax(action)
+                case _:
+                    raise ValueError("Policy must be a callable or a policy object")
             next_state, reward, terminated, truncated, info = env.step(action_idx)
 
-            states.append(state)
-            actions.append(action)
-            next_states.append(next_state)
+            if w_one_hot:
+                actions.append(one_hot(action_idx, policy.num_actions))
+            else:
+                actions.append(action_idx)
+            states.append(next_state)
             rewards.append(reward)
 
             state = next_state
@@ -143,11 +195,9 @@ def sample_trajectory(env: gymnasium.Env, policy: APolicy, max_steps: int | None
 
         states = np.stack(states, axis=0)
         actions = np.stack(actions, axis=0)
-        next_states = np.stack(next_states, axis=0)
         rewards = np.array(rewards)
 
-    return Trajectory(states, actions, next_states, rewards, terminated)
-
+    return Trajectory(states, actions, rewards, terminated, policy.num_actions, env.num_states)
 
 
 ########################
