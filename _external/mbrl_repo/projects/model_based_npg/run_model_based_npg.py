@@ -230,19 +230,21 @@ for outer_iter in range(job_data['num_iter']):
         agent.policy.to('cpu')
         eval_paths = evaluate_policy(agent.env, agent.policy, agent.learned_model[0], noise_level=0.0,
                                      real_step=True, num_episodes=job_data['eval_rollouts'], visualize=False)
-        eval_score = np.mean([np.sum(p['rewards']) for p in eval_paths])
-        logger.log_kv('eval_score', eval_score)
+        eval_score_mean = np.mean([np.sum(p['rewards']) for p in eval_paths])
+        eval_score_std = np.std([np.sum(p['rewards']) for p in eval_paths])
+        logger.log_kv('eval_score', eval_score_mean)
+        logger.log_kv('eval_score_detail', f"{eval_score_mean} ± {eval_score_std}")
         try:
             eval_metric = env.env.env.evaluate_success(eval_paths)
             logger.log_kv('eval_metric', eval_metric)
         except:
             pass
     else:
-        eval_score = -1e8
+        eval_score_mean = -1e8
         eval_paths = []
 
     # track best performing policy
-    policy_score = eval_score if job_data['eval_rollouts'] > 0 else rollout_score
+    policy_score = eval_score_mean if job_data['eval_rollouts'] > 0 else rollout_score
     if policy_score > best_perf:
         best_policy = copy.deepcopy(policy) # safe as policy network is clamped to CPU
         best_perf = policy_score
