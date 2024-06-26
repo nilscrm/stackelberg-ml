@@ -29,7 +29,7 @@ poster_config = ExperimentConfig(
     world_model_config=WorldModelConfig(
         total_training_steps=250_000,
         # total_training_steps=1_000,
-        model_save_name="simple_mdp_2",
+        save_name="simple_mdp_2",
     ),
     seed=14
 )

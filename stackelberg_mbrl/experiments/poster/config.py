@@ -17,7 +17,7 @@ poster_config = ExperimentConfig(
     ),
     world_model_config=WorldModelConfig(
         total_training_steps=250_000,
-        model_save_name="simple_mdp_2",
+        save_name="simple_mdp_2",
     ),
     sample_efficiency=None,
     seed=14,

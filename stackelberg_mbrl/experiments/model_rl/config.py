@@ -14,7 +14,8 @@ model_rl_config = ExperimentConfig(
     ),
     world_model_config=WorldModelConfig(
         total_training_steps=250_000,
-        model_save_name="ergodic_mdp_1",
+        save_name="ergodic_mdp_1",
     ),
+    sample_efficiency=None,
     seed=14
 )

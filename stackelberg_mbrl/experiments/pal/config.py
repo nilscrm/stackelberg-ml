@@ -9,12 +9,12 @@ pal_config = ExperimentConfig(
         max_episode_steps=50
     ),
     policy_config=PolicyConfig(
-        model_save_name="policy",
+        save_name="policy",
     ),
     leader_env_config=LeaderEnvConfig(
         env_reward_weight=1.0
     ),
     world_model_config=WorldModelConfig(
-        model_save_name="model",
+        save_name="model",
     ),
 )

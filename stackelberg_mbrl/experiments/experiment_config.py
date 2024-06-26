@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Dict, Any
 from pydantic import BaseModel, FilePath, DirectoryPath, ConfigDict
 
 
@@ -14,19 +14,19 @@ class PolicyConfig(BaseModel):
     )
     pretrain_iterations: int = 20
     samples_per_training_iteration: int = 10_000
-    model_save_name: str | None = None
+    save_name: str | None = None
 
 class LoadPolicy(BaseModel):
     path: FilePath
 
 class LeaderEnvConfig(BaseModel):
-    learning_rate: float | None = None
     env_reward_weight: float = 0.0
     env_noise_weight: Callable[[int],float] = lambda x: 0.0 # given the current step, output the probability of a random trajectory
 
 class WorldModelConfig(BaseModel):
     total_training_steps: int = 1_000_000
-    model_save_name: str | None = None
+    save_name: str | None = None
+    ppo_kwargs: Dict[str,Any] | None = None
 
 class LoadWorldModel(BaseModel):
     path: FilePath
@@ -35,7 +35,7 @@ class SampleEfficiency(BaseModel):
     sample_eval_rate: int = 30 # how many samples inbetween two evaluations?
     n_eval_episodes: int = 15
     max_samples: int = 200
-    log_save_name: str
+    log_save_name: str | None = None
 
 class ExperimentConfig(BaseModel):
     # Make config immutable

@@ -1,0 +1,14 @@
+- [ ] optuna the MAL thing for sample efficiency
+    - [ ] make new graphs for MAL 
+    - [ ] so sample-graph for the best parameters
+    - [ ] potentially if time permits, redo the ablation study on reward + noise params
+- [ ] sample efficiency of PAL
+    - [ ] optuna it again to get best hyperparameters
+    - [ ] sample-graph for best hyperparameters
+- [ ] merge with Tabular branch 
+    - [x] enforce MAX_SAMPLES limit in tabular
+    - [ ] graph sample efficiency of tabular
+    - [ ] maybe even optuna the noise or other params 
+- [ ] try to implement my algo which directly optimizes over the oracle vector
+    - [ ] optuna to get best hyperparams
+    - [ ] graph sample efficiency of this

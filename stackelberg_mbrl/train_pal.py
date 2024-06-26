@@ -1,4 +1,6 @@
+import csv
 from itertools import product
+import pathlib
 import numpy as np
 from stable_baselines3.ppo import PPO
 from stable_baselines3.common.evaluation import evaluate_policy
@@ -35,13 +37,19 @@ class RealEnvLogger(BaseCallback):
         return True
 
 
-def train_contextualized_PAL(config: ExperimentConfig):
+def train_contextualized_PAL(config: ExperimentConfig, draw: bool = False, verbose: bool = False, log: bool = False):
     """
     In contextualized PAL we condition and pretrain the model on random policies.
     This way we get an oracle that behaves like the best model conditioned on each policy.
     In doing so, we can then optimize for an optimal policy-model pair.
 
     """
+    if verbose:
+        mprint = print
+    else:
+        mprint = lambda x: x
+
+
     np.random.seed(config.seed)
     torch.random.manual_seed(config.seed)
 
@@ -50,13 +58,15 @@ def train_contextualized_PAL(config: ExperimentConfig):
     queries = list(range(real_env.num_states))
     context_size = len(queries)*real_env.num_actions
 
+    real_env_count = CountedEnvWrapper(real_env)
+
     # Pretrain the model conditioned on a policy
     random_policy = RandomPolicy(real_env.num_states, real_env.num_actions, context_size)
-    contextualized_real_env = CountedEnvWrapper(PolicyQueryingEnv(
-        env=real_env, 
+    contextualized_real_env_count = PolicyQueryingEnv(
+        env=real_env_count, 
         policy=random_policy, 
         queries=queries, 
-        before_reset=random_policy.randomize))
+        before_reset=random_policy.randomize)
     
     # TODO: remove sanity check
     # trajectories = sample_trajectories(contextualized_real_env, random_policy, 2, 10000)
@@ -80,11 +90,12 @@ def train_contextualized_PAL(config: ExperimentConfig):
     num_eval_policies = 4
     eval_policies = [RandomPolicy(real_env.num_states, real_env.num_actions, context_size) for _ in range(num_eval_policies)]
 
-    for i, eval_policy in enumerate(eval_policies):
-        context = np.concatenate([eval_policy.next_action_distribution(query) for query in queries])
-        contextualized_model.draw_mdp(context, config.output_dir / config.experiment_name / "mdps" / f"before_pretraining_random_policy_{i}.png")
+    if draw:
+        for i, eval_policy in enumerate(eval_policies):
+            context = np.concatenate([eval_policy.next_action_distribution(query) for query in queries])
+            contextualized_model.draw_mdp(context, config.output_dir / config.experiment_name / "mdps" / f"before_pretraining_random_policy_{i}.png")
 
-    print("Pretraining world model")
+    mprint("Pretraining world model")
     pretrain_iterations = 100 # TODO: from config
     for iter in range(pretrain_iterations):
         # TODO: can potentially re-use samples from real-env?
@@ -92,7 +103,7 @@ def train_contextualized_PAL(config: ExperimentConfig):
         
         # generate rollouts on the real environment (using the current policy)
         num_trajectories = 250 # TODO: from config
-        trajectories = sample_trajectories(contextualized_real_env, random_policy, num_trajectories)
+        trajectories = sample_trajectories(contextualized_real_env_count, random_policy, num_trajectories)
 
         observations = np.concatenate(trajectories.states)
         actions = np.concatenate(trajectories.actions)
@@ -108,11 +119,11 @@ def train_contextualized_PAL(config: ExperimentConfig):
             rewards_loss = contextualized_model.fit_reward(observations, actions, observations_next, rewards, fit_mb_size, fit_epochs)
 
         if iter % 25 == 0:
-            print(f"Pretraining iteration {iter}, taken steps {contextualized_real_env.samples}")
-            print(f"\tDynamics Loss: {dynamics_loss}")
+            mprint(f"Pretraining iteration {iter}, taken steps {real_env_count.samples}")
+            mprint(f"\tDynamics Loss: {dynamics_loss}")
 
             if learn_reward:
-                print(f"\tRewards Loss: {rewards_loss}")
+                mprint(f"\tRewards Loss: {rewards_loss}")
 
 
         # TODO: SGD on samples from model under random policies
@@ -142,15 +153,15 @@ def train_contextualized_PAL(config: ExperimentConfig):
         # - would require custom policy network [that appends any action with context. can stable baselines deal with oh-actions? - depends on env I guess]
         # + during training, env would receive (a_oh | context) as inputs
                 
-    
-    for i, eval_policy in enumerate(eval_policies):
-        context = np.concatenate([eval_policy.next_action_distribution(query) for query in queries])
-        contextualized_model.draw_mdp(context, config.output_dir / config.experiment_name / "mdps" / f"after_pretraining_random_policy_{i}.png")
+    if draw:
+        for i, eval_policy in enumerate(eval_policies):
+            context = np.concatenate([eval_policy.next_action_distribution(query) for query in queries])
+            contextualized_model.draw_mdp(context, config.output_dir / config.experiment_name / "mdps" / f"after_pretraining_random_policy_{i}.png")
 
         
 
     # Train the policy with the best-responding models
-    print("Training policy")
+    mprint("Training policy")
     # env where the first steps are the s from the queries (and 0 reward is given) 
     # before it uses the pretrained best responding model to simulate the world
     # TODO: actually, does this really give the leader the queries? bc it will only observe its sampled answers :/
@@ -175,29 +186,56 @@ def train_contextualized_PAL(config: ExperimentConfig):
         "MlpPolicy",
         contextualized_leader_env,
         policy_kwargs=policy_config.policy_kwargs,
-        tensorboard_log=config.output_dir / config.experiment_name / "tb",
+        tensorboard_log=config.output_dir / config.experiment_name / "tb" if log else None,
     )
 
     contextualized_leader_env.set_policy(policy_ppo.policy)
 
     contextualized_leader_env.update_context()
-    context = contextualized_leader_env.context
-    contextualized_model.draw_mdp(context, config.output_dir / config.experiment_name / "mdps" / "before_training_ppo_policy.png")
+    if draw:
+        context = contextualized_leader_env.context
+        contextualized_model.draw_mdp(context, config.output_dir / config.experiment_name / "mdps" / "before_training_ppo_policy.png")
 
     real_env_reward_logger = RealEnvLogger(real_env, policy_ppo.policy, logging_interval=500)
+    # if config.sample_efficiency is not None:
+    #     callback = CountedPPOCallback(model=policy_ppo)
+    # else: 
+    #     callback = None
+
     total_training_steps = 100_000 # TODO: from config
-    policy_ppo.learn(total_training_steps, tb_log_name="Policy", progress_bar=True, callback=real_env_reward_logger)
+    policy_ppo.learn(
+        total_training_steps, 
+        tb_log_name="Policy" if log else None, 
+        progress_bar=True, 
+        # callback=real_env_reward_logger
+        # callback=callback,
+        )
+    
+    if config.policy_config.save_name is not None:
+        policy_ppo.save(config.output_dir / config.experiment_name / "checkpoints" / config.policy_config.save_name)
+
 
     contextualized_leader_env.update_context()
-    context = contextualized_leader_env.context
-    contextualized_model.draw_mdp(context, config.output_dir / config.experiment_name / "mdps" / "after_training_ppo_policy.png")
+    if draw:
+        context = contextualized_leader_env.context
+        contextualized_model.draw_mdp(context, config.output_dir / config.experiment_name / "mdps" / "after_training_ppo_policy.png")
 
     policy_reward, policy_reward_std = evaluate_policy(policy_ppo.policy, contextualized_leader_env)
-    print(f"Avg Policy Reward on learned model:   {policy_reward:.3f} ± {policy_reward_std:.3f}")
+    mprint(f"Avg Policy Reward on learned model:   {policy_reward:.3f} ± {policy_reward_std:.3f}")
 
     policy_reward_real_env, policy_reward_std_real_env = evaluate_policy(policy_ppo.policy, real_env)
-    print(f"Avg Policy Reward on real environment:   {policy_reward_real_env:.3f} ± {policy_reward_std_real_env:.3f}")
+    mprint(f"Avg Policy Reward on real environment:   {policy_reward_real_env:.3f} ± {policy_reward_std_real_env:.3f}")
+
+    return {
+        'model': contextualized_model,
+        'policy': policy_ppo.policy,
+
+        'reward': policy_reward,
+        'reward_std': policy_reward_std,
+        # 'evals': callback.evals if callback is not None else None
+
+    }
 
 
 if __name__ == "__main__":
-    train_contextualized_PAL(poster_config)
+    train_contextualized_PAL(poster_config, draw=True, verbose=True, log=True)
