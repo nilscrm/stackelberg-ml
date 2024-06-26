@@ -143,7 +143,8 @@ class MLP(torch.nn.Module):
     
     def render(self):
         print("Action Probabilities in State")
-        for state_idx in range(self.observation_dim):
-            obs = np.zeros([self.observation_dim])
-            obs[state_idx] = 1
-            print(f"\t{state_idx}: {self.forward(obs)}")
+        with torch.no_grad():
+            for state_idx in range(self.observation_dim):
+                obs = np.zeros([self.observation_dim])
+                obs[state_idx] = 1
+                print(f"\ts_{state_idx}: {self.forward(obs).numpy()}")

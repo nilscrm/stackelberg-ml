@@ -217,6 +217,8 @@ for outer_iter in range(job_data['num_iter']):
                                    agent.logger.get_current_log().items()))
         if is_log_epoch:
             agent.policy.render()
+            #agent.render_avg_model()
+            agent.render_each_model()
             print(tabulate(print_data))
 
     t3 = timer.time()

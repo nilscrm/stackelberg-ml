@@ -45,16 +45,20 @@ class WorldModel:
     def is_cuda(self):
         return next(self.dynamics_net.parameters()).is_cuda
 
-    def forward(self, s, a):
+    def next_state_distribution(self, s, a):
         if type(s) == np.ndarray:
             s = torch.from_numpy(s).float()
         if type(a) == np.ndarray:
             a = torch.from_numpy(a).float()
+
         s = s.to(self.device)
         a = a.to(self.device)
         out = self.dynamics_net.forward(s, a)
 
-        next_state_distributions = F.softmax(out, dim=-1)
+        return F.softmax(out, dim=-1)
+
+    def forward(self, s, a):
+        next_state_distributions = self.next_state_distribution(s, a)
         states = []
         for i in range(next_state_distributions.shape[0]):
             state_idx = torch.multinomial(next_state_distributions[i], num_samples=1)
