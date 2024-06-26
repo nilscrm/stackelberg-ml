@@ -1,0 +1,323 @@
+[I 2024-06-26 15:13:09,116] A new study created in memory with name: no-name-9bfefa37-a806-4451-a4c3-9f2b4576ac41
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.num_states to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.num_states` for environment variables or `env.get_wrapper_attr('num_states')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.num_actions to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.num_actions` for environment variables or `env.get_wrapper_attr('num_actions')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.rewards to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.rewards` for environment variables or `env.get_wrapper_attr('rewards')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.initial_state to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.initial_state` for environment variables or `env.get_wrapper_attr('initial_state')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.final_state to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.final_state` for environment variables or `env.get_wrapper_attr('final_state')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.max_ep_steps to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.max_ep_steps` for environment variables or `env.get_wrapper_attr('max_ep_steps')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 126`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 62
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=126 and n_envs=1)
+  warnings.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.num_states to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.num_states` for environment variables or `env.get_wrapper_attr('num_states')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.num_actions to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.num_actions` for environment variables or `env.get_wrapper_attr('num_actions')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.max_ep_steps to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.max_ep_steps` for environment variables or `env.get_wrapper_attr('max_ep_steps')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.rewards to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.rewards` for environment variables or `env.get_wrapper_attr('rewards')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.initial_state to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.initial_state` for environment variables or `env.get_wrapper_attr('initial_state')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.final_state to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.final_state` for environment variables or `env.get_wrapper_attr('final_state')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/common/evaluation.py:67: UserWarning: Evaluation environment is not wrapped with a ``Monitor`` wrapper. This may result in reporting modified episode lengths and rewards, if other wrappers happen to modify these. Consider wrapping environment first with ``Monitor`` wrapper.
+  warnings.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:181: DeprecationWarning: WARN: Current gymnasium version requires that `Env.reset` can be passed `options` to allow the environment initialisation to be passed additional information.
+  logger.deprecation(
+mean mean reward: 5.815949534780901, mean last reward: 1.1441666662072143, score: 17.257616196853043
+[I 2024-06-26 15:14:01,144] Trial 0 finished with value: 17.257616196853043 and parameters: {'learning_rate': 0.19158690900589334, 'n_steps': 126, 'env_reward_weight': 0.05413214185090171}. Best is trial 0 with value: 17.257616196853043.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 174`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 46
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=174 and n_envs=1)
+  warnings.warn(
+mean mean reward: 3.957509959699861, mean last reward: 7.17499999931703, score: 75.70750995287015
+[I 2024-06-26 15:14:49,046] Trial 1 finished with value: 75.70750995287015 and parameters: {'learning_rate': 0.44359906408874417, 'n_steps': 174, 'env_reward_weight': 0.230727729790825}. Best is trial 1 with value: 75.70750995287015.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 734`, after every 11 untruncated mini-batches, there will be a truncated mini-batch of size 30
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=734 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.173741699300785, mean last reward: 6.954999999826153, score: 73.72374169756233
+[I 2024-06-26 15:15:32,708] Trial 2 finished with value: 73.72374169756233 and parameters: {'learning_rate': 0.233255515074226, 'n_steps': 734, 'env_reward_weight': 0.5715061990574466}. Best is trial 1 with value: 75.70750995287015.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 306`, after every 4 untruncated mini-batches, there will be a truncated mini-batch of size 50
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=306 and n_envs=1)
+  warnings.warn(
+mean mean reward: 2.5081108893217103, mean last reward: 1.3374999990686776, score: 15.883110880008486
+[I 2024-06-26 15:16:22,611] Trial 3 finished with value: 15.883110880008486 and parameters: {'learning_rate': 0.13692638096538723, 'n_steps': 306, 'env_reward_weight': 0.6277720355010638}. Best is trial 1 with value: 75.70750995287015.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 895`, after every 13 untruncated mini-batches, there will be a truncated mini-batch of size 63
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=895 and n_envs=1)
+  warnings.warn(
+mean mean reward: 3.4258233728206364, mean last reward: 0.9933333332339923, score: 13.35915670516056
+[I 2024-06-26 15:17:14,091] Trial 4 finished with value: 13.35915670516056 and parameters: {'learning_rate': 0.19757652632260567, 'n_steps': 895, 'env_reward_weight': 0.9882395872900075}. Best is trial 1 with value: 75.70750995287015.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 446`, after every 6 untruncated mini-batches, there will be a truncated mini-batch of size 62
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=446 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.915527888052265, mean last reward: 6.859166666368643, score: 73.50719455173869
+[I 2024-06-26 15:18:03,667] Trial 5 finished with value: 73.50719455173869 and parameters: {'learning_rate': 0.3011910464765963, 'n_steps': 446, 'env_reward_weight': 0.9901910916199126}. Best is trial 1 with value: 75.70750995287015.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 135`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 7
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=135 and n_envs=1)
+  warnings.warn(
+mean mean reward: 7.042503319357388, mean last reward: 1.2241666661575437, score: 19.284169980932823
+[I 2024-06-26 15:19:00,732] Trial 6 finished with value: 19.284169980932823 and parameters: {'learning_rate': 0.25657032783276007, 'n_steps': 135, 'env_reward_weight': 0.3331951085472108}. Best is trial 1 with value: 75.70750995287015.
+mean mean reward: 5.341679946264155, mean last reward: 1.2833333323399225, score: 18.17501326966338
+[I 2024-06-26 15:19:45,980] Trial 7 finished with value: 18.17501326966338 and parameters: {'learning_rate': 0.13762990944835327, 'n_steps': 640, 'env_reward_weight': 0.28543429717382957}. Best is trial 1 with value: 75.70750995287015.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 477`, after every 7 untruncated mini-batches, there will be a truncated mini-batch of size 29
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=477 and n_envs=1)
+  warnings.warn(
+mean mean reward: 9.128738379253354, mean last reward: 7.0174999993294485, score: 79.30373837254783
+[I 2024-06-26 15:20:51,017] Trial 8 finished with value: 79.30373837254783 and parameters: {'learning_rate': 0.13247964077432728, 'n_steps': 477, 'env_reward_weight': 0.5710860864431199}. Best is trial 8 with value: 79.30373837254783.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 234`, after every 3 untruncated mini-batches, there will be a truncated mini-batch of size 42
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=234 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.976530544018771, mean last reward: 7.2958333322157465, score: 77.93486386617624
+[I 2024-06-26 15:21:58,188] Trial 9 finished with value: 77.93486386617624 and parameters: {'learning_rate': 0.3815866631675795, 'n_steps': 234, 'env_reward_weight': 0.13524913225747015}. Best is trial 8 with value: 79.30373837254783.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 481`, after every 7 untruncated mini-batches, there will be a truncated mini-batch of size 33
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=481 and n_envs=1)
+  warnings.warn(
+mean mean reward: 5.0604249654810225, mean last reward: 12.839166665511828, score: 133.4520916205993
+[I 2024-06-26 15:22:38,875] Trial 10 finished with value: 133.4520916205993 and parameters: {'learning_rate': 0.016094149961904697, 'n_steps': 481, 'env_reward_weight': 0.6957872417093699}. Best is trial 10 with value: 133.4520916205993.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 476`, after every 7 untruncated mini-batches, there will be a truncated mini-batch of size 28
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=476 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.029558431646808, mean last reward: 0.9908333331967394, score: 13.937891763614203
+[I 2024-06-26 15:23:16,014] Trial 11 finished with value: 13.937891763614203 and parameters: {'learning_rate': 0.004501483332003543, 'n_steps': 476, 'env_reward_weight': 0.738395194224057}. Best is trial 10 with value: 133.4520916205993.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 648`, after every 10 untruncated mini-batches, there will be a truncated mini-batch of size 8
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=648 and n_envs=1)
+  warnings.warn(
+mean mean reward: 3.5013413003157297, mean last reward: 7.481666665027539, score: 78.31800795059112
+[I 2024-06-26 15:23:47,736] Trial 12 finished with value: 78.31800795059112 and parameters: {'learning_rate': 0.006539350387618659, 'n_steps': 648, 'env_reward_weight': 0.7677888206154844}. Best is trial 10 with value: 133.4520916205993.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 374`, after every 5 untruncated mini-batches, there will be a truncated mini-batch of size 54
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=374 and n_envs=1)
+  warnings.warn(
+mean mean reward: 3.3801494019229708, mean last reward: 0.9891666665052375, score: 13.271816066975346
+[I 2024-06-26 15:24:25,685] Trial 13 finished with value: 13.271816066975346 and parameters: {'learning_rate': 0.0790681725473865, 'n_steps': 374, 'env_reward_weight': 0.4313896993638775}. Best is trial 10 with value: 133.4520916205993.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 592`, after every 9 untruncated mini-batches, there will be a truncated mini-batch of size 16
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=592 and n_envs=1)
+  warnings.warn(
+mean mean reward: 2.7242164670604754, mean last reward: 0.9849999997764826, score: 12.574216464825302
+[I 2024-06-26 15:25:13,675] Trial 14 finished with value: 12.574216464825302 and parameters: {'learning_rate': 0.07850476292764064, 'n_steps': 592, 'env_reward_weight': 0.7857883929619734}. Best is trial 10 with value: 133.4520916205993.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 853`, after every 13 untruncated mini-batches, there will be a truncated mini-batch of size 21
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=853 and n_envs=1)
+  warnings.warn(
+mean mean reward: 3.593187250428713, mean last reward: 1.4133333324144284, score: 17.726520574572994
+[I 2024-06-26 15:26:00,288] Trial 15 finished with value: 17.726520574572994 and parameters: {'learning_rate': 0.09265929442990857, 'n_steps': 853, 'env_reward_weight': 0.4147711837010204}. Best is trial 10 with value: 133.4520916205993.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 537`, after every 8 untruncated mini-batches, there will be a truncated mini-batch of size 25
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=537 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.458061088238945, mean last reward: 13.305833331868053, score: 137.51639440691946
+[I 2024-06-26 15:26:47,020] Trial 16 finished with value: 137.51639440691946 and parameters: {'learning_rate': 0.039465195605696626, 'n_steps': 537, 'env_reward_weight': 0.6325497557041829}. Best is trial 16 with value: 137.51639440691946.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 9`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 9
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=9 and n_envs=1)
+  warnings.warn(
+mean mean reward: 8.663748338984531, mean last reward: 13.142499998894829, score: 140.08874832793282
+[I 2024-06-26 15:28:46,661] Trial 17 finished with value: 140.08874832793282 and parameters: {'learning_rate': 0.025514624349167098, 'n_steps': 9, 'env_reward_weight': 0.8657917007811926}. Best is trial 17 with value: 140.08874832793282.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 17`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 17
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=17 and n_envs=1)
+  warnings.warn(
+mean mean reward: 5.541713146887631, mean last reward: 7.324999998323619, score: 78.79171313012382
+[I 2024-06-26 15:29:48,922] Trial 18 finished with value: 78.79171313012382 and parameters: {'learning_rate': 0.3397809668861169, 'n_steps': 17, 'env_reward_weight': 0.8702546998733532}. Best is trial 17 with value: 140.08874832793282.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 769`, after every 12 untruncated mini-batches, there will be a truncated mini-batch of size 1
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=769 and n_envs=1)
+  warnings.warn(
+mean mean reward: 3.7813678613803283, mean last reward: 0.9824999997392297, score: 13.606367858772625
+[I 2024-06-26 15:30:39,394] Trial 19 finished with value: 13.606367858772625 and parameters: {'learning_rate': 0.059950395072963764, 'n_steps': 769, 'env_reward_weight': 0.9033955724780598}. Best is trial 17 with value: 140.08874832793282.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 39`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 39
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=39 and n_envs=1)
+  warnings.warn(
+mean mean reward: 7.225388444335031, mean last reward: 13.334999998658896, score: 140.575388430924
+[I 2024-06-26 15:31:31,958] Trial 20 finished with value: 140.575388430924 and parameters: {'learning_rate': 0.04699477629886523, 'n_steps': 39, 'env_reward_weight': 0.8568565362100038}. Best is trial 20 with value: 140.575388430924.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 3`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 3
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=3 and n_envs=1)
+  warnings.warn(
+mean mean reward: 6.324156706189245, mean last reward: 0.9866666664679844, score: 16.19082337086909
+[I 2024-06-26 15:36:45,449] Trial 21 finished with value: 16.19082337086909 and parameters: {'learning_rate': 0.039247936857018315, 'n_steps': 3, 'env_reward_weight': 0.8244355965868313}. Best is trial 20 with value: 140.575388430924.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 308`, after every 4 untruncated mini-batches, there will be a truncated mini-batch of size 52
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=308 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.234352589149033, mean last reward: 0.9866666664679845, score: 14.101019253828879
+[I 2024-06-26 15:37:34,278] Trial 22 finished with value: 14.101019253828879 and parameters: {'learning_rate': 0.11550559478427551, 'n_steps': 308, 'env_reward_weight': 0.6851372932332968}. Best is trial 20 with value: 140.575388430924.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 86`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 22
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=86 and n_envs=1)
+  warnings.warn(
+mean mean reward: 5.038881141015367, mean last reward: 7.2591666651889675, score: 77.63054779290505
+[I 2024-06-26 15:38:23,302] Trial 23 finished with value: 77.63054779290505 and parameters: {'learning_rate': 0.17914418581965963, 'n_steps': 86, 'env_reward_weight': 0.8934546464298585}. Best is trial 20 with value: 140.575388430924.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 224`, after every 3 untruncated mini-batches, there will be a truncated mini-batch of size 32
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=224 and n_envs=1)
+  warnings.warn(
+mean mean reward: 2.5451328010725014, mean last reward: 1.336666665847103, score: 15.91179945954353
+[I 2024-06-26 15:39:10,150] Trial 24 finished with value: 15.91179945954353 and parameters: {'learning_rate': 0.05251099987837421, 'n_steps': 224, 'env_reward_weight': 0.506459595463721}. Best is trial 20 with value: 140.575388430924.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 569`, after every 8 untruncated mini-batches, there will be a truncated mini-batch of size 57
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=569 and n_envs=1)
+  warnings.warn(
+mean mean reward: 10.381158697934127, mean last reward: 6.993333333171904, score: 80.31449202965317
+[I 2024-06-26 15:40:03,694] Trial 25 finished with value: 80.31449202965317 and parameters: {'learning_rate': 0.046710588985495564, 'n_steps': 569, 'env_reward_weight': 0.6294836343109744}. Best is trial 20 with value: 140.575388430924.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 55`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 55
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=55 and n_envs=1)
+  warnings.warn(
+mean mean reward: 13.365922972872843, mean last reward: 18.982499998932084, score: 203.1909229621937
+[I 2024-06-26 15:41:07,478] Trial 26 finished with value: 203.1909229621937 and parameters: {'learning_rate': 0.004947001124271128, 'n_steps': 55, 'env_reward_weight': 0.860122201086962}. Best is trial 26 with value: 203.1909229621937.
+mean mean reward: 4.170660690127181, mean last reward: 0.9916666665424904, score: 14.087327355552084
+[I 2024-06-26 15:41:47,481] Trial 27 finished with value: 14.087327355552084 and parameters: {'learning_rate': 0.47552580760661545, 'n_steps': 64, 'env_reward_weight': 0.9410750062897038}. Best is trial 26 with value: 203.1909229621937.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 206`, after every 3 untruncated mini-batches, there will be a truncated mini-batch of size 14
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=206 and n_envs=1)
+  warnings.warn(
+mean mean reward: 3.0367330673067854, mean last reward: 1.3433333324889343, score: 16.470066392196127
+[I 2024-06-26 15:42:46,724] Trial 28 finished with value: 16.470066392196127 and parameters: {'learning_rate': 0.09654886793356932, 'n_steps': 206, 'env_reward_weight': 0.8386299133411986}. Best is trial 26 with value: 203.1909229621937.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 90`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 26
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=90 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.1324667990370925, mean last reward: 6.766666666294138, score: 71.79913346197847
+[I 2024-06-26 15:43:34,467] Trial 29 finished with value: 71.79913346197847 and parameters: {'learning_rate': 0.17316054773774153, 'n_steps': 90, 'env_reward_weight': 0.04945905133989048}. Best is trial 26 with value: 203.1909229621937.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 138`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 10
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=138 and n_envs=1)
+  warnings.warn(
+mean mean reward: 5.437407037119814, mean last reward: 7.826666664580505, score: 83.70407368292486
+[I 2024-06-26 15:44:12,901] Trial 30 finished with value: 83.70407368292486 and parameters: {'learning_rate': 0.002116701111788938, 'n_steps': 138, 'env_reward_weight': 0.7992044477061194}. Best is trial 26 with value: 203.1909229621937.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 6`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 6
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=6 and n_envs=1)
+  warnings.warn(
+mean mean reward: 2.2133432930355195, mean last reward: 0.9933333332339923, score: 12.146676625375443
+[I 2024-06-26 15:47:41,230] Trial 31 finished with value: 12.146676625375443 and parameters: {'learning_rate': 0.03424378107386161, 'n_steps': 6, 'env_reward_weight': 0.691173526005197}. Best is trial 26 with value: 203.1909229621937.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1009`, after every 15 untruncated mini-batches, there will be a truncated mini-batch of size 49
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1009 and n_envs=1)
+  warnings.warn(
+mean mean reward: 1.7068625493111167, mean last reward: 0.9891666665052375, score: 11.598529214363491
+[I 2024-06-26 15:48:19,051] Trial 32 finished with value: 11.598529214363491 and parameters: {'learning_rate': 0.06666243816809117, 'n_steps': 1009, 'env_reward_weight': 0.9268418716767157}. Best is trial 26 with value: 203.1909229621937.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 383`, after every 5 untruncated mini-batches, there will be a truncated mini-batch of size 63
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=383 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.134588312416289, mean last reward: 0.9891666665052373, score: 14.026254977468662
+[I 2024-06-26 15:48:51,082] Trial 33 finished with value: 14.026254977468662 and parameters: {'learning_rate': 0.02953542352657194, 'n_steps': 383, 'env_reward_weight': 0.8501379940036673}. Best is trial 26 with value: 203.1909229621937.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 281`, after every 4 untruncated mini-batches, there will be a truncated mini-batch of size 25
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=281 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.262201194725634, mean last reward: 7.318333331433435, score: 77.44553450905998
+[I 2024-06-26 15:49:41,773] Trial 34 finished with value: 77.44553450905998 and parameters: {'learning_rate': 0.1074404666995967, 'n_steps': 281, 'env_reward_weight': 0.618601747686429}. Best is trial 26 with value: 203.1909229621937.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 157`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 29
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=157 and n_envs=1)
+  warnings.warn(
+mean mean reward: 6.914455510662303, mean last reward: 1.179999999453624, score: 18.714455505198544
+[I 2024-06-26 15:50:35,408] Trial 35 finished with value: 18.714455505198544 and parameters: {'learning_rate': 0.1640796959260571, 'n_steps': 157, 'env_reward_weight': 0.7422630222959236}. Best is trial 26 with value: 203.1909229621937.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 61`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 61
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=61 and n_envs=1)
+  warnings.warn(
+mean mean reward: 12.935395084896868, mean last reward: 19.14166666480402, score: 204.35206173293707
+[I 2024-06-26 15:51:33,719] Trial 36 finished with value: 204.35206173293707 and parameters: {'learning_rate': 0.0367498952935224, 'n_steps': 61, 'env_reward_weight': 0.995153124171227}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 65`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 1
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=65 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.2219422306064, mean last reward: 12.901666666381061, score: 133.238608894417
+[I 2024-06-26 15:52:35,137] Trial 37 finished with value: 133.238608894417 and parameters: {'learning_rate': 0.22556602441334977, 'n_steps': 65, 'env_reward_weight': 0.9934106247486445}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 175`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 47
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=175 and n_envs=1)
+  warnings.warn(
+mean mean reward: 6.405132801433257, mean last reward: 1.6083333313465118, score: 22.488466114898376
+[I 2024-06-26 15:53:21,368] Trial 38 finished with value: 22.488466114898376 and parameters: {'learning_rate': 0.4122810573832022, 'n_steps': 175, 'env_reward_weight': 0.9451900796389193}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 87`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 23
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=87 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.141168658101404, mean last reward: 1.2516666660706202, score: 16.657835318807606
+[I 2024-06-26 15:54:11,966] Trial 39 finished with value: 16.657835318807606 and parameters: {'learning_rate': 0.1440153598870309, 'n_steps': 87, 'env_reward_weight': 0.9516538203284718}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 265`, after every 4 untruncated mini-batches, there will be a truncated mini-batch of size 9
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=265 and n_envs=1)
+  warnings.warn(
+mean mean reward: 5.825013279611837, mean last reward: 1.505833331681788, score: 20.883346596429718
+[I 2024-06-26 15:54:59,418] Trial 40 finished with value: 20.883346596429718 and parameters: {'learning_rate': 0.28649438164860375, 'n_steps': 265, 'env_reward_weight': 0.8742435681954629}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 42`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 42
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=42 and n_envs=1)
+  warnings.warn(
+mean mean reward: 8.364727754615851, mean last reward: 7.169166665834685, score: 80.0563944129627
+[I 2024-06-26 15:55:47,209] Trial 41 finished with value: 80.0563944129627 and parameters: {'learning_rate': 0.030940158604816036, 'n_steps': 42, 'env_reward_weight': 0.8206494037384269}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 367`, after every 5 untruncated mini-batches, there will be a truncated mini-batch of size 47
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=367 and n_envs=1)
+  warnings.warn(
+mean mean reward: 5.23646414288818, mean last reward: 12.791666666232048, score: 133.15313080520866
+[I 2024-06-26 15:56:46,260] Trial 42 finished with value: 133.15313080520866 and parameters: {'learning_rate': 0.060074221358596205, 'n_steps': 367, 'env_reward_weight': 0.9940382822724008}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 125`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 61
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=125 and n_envs=1)
+  warnings.warn(
+mean mean reward: 6.184990037498554, mean last reward: 7.395833331967393, score: 80.14332335717248
+[I 2024-06-26 15:57:32,487] Trial 43 finished with value: 80.14332335717248 and parameters: {'learning_rate': 0.02458431393644715, 'n_steps': 125, 'env_reward_weight': 0.567678545526116}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 536`, after every 8 untruncated mini-batches, there will be a truncated mini-batch of size 24
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=536 and n_envs=1)
+  warnings.warn(
+mean mean reward: 3.301221779173371, mean last reward: 0.9908333331967394, score: 13.209555111140766
+[I 2024-06-26 15:58:09,425] Trial 44 finished with value: 13.209555111140766 and parameters: {'learning_rate': 0.11874973693828035, 'n_steps': 536, 'env_reward_weight': 0.17674131923936448}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 711`, after every 11 untruncated mini-batches, there will be a truncated mini-batch of size 7
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=711 and n_envs=1)
+  warnings.warn(
+mean mean reward: 6.196716466871094, mean last reward: 6.86833333298564, score: 74.88004979672749
+[I 2024-06-26 15:58:57,175] Trial 45 finished with value: 74.88004979672749 and parameters: {'learning_rate': 0.08400927125187879, 'n_steps': 711, 'env_reward_weight': 0.7293224270303951}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 110`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 46
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=110 and n_envs=1)
+  warnings.warn(
+mean mean reward: 5.940166001173496, mean last reward: 13.295833331594865, score: 138.89849931712217
+[I 2024-06-26 15:59:36,927] Trial 46 finished with value: 138.89849931712217 and parameters: {'learning_rate': 0.004276759665052334, 'n_steps': 110, 'env_reward_weight': 0.7781095565988072}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 120`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 56
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=120 and n_envs=1)
+  warnings.warn(
+mean mean reward: 8.640590967976575, mean last reward: 7.184999999155601, score: 80.4905909595326
+[I 2024-06-26 16:00:22,577] Trial 47 finished with value: 80.4905909595326 and parameters: {'learning_rate': 0.006532013123509982, 'n_steps': 120, 'env_reward_weight': 0.900099260554747}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 180`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 52
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=180 and n_envs=1)
+  warnings.warn(
+mean mean reward: 10.996294820181788, mean last reward: 12.669166665772595, score: 137.68796147790772
+[I 2024-06-26 16:01:30,336] Trial 48 finished with value: 137.68796147790772 and parameters: {'learning_rate': 0.07074430205709611, 'n_steps': 180, 'env_reward_weight': 0.7785701894927656}. Best is trial 36 with value: 204.35206173293707.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 32`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 32
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=32 and n_envs=1)
+  warnings.warn(
+mean mean reward: 6.76934262793808, mean last reward: 7.35249999879549, score: 80.29434261589299
+[I 2024-06-26 16:02:21,619] Trial 49 finished with value: 80.29434261589299 and parameters: {'learning_rate': 0.012581322390404713, 'n_steps': 32, 'env_reward_weight': 0.9589219766824211}. Best is trial 36 with value: 204.35206173293707.
+Best hyperparameters:  {'learning_rate': 0.0367498952935224, 'n_steps': 61, 'env_reward_weight': 0.995153124171227}
+Best performance:  204.35206173293707

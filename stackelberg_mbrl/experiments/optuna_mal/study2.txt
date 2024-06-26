@@ -1,0 +1,637 @@
+kacper@student-net-nw-3605 ~/Documents/dev/stackelberg-ml                                                 [16:41:35]
+(stackelberg) > $ python pytuna-mal.py                                                       [±sample_efficiency ●●]
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/pydantic/_internal/_fields.py:160: UserWarning: Field "model_save_name" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/pydantic/_internal/_fields.py:160: UserWarning: Field "model_ppo_kwargs" has conflict with protected namespace "model_".
+
+You may be able to resolve this warning by setting `model_config['protected_namespaces'] = ()`.
+  warnings.warn(
+[I 2024-06-26 16:42:29,283] A new study created in memory with name: no-name-7f3b0795-7d6c-41b5-a541-fac88a7a74e2
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.num_states to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.num_states` for environment variables or `env.get_wrapper_attr('num_states')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.num_actions to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.num_actions` for environment variables or `env.get_wrapper_attr('num_actions')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.rewards to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.rewards` for environment variables or `env.get_wrapper_attr('rewards')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.initial_state to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.initial_state` for environment variables or `env.get_wrapper_attr('initial_state')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.final_state to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.final_state` for environment variables or `env.get_wrapper_attr('final_state')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.max_ep_steps to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.max_ep_steps` for environment variables or `env.get_wrapper_attr('max_ep_steps')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 71, but because the `RolloutBuffer` is of size `n_steps * n_envs = 120`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 49
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=120 and n_envs=1)
+  warnings.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.num_states to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.num_states` for environment variables or `env.get_wrapper_attr('num_states')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.num_actions to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.num_actions` for environment variables or `env.get_wrapper_attr('num_actions')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.max_ep_steps to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.max_ep_steps` for environment variables or `env.get_wrapper_attr('max_ep_steps')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.rewards to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.rewards` for environment variables or `env.get_wrapper_attr('rewards')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.initial_state to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.initial_state` for environment variables or `env.get_wrapper_attr('initial_state')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.final_state to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.final_state` for environment variables or `env.get_wrapper_attr('final_state')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/common/evaluation.py:67: UserWarning: Evaluation environment is not wrapped with a ``Monitor`` wrapper. This may result in reporting modified episode lengths and rewards, if other wrappers happen to modify these. Consider wrapping environment first with ``Monitor`` wrapper.
+  warnings.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:181: DeprecationWarning: WARN: Current gymnasium version requires that `Env.reset` can be passed `options` to allow the environment initialisation to be passed additional information.
+  logger.deprecation(
+mean mean reward: 4.043723403372743, mean last reward: 14.978999999389051, score: 153.83372339726327
+[I 2024-06-26 16:43:45,361] Trial 0 finished with value: 153.83372339726327 and parameters: {'learning_rate': 1.7507810875095622e-05, 'n_steps': 120, 'batch_size': 71, 'n_epochs': 8, 'clip_range': 0.3892959465245578, 'ent_coef': 0.023341246994056087, 'vf_coef': 0.544621805841926, 'max_grad_norm': 0.7135319823692458, 'gae_lambda': 0.8742216463855113, 'env_reward_weight': 0.08658920531980152}. Best is trial 0 with value: 153.83372339726327.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 182, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1164`, after every 6 untruncated mini-batches, there will be a truncated mini-batch of size 72
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1164 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.402893615689208, mean last reward: 22.36399999961257, score: 228.04289361181492
+[I 2024-06-26 16:44:39,475] Trial 1 finished with value: 228.04289361181492 and parameters: {'learning_rate': 7.094988821951155e-05, 'n_steps': 1164, 'batch_size': 182, 'n_epochs': 5, 'clip_range': 0.21896084784538344, 'ent_coef': 0.05489006313943057, 'vf_coef': 0.8730454887545638, 'max_grad_norm': 0.574042616452832, 'gae_lambda': 0.86489498039315, 'env_reward_weight': 0.9229598564625825}. Best is trial 1 with value: 228.04289361181492.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 111, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1524`, after every 13 untruncated mini-batches, there will be a truncated mini-batch of size 81
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1524 and n_envs=1)
+  warnings.warn(
+mean mean reward: 8.079377658134922, mean last reward: 15.803999998420476, score: 166.11937764233969
+[I 2024-06-26 16:45:46,163] Trial 2 finished with value: 166.11937764233969 and parameters: {'learning_rate': 0.00037875308029509567, 'n_steps': 1524, 'batch_size': 111, 'n_epochs': 14, 'clip_range': 0.15054730251115767, 'ent_coef': 0.0024491488201301872, 'vf_coef': 0.7726736584139124, 'max_grad_norm': 0.7328180322183565, 'gae_lambda': 0.9741472651874504, 'env_reward_weight': 0.7183174710703945}. Best is trial 1 with value: 228.04289361181492.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 184, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1395`, after every 7 untruncated mini-batches, there will be a truncated mini-batch of size 107
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1395 and n_envs=1)
+  warnings.warn(
+mean mean reward: 7.969638296522675, mean last reward: 22.087999999299647, score: 228.84963828951916
+[I 2024-06-26 16:46:52,486] Trial 3 finished with value: 228.84963828951916 and parameters: {'learning_rate': 5.0167523354210496e-05, 'n_steps': 1395, 'batch_size': 184, 'n_epochs': 20, 'clip_range': 0.19498218956494187, 'ent_coef': 0.004310589812450793, 'vf_coef': 0.3924328364236045, 'max_grad_norm': 0.6603809282480467, 'gae_lambda': 0.879857867921192, 'env_reward_weight': 0.9249396932904115}. Best is trial 3 with value: 228.84963828951916.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 89, but because the `RolloutBuffer` is of size `n_steps * n_envs = 85`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 85
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=85 and n_envs=1)
+  warnings.warn(
+mean mean reward: 27.585053190435183, mean last reward: 36.657999999448656, score: 394.16505318492176
+[I 2024-06-26 16:48:14,234] Trial 4 finished with value: 394.16505318492176 and parameters: {'learning_rate': 0.0011832021438644362, 'n_steps': 85, 'batch_size': 89, 'n_epochs': 6, 'clip_range': 0.12470588633494409, 'ent_coef': 0.03000296284565982, 'vf_coef': 0.17102790869909007, 'max_grad_norm': 0.5595668320089084, 'gae_lambda': 0.9808900462385477, 'env_reward_weight': 0.31209157294719686}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 19, but because the `RolloutBuffer` is of size `n_steps * n_envs = 407`, after every 21 untruncated mini-batches, there will be a truncated mini-batch of size 8
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=407 and n_envs=1)
+  warnings.warn(
+mean mean reward: 6.728420211987848, mean last reward: 1.215999999344349, score: 18.888420205431338
+[I 2024-06-26 16:50:08,364] Trial 5 finished with value: 18.888420205431338 and parameters: {'learning_rate': 0.004968118745684284, 'n_steps': 407, 'batch_size': 19, 'n_epochs': 10, 'clip_range': 0.2934411096993188, 'ent_coef': 0.05223540533204083, 'vf_coef': 0.35678604867647024, 'max_grad_norm': 0.5102494272587252, 'gae_lambda': 0.8578348062643272, 'env_reward_weight': 0.009072625774713225}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 69, but because the `RolloutBuffer` is of size `n_steps * n_envs = 2000`, after every 28 untruncated mini-batches, there will be a truncated mini-batch of size 68
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=2000 and n_envs=1)
+  warnings.warn(
+mean mean reward: 7.586494679339229, mean last reward: 15.683999998569487, score: 164.4264946650341
+[I 2024-06-26 16:51:23,453] Trial 6 finished with value: 164.4264946650341 and parameters: {'learning_rate': 0.00011302549983873953, 'n_steps': 2000, 'batch_size': 69, 'n_epochs': 14, 'clip_range': 0.19349645554366252, 'ent_coef': 0.06027872877938342, 'vf_coef': 0.2483049208016476, 'max_grad_norm': 0.9009737858939173, 'gae_lambda': 0.8915768816345013, 'env_reward_weight': 0.8359840981289436}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 231, but because the `RolloutBuffer` is of size `n_steps * n_envs = 894`, after every 3 untruncated mini-batches, there will be a truncated mini-batch of size 201
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=894 and n_envs=1)
+  warnings.warn(
+mean mean reward: 12.491781913415391, mean last reward: 15.631999998539687, score: 168.81178189881226
+[I 2024-06-26 16:52:21,975] Trial 7 finished with value: 168.81178189881226 and parameters: {'learning_rate': 0.0002875415071900146, 'n_steps': 894, 'batch_size': 231, 'n_epochs': 7, 'clip_range': 0.3774776954206879, 'ent_coef': 0.016421162555389203, 'vf_coef': 0.9536114050881032, 'max_grad_norm': 0.7923347721282639, 'gae_lambda': 0.980187320798715, 'env_reward_weight': 0.5928153577639886}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 51, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1093`, after every 21 untruncated mini-batches, there will be a truncated mini-batch of size 22
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1093 and n_envs=1)
+  warnings.warn(
+mean mean reward: 10.968101062411245, mean last reward: 22.169999999403952, score: 232.66810105645078
+[I 2024-06-26 16:53:39,154] Trial 8 finished with value: 232.66810105645078 and parameters: {'learning_rate': 0.005555716045499784, 'n_steps': 1093, 'batch_size': 51, 'n_epochs': 10, 'clip_range': 0.1682900552861366, 'ent_coef': 0.007744066065703482, 'vf_coef': 0.36279925987178474, 'max_grad_norm': 0.4251303149589987, 'gae_lambda': 0.9725435337280036, 'env_reward_weight': 0.39135418053089405}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 63, but because the `RolloutBuffer` is of size `n_steps * n_envs = 478`, after every 7 untruncated mini-batches, there will be a truncated mini-batch of size 37
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=478 and n_envs=1)
+  warnings.warn(
+mean mean reward: 14.660175530236373, mean last reward: 23.269999997988343, score: 247.3601755101198
+[I 2024-06-26 16:55:07,189] Trial 9 finished with value: 247.3601755101198 and parameters: {'learning_rate': 0.0005330407422676725, 'n_steps': 478, 'batch_size': 63, 'n_epochs': 18, 'clip_range': 0.207731846571944, 'ent_coef': 0.03713640681762318, 'vf_coef': 0.9732269435454005, 'max_grad_norm': 0.9681707245020426, 'gae_lambda': 0.8165156511882891, 'env_reward_weight': 0.21519474448756298}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 127, but because the `RolloutBuffer` is of size `n_steps * n_envs = 674`, after every 5 untruncated mini-batches, there will be a truncated mini-batch of size 39
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=674 and n_envs=1)
+  warnings.warn(
+mean mean reward: 15.58875531783248, mean last reward: 36.27399999909103, score: 378.32875530874276
+[I 2024-06-26 16:56:06,197] Trial 10 finished with value: 378.32875530874276 and parameters: {'learning_rate': 0.001237410520111579, 'n_steps': 674, 'batch_size': 127, 'n_epochs': 1, 'clip_range': 0.12347050768281861, 'ent_coef': 0.09369029646758462, 'vf_coef': 0.10055917777797889, 'max_grad_norm': 0.32889411718175765, 'gae_lambda': 0.9333611874587876, 'env_reward_weight': 0.3756401110323572}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 132, but because the `RolloutBuffer` is of size `n_steps * n_envs = 658`, after every 4 untruncated mini-batches, there will be a truncated mini-batch of size 130
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=658 and n_envs=1)
+  warnings.warn(
+mean mean reward: 12.511696807142108, mean last reward: 36.16199999898672, score: 374.13169679700934
+[I 2024-06-26 16:57:01,121] Trial 11 finished with value: 374.13169679700934 and parameters: {'learning_rate': 0.0013097249154643237, 'n_steps': 658, 'batch_size': 132, 'n_epochs': 1, 'clip_range': 0.1044730905096915, 'ent_coef': 0.0978818665758208, 'vf_coef': 0.12721412385734812, 'max_grad_norm': 0.331875785086545, 'gae_lambda': 0.9410509809848884, 'env_reward_weight': 0.3717107686591708}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 110, but because the `RolloutBuffer` is of size `n_steps * n_envs = 64`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 64
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=64 and n_envs=1)
+  warnings.warn(
+mean mean reward: 20.57061170085908, mean last reward: 29.497999998554587, score: 315.550611686405
+[I 2024-06-26 16:58:09,257] Trial 12 finished with value: 315.550611686405 and parameters: {'learning_rate': 0.0014702980773769342, 'n_steps': 64, 'batch_size': 110, 'n_epochs': 1, 'clip_range': 0.10245166258687129, 'ent_coef': 0.09658698218260789, 'vf_coef': 0.1075974159936158, 'max_grad_norm': 0.30969008648355717, 'gae_lambda': 0.9318495545881622, 'env_reward_weight': 0.3815808233475497}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 161, but because the `RolloutBuffer` is of size `n_steps * n_envs = 739`, after every 4 untruncated mini-batches, there will be a truncated mini-batch of size 95
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=739 and n_envs=1)
+  warnings.warn(
+mean mean reward: 20.776074466941918, mean last reward: 29.662999998927113, score: 317.40607445621305
+[I 2024-06-26 16:59:15,956] Trial 13 finished with value: 317.40607445621305 and parameters: {'learning_rate': 0.0015325194788858938, 'n_steps': 739, 'batch_size': 161, 'n_epochs': 4, 'clip_range': 0.2700544692684445, 'ent_coef': 0.07573532908304084, 'vf_coef': 0.23566635817502923, 'max_grad_norm': 0.47077393367053355, 'gae_lambda': 0.9320452033282951, 'env_reward_weight': 0.21211378384323182}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 100, but because the `RolloutBuffer` is of size `n_steps * n_envs = 321`, after every 3 untruncated mini-batches, there will be a truncated mini-batch of size 21
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=321 and n_envs=1)
+  warnings.warn(
+mean mean reward: 17.95643084979279, mean last reward: 29.723999998643997, score: 315.19643083623276
+[I 2024-06-26 17:00:21,920] Trial 14 finished with value: 315.19643083623276 and parameters: {'learning_rate': 0.009828408445191603, 'n_steps': 321, 'batch_size': 100, 'n_epochs': 4, 'clip_range': 0.1447181489657692, 'ent_coef': 0.03750554958230076, 'vf_coef': 0.59003716355964, 'max_grad_norm': 0.5871753062374405, 'gae_lambda': 0.9525197815110797, 'env_reward_weight': 0.5576125695704542}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 154, but because the `RolloutBuffer` is of size `n_steps * n_envs = 627`, after every 4 untruncated mini-batches, there will be a truncated mini-batch of size 11
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=627 and n_envs=1)
+  warnings.warn(
+mean mean reward: 18.577888296546934, mean last reward: 30.037999998927113, score: 318.95788828581806
+[I 2024-06-26 17:01:26,205] Trial 15 finished with value: 318.95788828581806 and parameters: {'learning_rate': 0.0008022695692992619, 'n_steps': 627, 'batch_size': 154, 'n_epochs': 3, 'clip_range': 0.33170840695004744, 'ent_coef': 0.07537691149327991, 'vf_coef': 0.20392044990647767, 'max_grad_norm': 0.396694353601585, 'gae_lambda': 0.9998881327820917, 'env_reward_weight': 0.23532558094994632}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 248, but because the `RolloutBuffer` is of size `n_steps * n_envs = 259`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 11
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=259 and n_envs=1)
+  warnings.warn(
+mean mean reward: 17.87164361559568, mean last reward: 22.08999999932945, score: 238.77164360889017
+[I 2024-06-26 17:02:34,035] Trial 16 finished with value: 238.77164360889017 and parameters: {'learning_rate': 0.0027879357385543783, 'n_steps': 259, 'batch_size': 248, 'n_epochs': 7, 'clip_range': 0.13117009231577462, 'ent_coef': 0.03591630138941418, 'vf_coef': 0.47937609729413516, 'max_grad_norm': 0.5382019091312457, 'gae_lambda': 0.9142442328672771, 'env_reward_weight': 0.42645268881883946}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 23, but because the `RolloutBuffer` is of size `n_steps * n_envs = 867`, after every 37 untruncated mini-batches, there will be a truncated mini-batch of size 16
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=867 and n_envs=1)
+  warnings.warn(
+mean mean reward: 7.642941488017665, mean last reward: 1.64499999858439, score: 24.092941473861565
+[I 2024-06-26 17:03:31,093] Trial 17 finished with value: 24.092941473861565 and parameters: {'learning_rate': 0.0002122983766181835, 'n_steps': 867, 'batch_size': 23, 'n_epochs': 1, 'clip_range': 0.23941690548727065, 'ent_coef': 0.07985205792325656, 'vf_coef': 0.6677376987835385, 'max_grad_norm': 0.3885203718881944, 'gae_lambda': 0.9105300362450475, 'env_reward_weight': 0.6689112138608265}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 93, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1333`, after every 14 untruncated mini-batches, there will be a truncated mini-batch of size 31
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1333 and n_envs=1)
+  warnings.warn(
+mean mean reward: 10.67352127519139, mean last reward: 15.8749999987334, score: 169.4235212625254
+[I 2024-06-26 17:04:30,584] Trial 18 finished with value: 169.4235212625254 and parameters: {'learning_rate': 0.002500228944045909, 'n_steps': 1333, 'batch_size': 93, 'n_epochs': 6, 'clip_range': 0.17192587847300386, 'ent_coef': 0.06340929039347803, 'vf_coef': 0.2945973459515422, 'max_grad_norm': 0.8198512714944397, 'gae_lambda': 0.9983032804167099, 'env_reward_weight': 0.286233172002264}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 132, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1795`, after every 13 untruncated mini-batches, there will be a truncated mini-batch of size 79
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1795 and n_envs=1)
+  warnings.warn(
+mean mean reward: 6.385329785839991, mean last reward: 1.6559999983012674, score: 22.945329768852666
+[I 2024-06-26 17:05:32,279] Trial 19 finished with value: 22.945329768852666 and parameters: {'learning_rate': 0.0008009308412350796, 'n_steps': 1795, 'batch_size': 132, 'n_epochs': 13, 'clip_range': 0.12565419584118442, 'ent_coef': 0.024181317405121385, 'vf_coef': 0.15942256709823382, 'max_grad_norm': 0.6030677987718518, 'gae_lambda': 0.9571676161436128, 'env_reward_weight': 0.49720703513715264}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 191, but because the `RolloutBuffer` is of size `n_steps * n_envs = 516`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 134
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=516 and n_envs=1)
+  warnings.warn(
+mean mean reward: 22.653877658224168, mean last reward: 15.832999997660517, score: 180.98387763482933
+[I 2024-06-26 17:06:41,106] Trial 20 finished with value: 180.98387763482933 and parameters: {'learning_rate': 0.003603771018062432, 'n_steps': 516, 'batch_size': 191, 'n_epochs': 3, 'clip_range': 0.3072284819760118, 'ent_coef': 0.04459841462550285, 'vf_coef': 0.47909533481901784, 'max_grad_norm': 0.47073739318580327, 'gae_lambda': 0.826621245177705, 'env_reward_weight': 0.12375478525331235}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 142, but because the `RolloutBuffer` is of size `n_steps * n_envs = 707`, after every 4 untruncated mini-batches, there will be a truncated mini-batch of size 139
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=707 and n_envs=1)
+  warnings.warn(
+mean mean reward: 11.614026594276917, mean last reward: 36.56199999935925, score: 377.23402658786944
+[I 2024-06-26 17:07:35,877] Trial 21 finished with value: 377.23402658786944 and parameters: {'learning_rate': 0.0013523382308469067, 'n_steps': 707, 'batch_size': 142, 'n_epochs': 1, 'clip_range': 0.10020422600797269, 'ent_coef': 0.09948879969471014, 'vf_coef': 0.12801199501660265, 'max_grad_norm': 0.3183969735199452, 'gae_lambda': 0.9397205969288063, 'env_reward_weight': 0.3106101299736253}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 154, but because the `RolloutBuffer` is of size `n_steps * n_envs = 937`, after every 6 untruncated mini-batches, there will be a truncated mini-batch of size 13
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=937 and n_envs=1)
+  warnings.warn(
+mean mean reward: 9.452223402811017, mean last reward: 22.472999999672176, score: 234.18222339953277
+[I 2024-06-26 17:08:28,843] Trial 22 finished with value: 234.18222339953277 and parameters: {'learning_rate': 0.0007083794751101614, 'n_steps': 937, 'batch_size': 154, 'n_epochs': 2, 'clip_range': 0.10060644415174953, 'ent_coef': 0.08818848899941267, 'vf_coef': 0.10142634735997627, 'max_grad_norm': 0.34901003938183617, 'gae_lambda': 0.9191557042798828, 'env_reward_weight': 0.307914825160115}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 90, but because the `RolloutBuffer` is of size `n_steps * n_envs = 242`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 62
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=242 and n_envs=1)
+  warnings.warn(
+mean mean reward: 23.672292552126297, mean last reward: 15.805999998226762, score: 181.7322925343939
+[I 2024-06-26 17:09:44,767] Trial 23 finished with value: 181.7322925343939 and parameters: {'learning_rate': 0.0017245044274214712, 'n_steps': 242, 'batch_size': 90, 'n_epochs': 5, 'clip_range': 0.16640844694673143, 'ent_coef': 0.0883428202588161, 'vf_coef': 0.29473661059091055, 'max_grad_norm': 0.3038215105773253, 'gae_lambda': 0.9548888058383376, 'env_reward_weight': 0.5086609784147852}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 124, but because the `RolloutBuffer` is of size `n_steps * n_envs = 794`, after every 6 untruncated mini-batches, there will be a truncated mini-batch of size 50
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=794 and n_envs=1)
+  warnings.warn(
+mean mean reward: 11.526622339175974, mean last reward: 15.483999998793006, score: 166.36662232710606
+[I 2024-06-26 17:10:46,212] Trial 24 finished with value: 166.36662232710606 and parameters: {'learning_rate': 0.00017136957830151073, 'n_steps': 794, 'batch_size': 124, 'n_epochs': 8, 'clip_range': 0.1224078527724821, 'ent_coef': 0.06817385993403975, 'vf_coef': 0.18770462977828617, 'max_grad_norm': 0.45539822807608255, 'gae_lambda': 0.9802820191691546, 'env_reward_weight': 0.12943647677138448}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 209, but because the `RolloutBuffer` is of size `n_steps * n_envs = 544`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 126
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=544 and n_envs=1)
+  warnings.warn(
+mean mean reward: 13.619138296544156, mean last reward: 22.5709999986738, score: 239.32913828328213
+[I 2024-06-26 17:11:46,292] Trial 25 finished with value: 239.32913828328213 and parameters: {'learning_rate': 0.00044883141965688017, 'n_steps': 544, 'batch_size': 209, 'n_epochs': 3, 'clip_range': 0.14428997119092504, 'ent_coef': 0.0874610917955786, 'vf_coef': 0.2594481430385951, 'max_grad_norm': 0.371113021104959, 'gae_lambda': 0.9011649901712179, 'env_reward_weight': 0.31722677258232806}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 150, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1016`, after every 6 untruncated mini-batches, there will be a truncated mini-batch of size 116
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1016 and n_envs=1)
+  warnings.warn(
+mean mean reward: 9.806952126215984, mean last reward: 15.641999998316171, score: 166.2269521093777
+[I 2024-06-26 17:12:38,313] Trial 26 finished with value: 166.2269521093777 and parameters: {'learning_rate': 0.0010895711214607337, 'n_steps': 1016, 'batch_size': 150, 'n_epochs': 2, 'clip_range': 0.12412352849677252, 'ent_coef': 0.09847627294127707, 'vf_coef': 0.18407926335101607, 'max_grad_norm': 0.5162322680149019, 'gae_lambda': 0.9385029904144201, 'env_reward_weight': 0.4488190550504346}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 48, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1225`, after every 25 untruncated mini-batches, there will be a truncated mini-batch of size 25
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1225 and n_envs=1)
+  warnings.warn(
+mean mean reward: 10.689005317626561, mean last reward: 22.526999998763205, score: 235.95900530525861
+[I 2024-06-26 17:13:58,226] Trial 27 finished with value: 235.95900530525861 and parameters: {'learning_rate': 0.008867916853067153, 'n_steps': 1225, 'batch_size': 48, 'n_epochs': 12, 'clip_range': 0.1809709735981752, 'ent_coef': 0.02864538793526088, 'vf_coef': 0.4156872810429043, 'max_grad_norm': 0.6437895379741668, 'gae_lambda': 0.9580608035033783, 'env_reward_weight': 0.19808760193673378}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 84, but because the `RolloutBuffer` is of size `n_steps * n_envs = 390`, after every 4 untruncated mini-batches, there will be a truncated mini-batch of size 54
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=390 and n_envs=1)
+  warnings.warn(
+mean mean reward: 23.805590424372397, mean last reward: 36.40199999921024, score: 387.82559041647477
+[I 2024-06-26 17:15:13,668] Trial 28 finished with value: 387.82559041647477 and parameters: {'learning_rate': 0.002236333383844817, 'n_steps': 390, 'batch_size': 84, 'n_epochs': 5, 'clip_range': 0.2336031401577082, 'ent_coef': 0.04502168972734417, 'vf_coef': 0.30932685800009263, 'max_grad_norm': 0.429257085874014, 'gae_lambda': 0.967342904103677, 'env_reward_weight': 0.31652457883836477}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 73, but because the `RolloutBuffer` is of size `n_steps * n_envs = 147`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 1
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=147 and n_envs=1)
+  warnings.warn(
+mean mean reward: 25.82218085000331, mean last reward: 29.359999999403954, score: 319.4221808440428
+[I 2024-06-26 17:16:42,643] Trial 29 finished with value: 319.4221808440428 and parameters: {'learning_rate': 0.0023885147697779007, 'n_steps': 147, 'batch_size': 73, 'n_epochs': 9, 'clip_range': 0.23794760808752946, 'ent_coef': 0.04682463670531534, 'vf_coef': 0.303718739231534, 'max_grad_norm': 0.424921219533966, 'gae_lambda': 0.967415979206911, 'env_reward_weight': 0.07466676838330125}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 78, but because the `RolloutBuffer` is of size `n_steps * n_envs = 384`, after every 4 untruncated mini-batches, there will be a truncated mini-batch of size 72
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=384 and n_envs=1)
+  warnings.warn(
+mean mean reward: 3.2279308499146175, mean last reward: 1.4519999986886978, score: 17.747930836801594
+[I 2024-06-26 17:17:47,873] Trial 30 finished with value: 17.747930836801594 and parameters: {'learning_rate': 1.6696826093652737e-05, 'n_steps': 384, 'batch_size': 78, 'n_epochs': 6, 'clip_range': 0.3615421471720265, 'ent_coef': 0.013619009654392701, 'vf_coef': 0.5689980984416582, 'max_grad_norm': 0.6895242724143671, 'gae_lambda': 0.9890174472520865, 'env_reward_weight': 0.46249598084906934}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 115, but because the `RolloutBuffer` is of size `n_steps * n_envs = 148`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 33
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=148 and n_envs=1)
+  warnings.warn(
+mean mean reward: 27.19507446696308, mean last reward: 36.35399999916554, score: 390.73507445861844
+[I 2024-06-26 17:19:09,518] Trial 31 finished with value: 390.73507445861844 and parameters: {'learning_rate': 0.0045244289742024, 'n_steps': 148, 'batch_size': 115, 'n_epochs': 4, 'clip_range': 0.1529934858204552, 'ent_coef': 0.04195604187973914, 'vf_coef': 0.1584566179457132, 'max_grad_norm': 0.35232494794873076, 'gae_lambda': 0.9455196024881571, 'env_reward_weight': 0.33981518248560943}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 123, but because the `RolloutBuffer` is of size `n_steps * n_envs = 155`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 32
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=155 and n_envs=1)
+  warnings.warn(
+mean mean reward: 28.986936169172377, mean last reward: 36.25799999907613, score: 391.5669361599337
+[I 2024-06-26 17:20:33,738] Trial 32 finished with value: 391.5669361599337 and parameters: {'learning_rate': 0.004012580622500898, 'n_steps': 155, 'batch_size': 123, 'n_epochs': 5, 'clip_range': 0.2607079584207039, 'ent_coef': 0.029270980590632708, 'vf_coef': 0.1968459728565614, 'max_grad_norm': 0.4170895732614265, 'gae_lambda': 0.9231982948198642, 'env_reward_weight': 0.3589119291145963}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 110, but because the `RolloutBuffer` is of size `n_steps * n_envs = 190`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 80
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=190 and n_envs=1)
+  warnings.warn(
+mean mean reward: 28.984164892517505, mean last reward: 29.65799999818206, score: 325.56416487433813
+[I 2024-06-26 17:21:56,746] Trial 33 finished with value: 325.56416487433813 and parameters: {'learning_rate': 0.004410431304009601, 'n_steps': 190, 'batch_size': 110, 'n_epochs': 5, 'clip_range': 0.26821241681983643, 'ent_coef': 0.02911960182756911, 'vf_coef': 0.21583809087231293, 'max_grad_norm': 0.5556626189421133, 'gae_lambda': 0.9628549634297185, 'env_reward_weight': 0.25855154998816066}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 87, but because the `RolloutBuffer` is of size `n_steps * n_envs = 74`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 74
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=74 and n_envs=1)
+  warnings.warn(
+mean mean reward: 21.158335105401086, mean last reward: 21.910999999120833, score: 240.2683350966094
+[I 2024-06-26 17:23:22,768] Trial 34 finished with value: 240.2683350966094 and parameters: {'learning_rate': 0.005970503623177981, 'n_steps': 74, 'batch_size': 87, 'n_epochs': 8, 'clip_range': 0.21389458816655646, 'ent_coef': 0.04257219054965813, 'vf_coef': 0.2961320213221478, 'max_grad_norm': 0.4903498638338174, 'gae_lambda': 0.9224537933442835, 'env_reward_weight': 0.15456344590785082}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 109, but because the `RolloutBuffer` is of size `n_steps * n_envs = 299`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 81
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=299 and n_envs=1)
+  warnings.warn(
+mean mean reward: 25.58857446694152, mean last reward: 36.369999999180436, score: 389.28857445874587
+[I 2024-06-26 17:24:39,185] Trial 35 finished with value: 389.28857445874587 and parameters: {'learning_rate': 0.003272093103658441, 'n_steps': 299, 'batch_size': 109, 'n_epochs': 5, 'clip_range': 0.2693549852720008, 'ent_coef': 0.05504755043619697, 'vf_coef': 0.3438212092564447, 'max_grad_norm': 0.4343737682476656, 'gae_lambda': 0.9456416725357872, 'env_reward_weight': 0.34146618951826946}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 117, but because the `RolloutBuffer` is of size `n_steps * n_envs = 193`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 76
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=193 and n_envs=1)
+  warnings.warn(
+mean mean reward: 23.10525531788614, mean last reward: 28.97499999903142, score: 312.85525530820036
+[I 2024-06-26 17:25:55,259] Trial 36 finished with value: 312.85525530820036 and parameters: {'learning_rate': 0.003599368591970285, 'n_steps': 193, 'batch_size': 117, 'n_epochs': 7, 'clip_range': 0.26071754407886194, 'ent_coef': 0.05627496520616387, 'vf_coef': 0.426553667773134, 'max_grad_norm': 0.6191965535655699, 'gae_lambda': 0.8941340187364188, 'env_reward_weight': 0.5779989166384565}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 175, but because the `RolloutBuffer` is of size `n_steps * n_envs = 288`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 113
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=288 and n_envs=1)
+  warnings.warn(
+mean mean reward: 4.455505317829233, mean last reward: 15.969999998584388, score: 164.1555053036731
+[I 2024-06-26 17:26:55,404] Trial 37 finished with value: 164.1555053036731 and parameters: {'learning_rate': 3.1188705475873134e-05, 'n_steps': 288, 'batch_size': 175, 'n_epochs': 6, 'clip_range': 0.29399593065833357, 'ent_coef': 0.019993248953822016, 'vf_coef': 0.7768582670525139, 'max_grad_norm': 0.3687396231618778, 'gae_lambda': 0.8763047127085751, 'env_reward_weight': 0.9847711376982706}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 103, but because the `RolloutBuffer` is of size `n_steps * n_envs = 67`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 67
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=67 and n_envs=1)
+  warnings.warn(
+mean mean reward: 17.96310106246435, mean last reward: 15.855999998375774, score: 176.52310104622208
+[I 2024-06-26 17:28:26,600] Trial 38 finished with value: 176.52310104622208 and parameters: {'learning_rate': 0.007814681530677603, 'n_steps': 67, 'batch_size': 103, 'n_epochs': 17, 'clip_range': 0.3178602498409107, 'ent_coef': 0.031080884811518255, 'vf_coef': 0.35334069346016156, 'max_grad_norm': 0.5161451436592122, 'gae_lambda': 0.8626298284958022, 'env_reward_weight': 0.7788768158181814}. Best is trial 4 with value: 394.16505318492176.
+mean mean reward: 17.770420211406147, mean last reward: 29.22799999922514, score: 310.05042020365755
+[I 2024-06-26 17:29:45,589] Trial 39 finished with value: 310.05042020365755 and parameters: {'learning_rate': 0.006783063245255287, 'n_steps': 413, 'batch_size': 59, 'n_epochs': 11, 'clip_range': 0.285121379342879, 'ent_coef': 0.05220104776143268, 'vf_coef': 0.25232133948885493, 'max_grad_norm': 0.7378971835917622, 'gae_lambda': 0.9470973264294285, 'env_reward_weight': 0.053551814765550154}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 169, but because the `RolloutBuffer` is of size `n_steps * n_envs = 181`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 12
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=181 and n_envs=1)
+  warnings.warn(
+mean mean reward: 25.78849467953389, mean last reward: 36.60999999940395, score: 391.8884946735734
+[I 2024-06-26 17:31:07,447] Trial 40 finished with value: 391.8884946735734 and parameters: {'learning_rate': 0.004422582701331397, 'n_steps': 181, 'batch_size': 169, 'n_epochs': 9, 'clip_range': 0.34257227949871527, 'ent_coef': 0.010520163197520062, 'vf_coef': 0.17654901485402835, 'max_grad_norm': 0.40916229737250465, 'gae_lambda': 0.983221990948137, 'env_reward_weight': 0.35093551039912685}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 170, but because the `RolloutBuffer` is of size `n_steps * n_envs = 198`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 28
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=198 and n_envs=1)
+  warnings.warn(
+mean mean reward: 28.73072872240017, mean last reward: 29.099999999105933, score: 319.7307287134595
+[I 2024-06-26 17:32:30,851] Trial 41 finished with value: 319.7307287134595 and parameters: {'learning_rate': 0.003985526879279554, 'n_steps': 198, 'batch_size': 170, 'n_epochs': 9, 'clip_range': 0.3364739976656827, 'ent_coef': 0.011076707525606206, 'vf_coef': 0.17554178979975368, 'max_grad_norm': 0.4441317476508588, 'gae_lambda': 0.9861099302882214, 'env_reward_weight': 0.3549906655657761}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 196, but because the `RolloutBuffer` is of size `n_steps * n_envs = 319`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 123
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=319 and n_envs=1)
+  warnings.warn(
+mean mean reward: 27.776170211548504, mean last reward: 29.68999999910593, score: 324.6761702026078
+[I 2024-06-26 17:33:47,129] Trial 42 finished with value: 324.6761702026078 and parameters: {'learning_rate': 0.0052711065688900195, 'n_steps': 319, 'batch_size': 196, 'n_epochs': 4, 'clip_range': 0.35428634867754427, 'ent_coef': 0.0012103583296125785, 'vf_coef': 0.16139828070881454, 'max_grad_norm': 0.4090187893319646, 'gae_lambda': 0.9256762975590019, 'env_reward_weight': 0.42106852934258016}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 120, but because the `RolloutBuffer` is of size `n_steps * n_envs = 146`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 26
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=146 and n_envs=1)
+  warnings.warn(
+mean mean reward: 29.251765956481165, mean last reward: 29.9269999986887, score: 328.52176594336817
+[I 2024-06-26 17:35:13,244] Trial 43 finished with value: 328.52176594336817 and parameters: {'learning_rate': 0.0031012296677060936, 'n_steps': 146, 'batch_size': 120, 'n_epochs': 8, 'clip_range': 0.2565065928543197, 'ent_coef': 0.019078634881041282, 'vf_coef': 0.3384194672899929, 'max_grad_norm': 0.3591418358521663, 'gae_lambda': 0.9757064308186585, 'env_reward_weight': 0.348046197680341}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 142, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1587`, after every 11 untruncated mini-batches, there will be a truncated mini-batch of size 25
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1587 and n_envs=1)
+  warnings.warn(
+mean mean reward: 15.519287232609187, mean last reward: 36.44999999925494, score: 380.0192872251586
+[I 2024-06-26 17:36:13,735] Trial 44 finished with value: 380.0192872251586 and parameters: {'learning_rate': 0.0019313543237710316, 'n_steps': 1587, 'batch_size': 142, 'n_epochs': 6, 'clip_range': 0.3877506305558599, 'ent_coef': 0.024255421007978624, 'vf_coef': 0.23937953069620316, 'max_grad_norm': 0.49112387708349137, 'gae_lambda': 0.9911367671847869, 'env_reward_weight': 0.17415677724201356}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 101, but because the `RolloutBuffer` is of size `n_steps * n_envs = 470`, after every 4 untruncated mini-batches, there will be a truncated mini-batch of size 66
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=470 and n_envs=1)
+  warnings.warn(
+mean mean reward: 17.847388296252156, mean last reward: 23.04699999779463, score: 248.31738827419844
+[I 2024-06-26 17:37:23,679] Trial 45 finished with value: 248.31738827419844 and parameters: {'learning_rate': 0.004940810064675869, 'n_steps': 470, 'batch_size': 101, 'n_epochs': 9, 'clip_range': 0.19558422803640368, 'ent_coef': 0.0068473749219975085, 'vf_coef': 0.15208842267114117, 'max_grad_norm': 0.5513477999041533, 'gae_lambda': 0.9073830886798759, 'env_reward_weight': 0.26167818279792154}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 210, but because the `RolloutBuffer` is of size `n_steps * n_envs = 555`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 135
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=555 and n_envs=1)
+  warnings.warn(
+mean mean reward: 20.31048404112934, mean last reward: 22.765999998301268, score: 247.97048402414202
+[I 2024-06-26 17:38:29,536] Trial 46 finished with value: 247.97048402414202 and parameters: {'learning_rate': 0.006757992772068378, 'n_steps': 555, 'batch_size': 210, 'n_epochs': 5, 'clip_range': 0.2809074637318333, 'ent_coef': 0.04046799658674406, 'vf_coef': 0.2256381728091006, 'max_grad_norm': 0.4163188861527969, 'gae_lambda': 0.9502102362812204, 'env_reward_weight': 0.4902674939617244}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 165, but because the `RolloutBuffer` is of size `n_steps * n_envs = 348`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 18
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=348 and n_envs=1)
+  warnings.warn(
+mean mean reward: 22.54637233911161, mean last reward: 29.808999999091032, score: 320.6363723300219
+[I 2024-06-26 17:39:41,930] Trial 47 finished with value: 320.6363723300219 and parameters: {'learning_rate': 0.0010322997147829344, 'n_steps': 348, 'batch_size': 165, 'n_epochs': 7, 'clip_range': 0.22156826506877844, 'ent_coef': 0.03335629928480209, 'vf_coef': 0.3893903398333722, 'max_grad_norm': 0.3838173155114981, 'gae_lambda': 0.8851015658056621, 'env_reward_weight': 0.39149462815976754}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 135, but because the `RolloutBuffer` is of size `n_steps * n_envs = 254`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 119
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=254 and n_envs=1)
+  warnings.warn(
+mean mean reward: 22.36673404142657, mean last reward: 29.824999998807908, score: 320.61673402950566
+[I 2024-06-26 17:40:56,475] Trial 48 finished with value: 320.61673402950566 and parameters: {'learning_rate': 0.0029661521964084586, 'n_steps': 254, 'batch_size': 135, 'n_epochs': 11, 'clip_range': 0.1598718862078904, 'ent_coef': 0.05978085439461445, 'vf_coef': 0.13759512411267272, 'max_grad_norm': 0.453311630880475, 'gae_lambda': 0.9710743839628045, 'env_reward_weight': 0.6304147705391883}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 41, but because the `RolloutBuffer` is of size `n_steps * n_envs = 144`, after every 3 untruncated mini-batches, there will be a truncated mini-batch of size 21
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=144 and n_envs=1)
+  warnings.warn(
+mean mean reward: 24.02808510512708, mean last reward: 36.545999999344346, score: 389.4880850985706
+[I 2024-06-26 17:42:14,882] Trial 49 finished with value: 389.4880850985706 and parameters: {'learning_rate': 0.009828871258512156, 'n_steps': 144, 'batch_size': 41, 'n_epochs': 4, 'clip_range': 0.30150991147205514, 'ent_coef': 0.04928111354780792, 'vf_coef': 0.2700000073601223, 'max_grad_norm': 0.3405394875193724, 'gae_lambda': 0.9444199602274933, 'env_reward_weight': 0.535639545785261}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 41, but because the `RolloutBuffer` is of size `n_steps * n_envs = 138`, after every 3 untruncated mini-batches, there will be a truncated mini-batch of size 15
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=138 and n_envs=1)
+  warnings.warn(
+mean mean reward: 24.082132977545662, mean last reward: 22.75099999897182, score: 251.59213296726386
+[I 2024-06-26 17:43:33,493] Trial 50 finished with value: 251.59213296726386 and parameters: {'learning_rate': 0.00932568095703912, 'n_steps': 138, 'batch_size': 41, 'n_epochs': 4, 'clip_range': 0.3160864944802771, 'ent_coef': 0.047784236752329914, 'vf_coef': 0.2760831488617614, 'max_grad_norm': 0.3383800133784007, 'gae_lambda': 0.9298453315723093, 'env_reward_weight': 0.5359367228573895}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 36, but because the `RolloutBuffer` is of size `n_steps * n_envs = 119`, after every 3 untruncated mini-batches, there will be a truncated mini-batch of size 11
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=119 and n_envs=1)
+  warnings.warn(
+mean mean reward: 26.96227127569113, mean last reward: 22.452999998703596, score: 251.49227126272712
+[I 2024-06-26 17:44:54,864] Trial 51 finished with value: 251.49227126272712 and parameters: {'learning_rate': 0.004365704459594405, 'n_steps': 119, 'batch_size': 36, 'n_epochs': 3, 'clip_range': 0.2979750764463694, 'ent_coef': 0.055271650292508204, 'vf_coef': 0.20742864363744945, 'max_grad_norm': 0.3981538871794007, 'gae_lambda': 0.9425460681149439, 'env_reward_weight': 0.40604407898635525}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 65, but because the `RolloutBuffer` is of size `n_steps * n_envs = 261`, after every 4 untruncated mini-batches, there will be a truncated mini-batch of size 1
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=261 and n_envs=1)
+  warnings.warn(
+mean mean reward: 18.33450531803547, mean last reward: 15.178999999687075, score: 170.12450531490623
+[I 2024-06-26 17:46:01,294] Trial 52 finished with value: 170.12450531490623 and parameters: {'learning_rate': 0.006205479056039494, 'n_steps': 261, 'batch_size': 65, 'n_epochs': 2, 'clip_range': 0.27707214103638445, 'ent_coef': 0.038878718248412374, 'vf_coef': 0.20061524835759326, 'max_grad_norm': 0.35461529198970165, 'gae_lambda': 0.9814816547426907, 'env_reward_weight': 0.3525086572262402}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 23, but because the `RolloutBuffer` is of size `n_steps * n_envs = 77`, after every 3 untruncated mini-batches, there will be a truncated mini-batch of size 8
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=77 and n_envs=1)
+  warnings.warn(
+mean mean reward: 30.997675530909696, mean last reward: 29.373999999389053, score: 324.73767552480024
+[I 2024-06-26 17:47:38,542] Trial 53 finished with value: 324.73767552480024 and parameters: {'learning_rate': 0.001983696067330126, 'n_steps': 77, 'batch_size': 23, 'n_epochs': 4, 'clip_range': 0.338109009546984, 'ent_coef': 0.050683879289795154, 'vf_coef': 0.33011542212260486, 'max_grad_norm': 0.30112421254225175, 'gae_lambda': 0.962613145278141, 'env_reward_weight': 0.46235576761358116}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 112, but because the `RolloutBuffer` is of size `n_steps * n_envs = 442`, after every 3 untruncated mini-batches, there will be a truncated mini-batch of size 106
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=442 and n_envs=1)
+  warnings.warn(
+mean mean reward: 20.836771275442327, mean last reward: 36.44999999925494, score: 385.33677126799176
+[I 2024-06-26 17:48:47,702] Trial 54 finished with value: 385.33677126799176 and parameters: {'learning_rate': 0.0032887676795087255, 'n_steps': 442, 'batch_size': 112, 'n_epochs': 6, 'clip_range': 0.24927464750453007, 'ent_coef': 0.06502436611222547, 'vf_coef': 0.6236062533436281, 'max_grad_norm': 0.4812108775422873, 'gae_lambda': 0.9464831891729791, 'env_reward_weight': 0.2439230160127733}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 97, but because the `RolloutBuffer` is of size `n_steps * n_envs = 212`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 18
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=212 and n_envs=1)
+  warnings.warn(
+mean mean reward: 27.69262233939022, mean last reward: 36.14599999897182, score: 389.1526223291084
+[I 2024-06-26 17:50:09,287] Trial 55 finished with value: 389.1526223291084 and parameters: {'learning_rate': 0.005076511153172102, 'n_steps': 212, 'batch_size': 97, 'n_epochs': 5, 'clip_range': 0.3618833325159967, 'ent_coef': 0.03491192610125403, 'vf_coef': 0.5018957691895671, 'max_grad_norm': 0.9461557114205763, 'gae_lambda': 0.9332821235715159, 'env_reward_weight': 0.6034146994961684}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 142, but because the `RolloutBuffer` is of size `n_steps * n_envs = 326`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 42
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=326 and n_envs=1)
+  warnings.warn(
+mean mean reward: 23.96223936039241, mean last reward: 36.46599999926984, score: 388.62223935309083
+[I 2024-06-26 17:51:30,719] Trial 56 finished with value: 388.62223935309083 and parameters: {'learning_rate': 0.007897780273270122, 'n_steps': 326, 'batch_size': 142, 'n_epochs': 15, 'clip_range': 0.3209412112043112, 'ent_coef': 0.027689971047071698, 'vf_coef': 0.25709683650358467, 'max_grad_norm': 0.3341362164950151, 'gae_lambda': 0.9184380447766198, 'env_reward_weight': 0.2770879038291173}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 129, but because the `RolloutBuffer` is of size `n_steps * n_envs = 156`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 27
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=156 and n_envs=1)
+  warnings.warn(
+mean mean reward: 21.476281913650478, mean last reward: 36.46599999926984, score: 386.1362819063489
+[I 2024-06-26 17:52:42,281] Trial 57 finished with value: 386.1362819063489 and parameters: {'learning_rate': 0.0006017819420113797, 'n_steps': 156, 'batch_size': 129, 'n_epochs': 3, 'clip_range': 0.3051714450950578, 'ent_coef': 0.04110928663793125, 'vf_coef': 0.12203504884569275, 'max_grad_norm': 0.38701200537879765, 'gae_lambda': 0.8425388653103637, 'env_reward_weight': 0.4264725055768015}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 79, but because the `RolloutBuffer` is of size `n_steps * n_envs = 589`, after every 7 untruncated mini-batches, there will be a truncated mini-batch of size 36
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=589 and n_envs=1)
+  warnings.warn(
+mean mean reward: 11.138494679327817, mean last reward: 15.66199999883771, score: 167.7584946677049
+[I 2024-06-26 17:53:46,194] Trial 58 finished with value: 167.7584946677049 and parameters: {'learning_rate': 0.00027209057892086053, 'n_steps': 589, 'batch_size': 79, 'n_epochs': 7, 'clip_range': 0.11289905654255558, 'ent_coef': 0.01566901052558598, 'vf_coef': 0.14770752539959392, 'max_grad_norm': 0.4179259127578084, 'gae_lambda': 0.9951240202075337, 'env_reward_weight': 0.7034373200921047}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 104, but because the `RolloutBuffer` is of size `n_steps * n_envs = 251`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 43
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=251 and n_envs=1)
+  warnings.warn(
+mean mean reward: 17.723595743263736, mean last reward: 16.33199999608099, score: 181.04359570407365
+[I 2024-06-26 17:55:11,623] Trial 59 finished with value: 181.04359570407365 and parameters: {'learning_rate': 0.0024651637765289625, 'n_steps': 251, 'batch_size': 104, 'n_epochs': 20, 'clip_range': 0.1366554438217095, 'ent_coef': 0.049234017560958195, 'vf_coef': 0.3916467358465271, 'max_grad_norm': 0.5757136612707732, 'gae_lambda': 0.905865776670127, 'env_reward_weight': 0.3290346917072113}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 57, but because the `RolloutBuffer` is of size `n_steps * n_envs = 321`, after every 5 untruncated mini-batches, there will be a truncated mini-batch of size 36
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=321 and n_envs=1)
+  warnings.warn(
+mean mean reward: 24.408196807392734, mean last reward: 36.433999999240044, score: 388.74819679979316
+[I 2024-06-26 17:56:30,081] Trial 60 finished with value: 388.74819679979316 and parameters: {'learning_rate': 0.003956580511094025, 'n_steps': 321, 'batch_size': 57, 'n_epochs': 4, 'clip_range': 0.24679209648944198, 'ent_coef': 0.06961510332387175, 'vf_coef': 0.19214030067821986, 'max_grad_norm': 0.44614236904074744, 'gae_lambda': 0.9761519076498, 'env_reward_weight': 0.527465983671597}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 97, but because the `RolloutBuffer` is of size `n_steps * n_envs = 220`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 26
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=220 and n_envs=1)
+  warnings.warn(
+mean mean reward: 28.38444680747952, mean last reward: 22.3399999987334, score: 251.78444679481353
+[I 2024-06-26 17:57:52,723] Trial 61 finished with value: 251.78444679481353 and parameters: {'learning_rate': 0.0051693902299174595, 'n_steps': 220, 'batch_size': 97, 'n_epochs': 5, 'clip_range': 0.3662640486292844, 'ent_coef': 0.03541660939097105, 'vf_coef': 0.4981982684898149, 'max_grad_norm': 0.8802965897010077, 'gae_lambda': 0.9358511827327742, 'env_reward_weight': 0.4819876839160974}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 116, but because the `RolloutBuffer` is of size `n_steps * n_envs = 130`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 14
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=130 and n_envs=1)
+  warnings.warn(
+mean mean reward: 26.37022872232178, mean last reward: 36.369999999180436, score: 390.07022871412613
+[I 2024-06-26 17:59:08,440] Trial 62 finished with value: 390.07022871412613 and parameters: {'learning_rate': 0.009656110710864875, 'n_steps': 130, 'batch_size': 116, 'n_epochs': 2, 'clip_range': 0.3503141489200354, 'ent_coef': 0.03355975575591125, 'vf_coef': 0.6852970994793266, 'max_grad_norm': 0.7415020327780707, 'gae_lambda': 0.928607290170076, 'env_reward_weight': 0.5726557046960886}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 123, but because the `RolloutBuffer` is of size `n_steps * n_envs = 110`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 110
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=110 and n_envs=1)
+  warnings.warn(
+mean mean reward: 28.558611700995726, mean last reward: 36.46599999926984, score: 393.21861169369413
+[I 2024-06-26 18:00:27,788] Trial 63 finished with value: 393.21861169369413 and parameters: {'learning_rate': 0.009552992465024975, 'n_steps': 110, 'batch_size': 123, 'n_epochs': 2, 'clip_range': 0.34760435532893225, 'ent_coef': 0.05897318291937313, 'vf_coef': 0.7283583713972485, 'max_grad_norm': 0.8006613390557648, 'gae_lambda': 0.9267651345360096, 'env_reward_weight': 0.5615507766152505}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 120, but because the `RolloutBuffer` is of size `n_steps * n_envs = 2024`, after every 16 untruncated mini-batches, there will be a truncated mini-batch of size 104
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=2024 and n_envs=1)
+  warnings.warn(
+mean mean reward: 10.487361700614874, mean last reward: 8.602999998554587, score: 96.51736168616074
+[I 2024-06-26 18:01:21,924] Trial 64 finished with value: 96.51736168616074 and parameters: {'learning_rate': 0.009106434994686458, 'n_steps': 2024, 'batch_size': 120, 'n_epochs': 2, 'clip_range': 0.34883349341793624, 'ent_coef': 0.026331139502231874, 'vf_coef': 0.7660936142677442, 'max_grad_norm': 0.7876765786835738, 'gae_lambda': 0.9142908870423617, 'env_reward_weight': 0.6244086488744998}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 149, but because the `RolloutBuffer` is of size `n_steps * n_envs = 127`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 127
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=127 and n_envs=1)
+  warnings.warn(
+mean mean reward: 28.187335105297414, mean last reward: 29.437999999448657, score: 322.567335099784
+[I 2024-06-26 18:02:42,217] Trial 65 finished with value: 322.567335099784 and parameters: {'learning_rate': 0.006552247305841113, 'n_steps': 127, 'batch_size': 149, 'n_epochs': 2, 'clip_range': 0.38774267266927065, 'ent_coef': 0.06005232816559482, 'vf_coef': 0.6993671807954576, 'max_grad_norm': 0.7513710535017635, 'gae_lambda': 0.9257736515218452, 'env_reward_weight': 0.5669654244890503}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 127, but because the `RolloutBuffer` is of size `n_steps * n_envs = 67`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 67
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=67 and n_envs=1)
+  warnings.warn(
+mean mean reward: 3.6664893605124127, mean last reward: 1.3339999993145466, score: 17.006489353657877
+[I 2024-06-26 18:03:37,914] Trial 66 finished with value: 17.006489353657877 and parameters: {'learning_rate': 8.258850190892935e-05, 'n_steps': 67, 'batch_size': 127, 'n_epochs': 1, 'clip_range': 0.3707603935295282, 'ent_coef': 0.032107270158996254, 'vf_coef': 0.7240826220290821, 'max_grad_norm': 0.841634891049004, 'gae_lambda': 0.8990442001998794, 'env_reward_weight': 0.6865233714733534}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 156, but because the `RolloutBuffer` is of size `n_steps * n_envs = 378`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 66
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=378 and n_envs=1)
+  warnings.warn(
+mean mean reward: 3.249196807355323, mean last reward: 1.7489999980479483, score: 20.739196787834803
+[I 2024-06-26 18:04:34,424] Trial 67 finished with value: 20.739196787834803 and parameters: {'learning_rate': 1.2134652889844616e-05, 'n_steps': 378, 'batch_size': 156, 'n_epochs': 3, 'clip_range': 0.32644202045946474, 'ent_coef': 0.044062593593670735, 'vf_coef': 0.8958619200641971, 'max_grad_norm': 0.700603391108147, 'gae_lambda': 0.9529043067335282, 'env_reward_weight': 0.7639193233090835}. Best is trial 4 with value: 394.16505318492176.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 138, but because the `RolloutBuffer` is of size `n_steps * n_envs = 189`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 51
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=189 and n_envs=1)
+  warnings.warn(
+mean mean reward: 29.00215957338862, mean last reward: 36.52999999932945, score: 394.3021595666831
+[I 2024-06-26 18:05:52,931] Trial 68 finished with value: 394.3021595666831 and parameters: {'learning_rate': 0.00996582543273961, 'n_steps': 189, 'batch_size': 138, 'n_epochs': 2, 'clip_range': 0.34193735205629605, 'ent_coef': 0.023026421189556646, 'vf_coef': 0.7966589088420943, 'max_grad_norm': 0.7556307021424795, 'gae_lambda': 0.959714730274539, 'env_reward_weight': 0.6629737667299374}. Best is trial 68 with value: 394.3021595666831.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 138, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1890`, after every 13 untruncated mini-batches, there will be a truncated mini-batch of size 96
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1890 and n_envs=1)
+  warnings.warn(
+mean mean reward: 10.675920211175416, mean last reward: 29.403999999389054, score: 304.71592020506597
+[I 2024-06-26 18:06:45,922] Trial 69 finished with value: 304.71592020506597 and parameters: {'learning_rate': 0.007747098774761788, 'n_steps': 1890, 'batch_size': 138, 'n_epochs': 1, 'clip_range': 0.34966311379896914, 'ent_coef': 0.02281712419622442, 'vf_coef': 0.8054998413523908, 'max_grad_norm': 0.766091834058309, 'gae_lambda': 0.9586098338155766, 'env_reward_weight': 0.6643993518166471}. Best is trial 68 with value: 394.3021595666831.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 120, but because the `RolloutBuffer` is of size `n_steps * n_envs = 212`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 92
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=212 and n_envs=1)
+  warnings.warn(
+mean mean reward: 20.25615425386169, mean last reward: 29.692999998554587, score: 317.18615423940753
+[I 2024-06-26 18:07:55,148] Trial 70 finished with value: 317.18615423940753 and parameters: {'learning_rate': 0.0016544330460291513, 'n_steps': 212, 'batch_size': 120, 'n_epochs': 2, 'clip_range': 0.39547589709325454, 'ent_coef': 0.019076035853014574, 'vf_coef': 0.8422485281477925, 'max_grad_norm': 0.8212100959704701, 'gae_lambda': 0.9640994502856455, 'env_reward_weight': 0.7438663969812045}. Best is trial 68 with value: 394.3021595666831.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 114, but because the `RolloutBuffer` is of size `n_steps * n_envs = 138`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 24
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=138 and n_envs=1)
+  warnings.warn(
+mean mean reward: 24.43913297741535, mean last reward: 36.433999999240044, score: 388.77913296981575
+[I 2024-06-26 18:09:10,889] Trial 71 finished with value: 388.77913296981575 and parameters: {'learning_rate': 0.009629198589740331, 'n_steps': 138, 'batch_size': 114, 'n_epochs': 3, 'clip_range': 0.3412641403498302, 'ent_coef': 0.037968611242619875, 'vf_coef': 0.6464649374263969, 'max_grad_norm': 0.647604271556548, 'gae_lambda': 0.9391583120521506, 'env_reward_weight': 0.6431589615482243}. Best is trial 68 with value: 394.3021595666831.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 131, but because the `RolloutBuffer` is of size `n_steps * n_envs = 168`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 37
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=168 and n_envs=1)
+  warnings.warn(
+mean mean reward: 29.424840424415912, mean last reward: 36.51399999931455, score: 394.56484041756136
+[I 2024-06-26 18:10:34,576] Trial 72 finished with value: 394.56484041756136 and parameters: {'learning_rate': 0.007257582211602708, 'n_steps': 168, 'batch_size': 131, 'n_epochs': 4, 'clip_range': 0.30791791174858607, 'ent_coef': 0.004797799568808076, 'vf_coef': 0.7384780469276497, 'max_grad_norm': 0.6770792227515263, 'gae_lambda': 0.971173725311101, 'env_reward_weight': 0.5993387299010543}. Best is trial 72 with value: 394.56484041756136.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 183, but because the `RolloutBuffer` is of size `n_steps * n_envs = 272`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 89
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=272 and n_envs=1)
+  warnings.warn(
+mean mean reward: 30.379281913987263, mean last reward: 36.41799999922514, score: 394.55928190623865
+[I 2024-06-26 18:11:55,022] Trial 73 finished with value: 394.55928190623865 and parameters: {'learning_rate': 0.00747795374964597, 'n_steps': 272, 'batch_size': 183, 'n_epochs': 2, 'clip_range': 0.37630305362801797, 'ent_coef': 0.004838707032869727, 'vf_coef': 0.7297284484994091, 'max_grad_norm': 0.6813957391863998, 'gae_lambda': 0.9851725913294321, 'env_reward_weight': 0.6034295913675215}. Best is trial 72 with value: 394.56484041756136.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 178, but because the `RolloutBuffer` is of size `n_steps * n_envs = 282`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 104
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=282 and n_envs=1)
+  warnings.warn(
+mean mean reward: 28.29048936062552, mean last reward: 29.18399999924004, score: 320.13048935302595
+[I 2024-06-26 18:13:12,402] Trial 74 finished with value: 320.13048935302595 and parameters: {'learning_rate': 0.00729284829969984, 'n_steps': 282, 'batch_size': 178, 'n_epochs': 3, 'clip_range': 0.3713046038433389, 'ent_coef': 0.008549051808042846, 'vf_coef': 0.7508431632045662, 'max_grad_norm': 0.7196765259531642, 'gae_lambda': 0.9847623365233118, 'env_reward_weight': 0.6038093857864081}. Best is trial 72 with value: 394.56484041756136.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 195, but because the `RolloutBuffer` is of size `n_steps * n_envs = 188`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 188
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=188 and n_envs=1)
+  warnings.warn(
+mean mean reward: 31.566053190565405, mean last reward: 36.593999999389055, score: 397.50605318445594
+[I 2024-06-26 18:14:36,456] Trial 75 finished with value: 397.50605318445594 and parameters: {'learning_rate': 0.006128518911011046, 'n_steps': 188, 'batch_size': 195, 'n_epochs': 4, 'clip_range': 0.3802060420065968, 'ent_coef': 0.0045823258311440025, 'vf_coef': 0.9032640940522102, 'max_grad_norm': 0.6807346408015829, 'gae_lambda': 0.9915784607770367, 'env_reward_weight': 0.6620165745617903}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 197, but because the `RolloutBuffer` is of size `n_steps * n_envs = 479`, after every 2 untruncated mini-batches, there will be a truncated mini-batch of size 85
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=479 and n_envs=1)
+  warnings.warn(
+mean mean reward: 21.889276594502572, mean last reward: 29.558999998271464, score: 317.4792765772172
+[I 2024-06-26 18:15:44,829] Trial 76 finished with value: 317.4792765772172 and parameters: {'learning_rate': 0.005709416535697456, 'n_steps': 479, 'batch_size': 197, 'n_epochs': 1, 'clip_range': 0.38184664294368076, 'ent_coef': 0.004385473583870138, 'vf_coef': 0.9005403743194245, 'max_grad_norm': 0.6752723331078679, 'gae_lambda': 0.9974092906904869, 'env_reward_weight': 0.7281674576899921}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 221, but because the `RolloutBuffer` is of size `n_steps * n_envs = 379`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 158
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=379 and n_envs=1)
+  warnings.warn(
+mean mean reward: 27.3680053180908, mean last reward: 29.844999999180438, score: 325.81800530989517
+[I 2024-06-26 18:17:00,129] Trial 77 finished with value: 325.81800530989517 and parameters: {'learning_rate': 0.007688041598169889, 'n_steps': 379, 'batch_size': 221, 'n_epochs': 3, 'clip_range': 0.39964848059609337, 'ent_coef': 0.011443654359106626, 'vf_coef': 0.9611040304320367, 'max_grad_norm': 0.6222554984497436, 'gae_lambda': 0.9901374308794711, 'env_reward_weight': 0.6611298539672101}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 184, but because the `RolloutBuffer` is of size `n_steps * n_envs = 193`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 9
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=193 and n_envs=1)
+  warnings.warn(
+mean mean reward: 28.8421808499934, mean last reward: 36.497999999299644, score: 393.82218084298984
+[I 2024-06-26 18:18:22,633] Trial 78 finished with value: 393.82218084298984 and parameters: {'learning_rate': 0.006287471075709482, 'n_steps': 193, 'batch_size': 184, 'n_epochs': 6, 'clip_range': 0.33353089025239446, 'ent_coef': 0.004133668131068542, 'vf_coef': 0.8210593576631128, 'max_grad_norm': 0.711764562157821, 'gae_lambda': 0.9713905037988732, 'env_reward_weight': 0.8403466553143288}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 186, but because the `RolloutBuffer` is of size `n_steps * n_envs = 184`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 184
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=184 and n_envs=1)
+  warnings.warn(
+mean mean reward: 30.325622339396876, mean last reward: 36.51399999931455, score: 395.46562233254235
+[I 2024-06-26 18:19:46,825] Trial 79 finished with value: 395.46562233254235 and parameters: {'learning_rate': 0.006151802124260809, 'n_steps': 184, 'batch_size': 186, 'n_epochs': 10, 'clip_range': 0.3285824551122377, 'ent_coef': 0.003562464304917426, 'vf_coef': 0.8382155427335748, 'max_grad_norm': 0.6622850938647823, 'gae_lambda': 0.970064175160645, 'env_reward_weight': 0.8251710995772173}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 186, but because the `RolloutBuffer` is of size `n_steps * n_envs = 93`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 93
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=93 and n_envs=1)
+  warnings.warn(
+mean mean reward: 25.709430849662727, mean last reward: 22.231999999061223, score: 248.02943084027498
+[I 2024-06-26 18:21:12,012] Trial 80 finished with value: 248.02943084027498 and parameters: {'learning_rate': 0.005549583881319428, 'n_steps': 93, 'batch_size': 186, 'n_epochs': 10, 'clip_range': 0.3565442320176166, 'ent_coef': 0.00261211967502613, 'vf_coef': 0.821042322537774, 'max_grad_norm': 0.6765030469297241, 'gae_lambda': 0.9717424699439798, 'env_reward_weight': 0.8528488927250316}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 189, but because the `RolloutBuffer` is of size `n_steps * n_envs = 203`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 14
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=203 and n_envs=1)
+  warnings.warn(
+mean mean reward: 27.71406382879203, mean last reward: 29.45599999949336, score: 322.2740638237256
+[I 2024-06-26 18:22:37,958] Trial 81 finished with value: 322.2740638237256 and parameters: {'learning_rate': 0.0062566858041991765, 'n_steps': 203, 'batch_size': 189, 'n_epochs': 12, 'clip_range': 0.32915051874310824, 'ent_coef': 0.004785149132945345, 'vf_coef': 0.8616403117145618, 'max_grad_norm': 0.7107581004211236, 'gae_lambda': 0.9801262870208415, 'env_reward_weight': 0.8489647754773892}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 203, but because the `RolloutBuffer` is of size `n_steps * n_envs = 266`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 63
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=266 and n_envs=1)
+  warnings.warn(
+mean mean reward: 25.531170211472013, mean last reward: 36.593999999389055, score: 391.4711702053625
+[I 2024-06-26 18:23:58,272] Trial 82 finished with value: 391.4711702053625 and parameters: {'learning_rate': 0.007967485082867811, 'n_steps': 266, 'batch_size': 203, 'n_epochs': 10, 'clip_range': 0.3436450158734968, 'ent_coef': 0.008920339523288053, 'vf_coef': 0.9267043590667478, 'max_grad_norm': 0.6273083518479913, 'gae_lambda': 0.9758370800112491, 'env_reward_weight': 0.7900669139004686}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 181, but because the `RolloutBuffer` is of size `n_steps * n_envs = 198`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 17
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=198 and n_envs=1)
+  warnings.warn(
+mean mean reward: 26.930925530815454, mean last reward: 22.617999999150634, score: 253.1109255223218
+[I 2024-06-26 18:25:22,946] Trial 83 finished with value: 253.1109255223218 and parameters: {'learning_rate': 0.004517812920644009, 'n_steps': 198, 'batch_size': 181, 'n_epochs': 9, 'clip_range': 0.37937444845808665, 'ent_coef': 5.4960413428871164e-05, 'vf_coef': 0.9990390494516221, 'max_grad_norm': 0.6665743235301126, 'gae_lambda': 0.9925990835201219, 'env_reward_weight': 0.9178634000002236}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 217, but because the `RolloutBuffer` is of size `n_steps * n_envs = 427`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 210
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=427 and n_envs=1)
+  warnings.warn(
+mean mean reward: 25.796191488218273, mean last reward: 36.28999999910593, score: 388.69619147927756
+[I 2024-06-26 18:26:38,010] Trial 84 finished with value: 388.69619147927756 and parameters: {'learning_rate': 0.006513694366226581, 'n_steps': 427, 'batch_size': 217, 'n_epochs': 7, 'clip_range': 0.3329930619034061, 'ent_coef': 0.0064219749787870675, 'vf_coef': 0.8080153039187997, 'max_grad_norm': 0.7724048268195511, 'gae_lambda': 0.9854818346450834, 'env_reward_weight': 0.8780923132767018}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 169, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1554`, after every 9 untruncated mini-batches, there will be a truncated mini-batch of size 33
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1554 and n_envs=1)
+  warnings.warn(
+mean mean reward: 15.706063828339918, mean last reward: 22.561999998390675, score: 241.32606381224667
+[I 2024-06-26 18:27:42,299] Trial 85 finished with value: 241.32606381224667 and parameters: {'learning_rate': 0.0035741945263213994, 'n_steps': 1554, 'batch_size': 169, 'n_epochs': 8, 'clip_range': 0.31209582024008947, 'ent_coef': 0.012450395795796067, 'vf_coef': 0.7454773461292845, 'max_grad_norm': 0.6911144588118076, 'gae_lambda': 0.9668515324360806, 'env_reward_weight': 0.8105959039930094}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 161, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1458`, after every 9 untruncated mini-batches, there will be a truncated mini-batch of size 9
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1458 and n_envs=1)
+  warnings.warn(
+mean mean reward: 15.56057446660038, mean last reward: 22.800999998152257, score: 243.57057444812295
+[I 2024-06-26 18:28:45,175] Trial 86 finished with value: 243.57057444812295 and parameters: {'learning_rate': 0.0026549417979062, 'n_steps': 1458, 'batch_size': 161, 'n_epochs': 6, 'clip_range': 0.32553960628301676, 'ent_coef': 0.014864638650139886, 'vf_coef': 0.7903656892782274, 'max_grad_norm': 0.5990649099387468, 'gae_lambda': 0.980158245965098, 'env_reward_weight': 0.9552760956664033}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 195, but because the `RolloutBuffer` is of size `n_steps * n_envs = 334`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 139
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=334 and n_envs=1)
+  warnings.warn(
+mean mean reward: 27.01785106272258, mean last reward: 36.73799999952316, score: 394.3978510579542
+[I 2024-06-26 18:30:00,263] Trial 87 finished with value: 394.3978510579542 and parameters: {'learning_rate': 0.008221856668028396, 'n_steps': 334, 'batch_size': 195, 'n_epochs': 2, 'clip_range': 0.3712238782959902, 'ent_coef': 0.0026204598178731623, 'vf_coef': 0.8480426049328228, 'max_grad_norm': 0.7212240445998295, 'gae_lambda': 0.9691283786682195, 'env_reward_weight': 0.8906930168841525}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 239, but because the `RolloutBuffer` is of size `n_steps * n_envs = 355`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 116
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=355 and n_envs=1)
+  warnings.warn(
+mean mean reward: 27.74368084994997, mean last reward: 36.481999999284746, score: 392.5636808427974
+[I 2024-06-26 18:31:16,034] Trial 88 finished with value: 392.5636808427974 and parameters: {'learning_rate': 0.008314051663301531, 'n_steps': 355, 'batch_size': 239, 'n_epochs': 2, 'clip_range': 0.3689812592424089, 'ent_coef': 0.0027904439702749117, 'vf_coef': 0.8381319986766104, 'max_grad_norm': 0.6517450872247402, 'gae_lambda': 0.9707231972650342, 'env_reward_weight': 0.8915297303757528}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 198, but because the `RolloutBuffer` is of size `n_steps * n_envs = 100`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 100
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=100 and n_envs=1)
+  warnings.warn(
+mean mean reward: 31.30826595645873, mean last reward: 36.369999999180436, score: 395.0082659482631
+[I 2024-06-26 18:32:52,270] Trial 89 finished with value: 395.0082659482631 and parameters: {'learning_rate': 0.00569536772043311, 'n_steps': 100, 'batch_size': 198, 'n_epochs': 15, 'clip_range': 0.3763959494394045, 'ent_coef': 0.005903418603004662, 'vf_coef': 0.8793274393000335, 'max_grad_norm': 0.726813030143299, 'gae_lambda': 0.9556331942636307, 'env_reward_weight': 0.9949186894436521}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 198, but because the `RolloutBuffer` is of size `n_steps * n_envs = 296`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 98
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=296 and n_envs=1)
+  warnings.warn(
+mean mean reward: 21.852835105100368, mean last reward: 36.56199999935925, score: 387.4728350986929
+[I 2024-06-26 18:34:13,323] Trial 90 finished with value: 387.4728350986929 and parameters: {'learning_rate': 0.00039272699924722813, 'n_steps': 296, 'batch_size': 198, 'n_epochs': 18, 'clip_range': 0.35948836596567113, 'ent_coef': 0.005994366432232105, 'vf_coef': 0.8793398604101502, 'max_grad_norm': 0.723216339205907, 'gae_lambda': 0.9568560115532555, 'env_reward_weight': 0.9944123281035953}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 209, but because the `RolloutBuffer` is of size `n_steps * n_envs = 68`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 68
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=68 and n_envs=1)
+  warnings.warn(
+mean mean reward: 25.161723402812285, mean last reward: 29.58599999845028, score: 321.0217233873151
+[I 2024-06-26 18:35:32,363] Trial 91 finished with value: 321.0217233873151 and parameters: {'learning_rate': 0.006999685535220246, 'n_steps': 68, 'batch_size': 209, 'n_epochs': 4, 'clip_range': 0.3773151174911648, 'ent_coef': 0.002327143020230235, 'vf_coef': 0.9107936046368266, 'max_grad_norm': 0.758609885320419, 'gae_lambda': 0.9610750525890884, 'env_reward_weight': 0.9529495691602475}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 203, but because the `RolloutBuffer` is of size `n_steps * n_envs = 239`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 36
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=239 and n_envs=1)
+  warnings.warn(
+mean mean reward: 29.20635106278504, mean last reward: 36.56199999935925, score: 394.8263510563775
+[I 2024-06-26 18:37:01,327] Trial 92 finished with value: 394.8263510563775 and parameters: {'learning_rate': 0.005756139392624877, 'n_steps': 239, 'batch_size': 203, 'n_epochs': 14, 'clip_range': 0.3915903908254394, 'ent_coef': 0.00928703692806304, 'vf_coef': 0.8640770226496719, 'max_grad_norm': 0.7816831421627409, 'gae_lambda': 0.9668657678183123, 'env_reward_weight': 0.9045527057280882}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 226, but because the `RolloutBuffer` is of size `n_steps * n_envs = 170`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 170
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=170 and n_envs=1)
+  warnings.warn(
+mean mean reward: 31.05108510547496, mean last reward: 36.41799999922514, score: 395.23108509772635
+[I 2024-06-26 18:38:30,294] Trial 93 finished with value: 395.23108509772635 and parameters: {'learning_rate': 0.005549759171168452, 'n_steps': 170, 'batch_size': 226, 'n_epochs': 15, 'clip_range': 0.391086522078114, 'ent_coef': 0.00954951602396563, 'vf_coef': 0.9265378305087392, 'max_grad_norm': 0.6961285532865562, 'gae_lambda': 0.9670189292581991, 'env_reward_weight': 0.9087794088869438}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 229, but because the `RolloutBuffer` is of size `n_steps * n_envs = 243`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 14
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=243 and n_envs=1)
+  warnings.warn(
+mean mean reward: 24.85136702013856, mean last reward: 36.481999999284746, score: 389.671367012986
+[I 2024-06-26 18:39:54,594] Trial 94 finished with value: 389.671367012986 and parameters: {'learning_rate': 0.0056469285320957935, 'n_steps': 243, 'batch_size': 229, 'n_epochs': 16, 'clip_range': 0.3917212340787285, 'ent_coef': 0.009078729591537266, 'vf_coef': 0.864760182622935, 'max_grad_norm': 0.6926311205487498, 'gae_lambda': 0.9775105271054243, 'env_reward_weight': 0.9376740270464542}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 204, but because the `RolloutBuffer` is of size `n_steps * n_envs = 1168`, after every 5 untruncated mini-batches, there will be a truncated mini-batch of size 148
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=1168 and n_envs=1)
+  warnings.warn(
+mean mean reward: 21.007968083802375, mean last reward: 36.12999999895692, score: 382.30796807337157
+[I 2024-06-26 18:41:08,583] Trial 95 finished with value: 382.30796807337157 and parameters: {'learning_rate': 0.0047868574275737276, 'n_steps': 1168, 'batch_size': 204, 'n_epochs': 14, 'clip_range': 0.3867296878511999, 'ent_coef': 0.013707112488630505, 'vf_coef': 0.9378222539134307, 'max_grad_norm': 0.7275273474681603, 'gae_lambda': 0.9670819101136866, 'env_reward_weight': 0.8864333373117795}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 249, but because the `RolloutBuffer` is of size `n_steps * n_envs = 177`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 177
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=177 and n_envs=1)
+  warnings.warn(
+mean mean reward: 31.044228722535546, mean last reward: 36.28999999910593, score: 393.94422871359484
+[I 2024-06-26 18:42:37,113] Trial 96 finished with value: 393.94422871359484 and parameters: {'learning_rate': 0.0030741757313178, 'n_steps': 177, 'batch_size': 249, 'n_epochs': 16, 'clip_range': 0.3765026408813721, 'ent_coef': 0.016620899722055216, 'vf_coef': 0.8462704095523034, 'max_grad_norm': 0.6733917743360304, 'gae_lambda': 0.9995946985383223, 'env_reward_weight': 0.9749062725152993}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 192, but because the `RolloutBuffer` is of size `n_steps * n_envs = 297`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 105
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=297 and n_envs=1)
+  warnings.warn(
+mean mean reward: 27.939569147847436, mean last reward: 36.35399999916554, score: 391.4795691395028
+[I 2024-06-26 18:44:01,214] Trial 97 finished with value: 391.4795691395028 and parameters: {'learning_rate': 0.0035541364357755843, 'n_steps': 297, 'batch_size': 192, 'n_epochs': 13, 'clip_range': 0.3977270306064884, 'ent_coef': 0.00020357916984998278, 'vf_coef': 0.9279332830759032, 'max_grad_norm': 0.7474475858848121, 'gae_lambda': 0.9891367616419446, 'env_reward_weight': 0.9167146243572794}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 216, but because the `RolloutBuffer` is of size `n_steps * n_envs = 353`, after every 1 untruncated mini-batches, there will be a truncated mini-batch of size 137
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=353 and n_envs=1)
+  warnings.warn(
+mean mean reward: 24.965164892233194, mean last reward: 36.28999999910593, score: 387.8651648832925
+[I 2024-06-26 18:45:21,672] Trial 98 finished with value: 387.8651648832925 and parameters: {'learning_rate': 0.004105765812872081, 'n_steps': 353, 'batch_size': 216, 'n_epochs': 16, 'clip_range': 0.38361110605763965, 'ent_coef': 0.006936478881938994, 'vf_coef': 0.9942380044732122, 'max_grad_norm': 0.636909875011609, 'gae_lambda': 0.9524263235359545, 'env_reward_weight': 0.8107004445712317}. Best is trial 75 with value: 397.50605318445594.
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 226, but because the `RolloutBuffer` is of size `n_steps * n_envs = 105`, after every 0 untruncated mini-batches, there will be a truncated mini-batch of size 105
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=105 and n_envs=1)
+  warnings.warn(
+mean mean reward: 30.58212233934948, mean last reward: 36.68999999947846, score: 397.4821223341341
+[I 2024-06-26 18:46:54,522] Trial 99 finished with value: 397.4821223341341 and parameters: {'learning_rate': 0.005317996435499281, 'n_steps': 105, 'batch_size': 226, 'n_epochs': 14, 'clip_range': 0.3656150345245941, 'ent_coef': 0.009627001267923294, 'vf_coef': 0.8862556591219926, 'max_grad_norm': 0.6043397212763651, 'gae_lambda': 0.9663529231811246, 'env_reward_weight': 0.9070098530968228}. Best is trial 75 with value: 397.50605318445594.
+Best hyperparameters:  {'learning_rate': 0.006128518911011046, 'n_steps': 188, 'batch_size': 195, 'n_epochs': 4, 'clip_range': 0.3802060420065968, 'ent_coef': 0.0045823258311440025, 'vf_coef': 0.9032640940522102, 'max_grad_norm': 0.6807346408015829, 'gae_lambda': 0.9915784607770367, 'env_reward_weight': 0.6620165745617903}
+Best performance:  397.50605318445594
