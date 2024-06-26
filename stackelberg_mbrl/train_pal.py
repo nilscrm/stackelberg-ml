@@ -6,6 +6,7 @@ from stable_baselines3.common.callbacks import BaseCallback
 from stackelberg_mbrl.nn.model.world_models import ContextualizedWorldModel
 from stackelberg_mbrl.policies.random_policy import RandomPolicy
 import torch
+import torch.nn.functional as F
 import gymnasium
 
 import stackelberg_mbrl.envs.simple_mdp
@@ -85,7 +86,7 @@ def train_contextualized_PAL(config: ExperimentConfig):
         contextualized_model.draw_mdp(context, config.output_dir / config.experiment_name / "mdps" / f"before_pretraining_random_policy_{i}.png")
 
     print("Pretraining world model")
-    pretrain_iterations = 100 # TODO: from config
+    pretrain_iterations = 1_000 # TODO: from config
     for iter in range(pretrain_iterations):
         # TODO: can potentially re-use samples from real-env?
         # Does some pretraining of the model oracle under random policies
@@ -197,6 +198,13 @@ def train_contextualized_PAL(config: ExperimentConfig):
 
     policy_reward_real_env, policy_reward_std_real_env = evaluate_policy(policy_ppo.policy, real_env)
     print(f"Avg Policy Reward on real environment:   {policy_reward_real_env:.3f} ± {policy_reward_std_real_env:.3f}")
+
+    print("Final Policy:")
+    with torch.no_grad():
+        for state_idx in range(real_env.num_states):
+            obs = torch.LongTensor([state_idx]).to(policy_ppo.device)
+            next_state_distribution = torch.stack([F.one_hot(policy_ppo.policy.forward(obs.unsqueeze(0))[0], real_env.num_actions).float() for i in range(100)]).mean(dim=0)
+            print(f"\ts_{state_idx}: {next_state_distribution.squeeze().cpu().numpy()}")
 
 
 if __name__ == "__main__":

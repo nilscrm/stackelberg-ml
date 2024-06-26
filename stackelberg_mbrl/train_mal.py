@@ -3,6 +3,7 @@ import numpy as np
 from stable_baselines3.ppo import PPO
 from stable_baselines3.common.evaluation import evaluate_policy
 import torch
+import torch.nn.functional as F
 import gymnasium
 
 import stackelberg_mbrl.envs.simple_mdp
@@ -156,6 +157,14 @@ def train_contextualized_MAL(config: ExperimentConfig):
         config.output_dir / config.experiment_name / "mdps" / "final_model.png",
     )
 
+    print("Final Policy:")
+    with torch.no_grad():
+        for state_idx in range(env_true.num_states):
+            oh = torch.zeros((env_true.num_states))
+            oh[state_idx] = 1
+            obs = torch.concatenate([torch.tensor(model_query_answers), oh]).to(policy_ppo.device)
+            next_state_distribution = torch.stack([F.one_hot(policy_ppo.policy.forward(obs.unsqueeze(0))[0], env_true.num_actions).float() for i in range(100)]).mean(dim=0)
+            print(f"\ts_{state_idx}: {next_state_distribution.squeeze().cpu().numpy()}")
 
 if __name__ == "__main__":
     train_contextualized_MAL(poster_config)
