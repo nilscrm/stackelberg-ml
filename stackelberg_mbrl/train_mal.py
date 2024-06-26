@@ -8,10 +8,11 @@ import csv
 import pathlib
 from stable_baselines3.common.callbacks import BaseCallback
 
+from stackelberg_mbrl.algos.tabular import Tabular
 import stackelberg_mbrl.envs.simple_mdp
 from stackelberg_mbrl.envs.querying_env import CountedEnvWrapper, LeaderEnv, ModelQueryingEnv, ConstantContextEnv
 from stackelberg_mbrl.envs.env_util import transition_probabilities_from_world_model, draw_mdp, RandomMDP, LearnableWorldModel
-from stackelberg_mbrl.experiments.experiment_config import ExperimentConfig, LoadPolicy, PolicyConfig, LoadWorldModel, WorldModelConfig
+from stackelberg_mbrl.experiments.experiment_config import ExperimentConfig, LoadPolicy, PolicyConfig, LoadWorldModel, TableWorldModelConfig, WorldModelConfig
 from stackelberg_mbrl.experiments.poster.config import poster_config
 
 def train_contextualized_MAL(config: ExperimentConfig, draw: bool = False, verbose: bool = False, log: bool = False):
@@ -200,45 +201,69 @@ def train_contextualized_MAL(config: ExperimentConfig, draw: bool = False, verbo
             if model_config.save_name is not None:
                 model_ppo.save(config.output_dir / config.experiment_name / "checkpoints" / model_config.save_name)
 
-    if verbose:
-        # Evaluation of model
-        mprint(f"Model reward: {evaluate_policy(model_ppo.policy, leader_env_eval)}")
+        case TableWorldModelConfig():
+            model_config: TableWorldModelConfig = config.world_model_config
+            model = Tabular(env_true, policy_ppo.policy, model_config)
 
-    learned_world_model = LearnableWorldModel(
-            model_ppo.policy,
-            env_true.num_states,
-            env_true.num_actions,
-            env_true.max_ep_steps,
-            env_true.rewards,
-            env_true.initial_state,
-            env_true.final_state,
-        )
-    if verbose:
-        model_querying_env = ModelQueryingEnv(learned_world_model, queries)
-        with torch.no_grad():
-            policy_reward_model, policy_reward_std_model = evaluate_policy(policy_ppo.policy, model_querying_env, n_eval_episodes=10)
-            mprint(f"Avg Policy Reward on learned model:   {policy_reward_model:.3f} ± {policy_reward_std_model:.3f}")
+    # Evaluation of model
+    match config.world_model_config:
+        case LoadWorldModel() | WorldModelConfig():
+            if verbose:
+                # Evaluation of model
+                mprint(f"Model reward: {evaluate_policy(model_ppo.policy, leader_env_eval)}")
 
-    model_query_answers = np.concatenate([learned_world_model.next_state_distribution(state, action) for (state, action) in queries])
-    real_eval_env = ConstantContextEnv(env_true, model_query_answers)
+            learned_world_model = LearnableWorldModel(
+                    model_ppo.policy,
+                    env_true.num_states,
+                    env_true.num_actions,
+                    env_true.max_ep_steps,
+                    env_true.rewards,
+                    env_true.initial_state,
+                    env_true.final_state,
+                )
+            if verbose:
+                model_querying_env = ModelQueryingEnv(learned_world_model, queries)
+                with torch.no_grad():
+                    policy_reward_model, policy_reward_std_model = evaluate_policy(policy_ppo.policy, model_querying_env, n_eval_episodes=10)
+                    mprint(f"Avg Policy Reward on learned model:   {policy_reward_model:.3f} ± {policy_reward_std_model:.3f}")
 
-    policy_reward, policy_reward_std = evaluate_policy(policy_ppo.policy, real_eval_env, n_eval_episodes=10)
-    mprint(f"Avg Policy Reward on real env:   {policy_reward:.3f} ± {policy_reward_std:.3f}")
+            model_query_answers = np.concatenate([learned_world_model.next_state_distribution(state, action) for (state, action) in queries])
+            real_eval_env = ConstantContextEnv(env_true, model_query_answers)
 
-    if draw:
-        draw_mdp(
-            transition_probabilities_from_world_model(model_ppo.policy, env_true.num_states, env_true.num_actions),
-            env_true.rewards,
-            config.output_dir / config.experiment_name / "mdps" / "final_model.png",
-        )
+            policy_reward, policy_reward_std = evaluate_policy(policy_ppo.policy, real_eval_env, n_eval_episodes=10)
+            mprint(f"Avg Policy Reward on real env:   {policy_reward:.3f} ± {policy_reward_std:.3f}")
 
-    return {
-        "policy": policy_ppo,
-        "world_model": model_ppo,
+            if draw:
+                draw_mdp(
+                    transition_probabilities_from_world_model(model_ppo.policy, env_true.num_states, env_true.num_actions),
+                    env_true.rewards,
+                    config.output_dir / config.experiment_name / "mdps" / "final_model.png",
+                )
 
-        "reward": policy_reward,
-        "reward_std": policy_reward_std,
-        "evals": callback.evals if callback is not None else None,}
+            return {
+                "policy": policy_ppo,
+                "world_model": model_ppo,
+
+                "reward": policy_reward,
+                "reward_std": policy_reward_std,
+                "evals": callback.evals if callback is not None else None,}
+        
+        case TableWorldModelConfig():
+            env = ConstantContextEnv(env_true, model.reshape(-1))
+            print(f"Model reward: {evaluate_policy(policy_ppo.policy, env)}")
+
+            policy_reward, policy_reward_std = evaluate_policy(policy_ppo.policy, env, n_eval_episodes=10)
+            print(f"Avg Policy Reward on real env:   {policy_reward:.3f} ± {policy_reward_std:.3f}")
+
+            return {
+                "policy": policy_ppo,
+                "world_model": model,
+
+                "reward": policy_reward,
+                "reward_std": policy_reward_std,
+                # TODO
+                # "evals": callback.evals if callback is not None else None,
+                }
 
 
 if __name__ == "__main__":
