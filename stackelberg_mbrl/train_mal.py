@@ -202,8 +202,7 @@ def train_contextualized_MAL(config: ExperimentConfig, draw: bool = False, verbo
                 model_ppo.save(config.output_dir / config.experiment_name / "checkpoints" / model_config.save_name)
 
         case TableWorldModelConfig():
-            model_config: TableWorldModelConfig = config.world_model_config
-            model = Tabular(env_true, policy_ppo.policy, model_config)
+            model, tabular_evals = Tabular(env_true, policy_ppo.policy, config)
 
     # Evaluation of model
     match config.world_model_config:
@@ -261,8 +260,7 @@ def train_contextualized_MAL(config: ExperimentConfig, draw: bool = False, verbo
 
                 "reward": policy_reward,
                 "reward_std": policy_reward_std,
-                # TODO
-                # "evals": callback.evals if callback is not None else None,
+                "evals": tabular_evals,
                 }
 
 
