@@ -19,7 +19,7 @@ import mjrl.samplers.core as sampler
 import mjrl.utils.tensor_utils as tensor_utils
 from tqdm import tqdm
 from tabulate import tabulate
-from mjrl.policies.gaussian_mlp import MLP
+from mjrl.policies.mlp import MLP
 from mjrl.baselines.mlp_baseline import MLPBaseline
 from mjrl.baselines.quadratic_baseline import QuadraticBaseline
 from mjrl.utils.gym_env import GymEnv
@@ -193,8 +193,9 @@ for outer_iter in range(job_data['num_iter']):
     # =================================
     agent.learned_model = models
     for inner_step in range(job_data['inner_steps']):
+        is_log_epoch = (inner_step % 10 == 0)
         if job_data['start_state'] == 'init':
-            print('sampling from initial state distribution')
+            # if is_log_epoch: print('sampling from initial state distribution')
             buffer_rand_idx = np.random.choice(len(init_states_buffer), size=job_data['update_paths'], replace=True).tolist()
             init_states = [init_states_buffer[idx] for idx in buffer_rand_idx]
         else:
@@ -214,7 +215,11 @@ for outer_iter in range(job_data['num_iter']):
         agent.train_step(N=len(init_states), init_states=init_states, horizon=job_data['horizon'])
         print_data = sorted(filter(lambda v: np.asarray(v[1]).size == 1,
                                    agent.logger.get_current_log().items()))
-        print(tabulate(print_data))
+        if is_log_epoch:
+            agent.policy.render()
+            #agent.render_avg_model()
+            agent.render_each_model()
+            print(tabulate(print_data))
 
     t3 = timer.time()
     logger.log_kv('policy_update_time', t3-t2)
@@ -225,19 +230,21 @@ for outer_iter in range(job_data['num_iter']):
         agent.policy.to('cpu')
         eval_paths = evaluate_policy(agent.env, agent.policy, agent.learned_model[0], noise_level=0.0,
                                      real_step=True, num_episodes=job_data['eval_rollouts'], visualize=False)
-        eval_score = np.mean([np.sum(p['rewards']) for p in eval_paths])
-        logger.log_kv('eval_score', eval_score)
+        eval_score_mean = np.mean([np.sum(p['rewards']) for p in eval_paths])
+        eval_score_std = np.std([np.sum(p['rewards']) for p in eval_paths])
+        logger.log_kv('eval_score', eval_score_mean)
+        logger.log_kv('eval_score_detail', f"{eval_score_mean} ± {eval_score_std}")
         try:
             eval_metric = env.env.env.evaluate_success(eval_paths)
             logger.log_kv('eval_metric', eval_metric)
         except:
             pass
     else:
-        eval_score = -1e8
+        eval_score_mean = -1e8
         eval_paths = []
 
     # track best performing policy
-    policy_score = eval_score if job_data['eval_rollouts'] > 0 else rollout_score
+    policy_score = eval_score_mean if job_data['eval_rollouts'] > 0 else rollout_score
     if policy_score > best_perf:
         best_policy = copy.deepcopy(policy) # safe as policy network is clamped to CPU
         best_perf = policy_score
@@ -246,13 +253,10 @@ for outer_iter in range(job_data['num_iter']):
         # convert to CPU before pickling
         agent.to('cpu')
         # make observation mask part of policy for easy deployment in environment
-        old_in_scale = policy.in_scale
-        for pi in [policy, best_policy]: pi.set_transformations(in_scale = 1.0 / env.obs_mask)
         pickle.dump(agent, open(OUT_DIR + '/iterations/agent_' + str(outer_iter) + '.pickle', 'wb'))
         pickle.dump(policy, open(OUT_DIR + '/iterations/policy_' + str(outer_iter) + '.pickle', 'wb'))
         pickle.dump(best_policy, open(OUT_DIR + '/iterations/best_policy.pickle', 'wb'))
         agent.to(job_data['device'])
-        for pi in [policy, best_policy]: pi.set_transformations(in_scale = old_in_scale)
 
     tf = timer.time()
     logger.log_kv('eval_log_time', tf-t3)
@@ -266,5 +270,4 @@ for outer_iter in range(job_data['num_iter']):
 
 # final save
 pickle.dump(agent, open(OUT_DIR + '/iterations/agent_final.pickle', 'wb'))
-policy.set_transformations(in_scale = 1.0 / env.obs_mask)
 pickle.dump(policy, open(OUT_DIR + '/iterations/policy_final.pickle', 'wb'))

@@ -69,7 +69,6 @@ class TRPO(NPG):
         pg_surr = self.pg_surrogate(observations, actions, advantages)
         surr_before = pg_surr.to('cpu').data.numpy().ravel()[0]
         old_mean = self.policy.forward(observations).detach().clone()
-        old_log_std = self.policy.log_std.detach().clone()
 
         # VPG
         ts = timer.time()
@@ -99,7 +98,7 @@ class TRPO(NPG):
             new_params = curr_params + alpha * npg_grad
             self.policy.set_param_values(new_params.clone())
             surr_after = pg_surr.to('cpu').data.numpy().ravel()[0]
-            kl_divergence = self.kl_old_new(observations, old_mean, old_log_std)
+            kl_divergence = self.kl_old_new(observations, old_mean, None)
             if kl_divergence < self.kl_divergence:
                 break
             else:

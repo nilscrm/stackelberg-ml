@@ -3,7 +3,7 @@
 # general inputs
 
 'env_name'      :   'state-machine',
-'seed'          :   123,
+'seed'          :   1234,
 'debug_mode'    :   False,
 'num_iter'      :   25,
 'iter_samples'  :   500,

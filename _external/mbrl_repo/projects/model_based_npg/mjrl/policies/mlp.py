@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+import torch.nn.functional as F
 from mjrl.utils.tensor_utils import tensorize
 from torch.autograd import Variable
 
@@ -32,11 +33,6 @@ class MLP(torch.nn.Module):
         self.device = device
         self.seed = seed
 
-        self.min_log_std_val = min_log_std if type(min_log_std)==np.ndarray else min_log_std * np.ones(self.action_dim)
-        self.max_log_std_val = max_log_std if type(max_log_std)==np.ndarray else max_log_std * np.ones(self.action_dim)
-        self.min_log_std = tensorize(self.min_log_std_val)
-        self.max_log_std = tensorize(self.max_log_std_val)
-
         # Set seed
         # ------------------------
         assert type(seed) == int
@@ -51,19 +47,10 @@ class MLP(torch.nn.Module):
                                              for i in range(len(self.layer_sizes)-1)])
         for param in list(self.parameters())[-2:]:  # only last layer
            param.data = 1e-2 * param.data
-        self.log_std = torch.nn.Parameter(torch.ones(self.action_dim) * init_log_std, requires_grad=True)
-        self.log_std.data = torch.max(self.log_std.data, self.min_log_std)
-        self.log_std.data = torch.min(self.log_std.data, self.max_log_std)
         self.trainable_params = list(self.parameters())
-        # transform variables
-        self.in_shift, self.in_scale = torch.zeros(self.observation_dim), torch.ones(self.observation_dim)
-        self.out_shift, self.out_scale = torch.zeros(self.action_dim), torch.ones(self.action_dim)
 
         # Easy access variables
         # -------------------------
-        self.log_std_val = self.log_std.to('cpu').data.numpy().ravel()
-        # clamp log_std to [min_log_std, max_log_std]
-        self.log_std_val = np.clip(self.log_std_val, self.min_log_std_val, self.max_log_std_val)
         self.param_shapes = [p.data.numpy().shape for p in self.trainable_params]
         self.param_sizes = [p.data.numpy().size for p in self.trainable_params]
         self.d = np.sum(self.param_sizes)  # total number of params
@@ -82,22 +69,30 @@ class MLP(torch.nn.Module):
     def forward(self, observations):
         if type(observations) == np.ndarray: observations = torch.from_numpy(observations).float()
         assert type(observations) == torch.Tensor
-        observations = observations.to(self.device)
-        out = (observations - self.in_shift) / (self.in_scale + 1e-6)
+        out = observations.to(self.device)
         for i in range(len(self.fc_layers)-1):
             out = self.fc_layers[i](out)
             out = self.nonlinearity(out)
-        out = self.fc_layers[-1](out) * self.out_scale + self.out_shift
-        return out
+        out = self.fc_layers[-1](out)
+        return F.softmax(out, dim=-1)
+    
+    def sample_next_action(self, s):
+        nads = self.forward(s)
+
+        actions = []
+        for i in range(nads.shape[0]):
+            nad = nads[i]
+            action_idx = torch.multinomial(nad, num_samples=1)
+            action = F.one_hot(action_idx, num_classes=self.action_dim)
+            actions.append(action)
+        res = torch.concat(actions, dim=0)
+        return res 
 
 
     # Utility functions
     # ============================================
     def to(self, device):
         super().to(device)
-        self.min_log_std, self.max_log_std = self.min_log_std.to(device), self.max_log_std.to(device)
-        self.in_shift, self.in_scale = self.in_shift.to(device), self.in_scale.to(device)
-        self.out_shift, self.out_scale = self.out_shift.to(device), self.out_scale.to(device)
         self.trainable_params = list(self.parameters())
         self.device = device
 
@@ -105,30 +100,14 @@ class MLP(torch.nn.Module):
         params = torch.cat([p.contiguous().view(-1).data for p in self.parameters()])
         return params.clone()
 
-    def set_param_values(self, new_params, *args, **kwargs):
+    def set_param_values(self, new_params: torch.Tensor, *args, **kwargs):
         current_idx = 0
         for idx, param in enumerate(self.parameters()):
             vals = new_params[current_idx:current_idx + self.param_sizes[idx]]
             vals = vals.reshape(self.param_shapes[idx])
-            # clip std at minimum value
-            vals = torch.max(vals, self.min_log_std) if idx == 0 else vals
-            vals = torch.min(vals, self.max_log_std) if idx == 0 else vals
             param.data = vals.to(self.device).clone()
             current_idx += self.param_sizes[idx]
-        # update log_std_val for sampling
-        self.log_std_val = np.float64(self.log_std.to('cpu').data.numpy().ravel())
-        self.log_std_val = np.clip(self.log_std_val, self.min_log_std_val, self.max_log_std_val)
         self.trainable_params = list(self.parameters())
-
-    def set_transformations(self, in_shift=None, in_scale=None, 
-                            out_shift=None, out_scale=None, *args, **kwargs):
-        in_shift = self.in_shift if in_shift is None else tensorize(in_shift)
-        in_scale = self.in_scale if in_scale is None else tensorize(in_scale)
-        out_shift = self.out_shift if out_shift is None else tensorize(out_shift)
-        out_scale = self.out_scale if out_scale is None else tensorize(out_scale)
-        self.in_shift, self.in_scale = in_shift.to(self.device), in_scale.to(self.device)
-        self.out_shift, self.out_scale = out_shift.to(self.device), out_scale.to(self.device)
-
 
     # Main functions
     # ============================================
@@ -140,37 +119,32 @@ class MLP(torch.nn.Module):
             self.to('cpu')
         o = np.float32(observation.reshape(1, -1))
         self.obs_var.data = torch.from_numpy(o)
-        mean = self.forward(self.obs_var).to('cpu').data.numpy().ravel()
-        noise = np.exp(self.log_std_val) * np.random.randn(self.action_dim)
-        action = mean + noise
-        return [action, {'mean': mean, 'log_std': self.log_std_val, 'evaluation': mean}]
+        action = self.sample_next_action(self.obs_var).to('cpu').data.numpy().ravel()
+        return [action, {'mean': action, 'log_std': 0.0, 'evaluation': action}]
 
-    def mean_LL(self, observations, actions, log_std=None, *args, **kwargs):
+    def mean_LL(self, observations, actions, *args, **kwargs):
         if type(observations) == np.ndarray: observations = torch.from_numpy(observations).float()
         if type(actions) == np.ndarray: actions = torch.from_numpy(actions).float()
         observations, actions = observations.to(self.device), actions.to(self.device)
-        log_std = self.log_std if log_std is None else log_std
-        mean = self.forward(observations)
-        zs = (actions - mean) / torch.exp(self.log_std)
-        LL = - 0.5 * torch.sum(zs ** 2, dim=1) + \
-             - torch.sum(log_std) + \
-             - 0.5 * self.action_dim * np.log(2 * np.pi)
-        return mean, LL
+        action_probs = self.forward(observations)
+        action_oh = F.gumbel_softmax(torch.log(actions + 1e-10), hard=True) # NOTE: need to use this instead of sampling to stay differentiable
+        LL = -F.nll_loss(torch.log(action_probs + 1e-10), action_oh.argmax(dim=-1), reduction='none') 
+        return action_probs, LL
 
-    def log_likelihood(self, observations, actions, *args, **kwargs):
-        mean, LL = self.mean_LL(observations, actions)
-        return LL.to('cpu').data.numpy()
-
-    def mean_kl(self, observations, *args, **kwargs):
-        new_log_std = self.log_std
-        old_log_std = self.log_std.detach().clone()
+    def mean_kl(self, observations, old_mean):
         new_mean = self.forward(observations)
-        old_mean = new_mean.detach()
-        return self.kl_divergence(new_mean, old_mean, new_log_std, old_log_std, *args, **kwargs)
+        return self.kl_divergence(new_mean, tensorize(old_mean))
 
-    def kl_divergence(self, new_mean, old_mean, new_log_std, old_log_std, *args, **kwargs):
-        new_std, old_std = torch.exp(new_log_std), torch.exp(old_log_std)
-        Nr = (old_mean - new_mean) ** 2 + old_std ** 2 - new_std ** 2
-        Dr = 2 * new_std ** 2 + 1e-8
-        sample_kl = torch.sum(Nr / Dr + new_log_std - old_log_std, dim=1)
-        return torch.mean(sample_kl)
+    def kl_divergence(self, new_mean, old_mean):
+        new_mean = new_mean.mean(dim=0, keepdim=True) + 1e-10
+        old_mean = old_mean.mean(dim=0, keepdim=True) + 1e-10
+
+        return F.kl_div(new_mean.log(), old_mean)
+    
+    def render(self):
+        print("Action Probabilities in State")
+        with torch.no_grad():
+            for state_idx in range(self.observation_dim):
+                obs = np.zeros([self.observation_dim])
+                obs[state_idx] = 1
+                print(f"\ts_{state_idx}: {self.forward(obs).numpy()}")

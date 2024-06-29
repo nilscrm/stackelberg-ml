@@ -2,6 +2,7 @@ import numpy as np
 import copy
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import pickle
 import mjrl.envs
 import os
@@ -204,3 +205,31 @@ class ModelBasedNPG(NPG):
         # dynamics model and the policy, and should refine around the policy by
         # incorporating reward based refinement
         raise NotImplementedError
+    
+
+    def render_avg_model(self):
+        print("Avg. Model Transition Probabilities:")
+        with torch.no_grad():
+            for s in range(self.env.observation_dim):
+                obs = torch.zeros((self.env.observation_dim))
+                obs[s] = 1.0
+                for a in range(self.env.action_dim):
+                    act = torch.zeros((self.env.action_dim))
+                    act[a] = 1.0
+                    t_probs = torch.stack([m.next_state_distribution(obs.unsqueeze(dim=0),act.unsqueeze(dim=0)).squeeze() for m in self.learned_model]).mean(axis=0).numpy()
+                    print(f"s_{s}, a_{a}: {t_probs}")
+
+
+    def render_each_model(self):
+        print("Model Transition Probabilities:")
+        with torch.no_grad():
+            for m in self.learned_model:
+                print(f"Model {m}:")
+                for s in range(self.env.observation_dim):
+                    obs = torch.zeros((self.env.observation_dim))
+                    obs[s] = 1.0
+                    for a in range(self.env.action_dim):
+                        act = torch.zeros((self.env.action_dim))
+                        act[a] = 1.0
+                        t_probs = m.next_state_distribution(obs.unsqueeze(dim=0),act.unsqueeze(dim=0)).squeeze().numpy()
+                        print(f"s_{s}, a_{a}: {t_probs}")

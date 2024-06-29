@@ -37,6 +37,13 @@ def cg_solve(f_Ax, b, x_0=None, cg_iters=10, residual_tol=1e-10, callback=None, 
 
         rdotr = r.dot(r)
         Ap = f_Ax(p)
+
+        pAp = torch.dot(p, Ap) if isinstance(b, torch.Tensor) else np.dot(p, Ap)
+        if pAp <= 0:
+            if verbose:
+                print("CG: pAp is not positive definite, terminating early.")
+            break
+
         alpha = rdotr/(p.dot(Ap))
         x = x + alpha * p
         r = r - alpha * Ap

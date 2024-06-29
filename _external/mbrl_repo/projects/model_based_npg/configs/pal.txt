@@ -3,9 +3,9 @@
 # general inputs
 
 'env_name'      :   'state-machine',
-'seed'          :   123,
+'seed'          :   1234567,
 'debug_mode'    :   False,
-'num_iter'      :   25,
+'num_iter'      :   20,
 'iter_samples'  :   500,
 'eval_rollouts' :   10,
 'num_models'    :   4,
@@ -16,9 +16,9 @@
 
 'hidden_size'   :   (256, 256),
 'activation'    :   'relu',
-'fit_lr'        :   1e-3,
+'fit_lr'        :   1e-2, 
 'fit_wd'        :   0.0,
-'buffer_size'   :   20000, # large for MAL
+'buffer_size'   :   20000, # small for PAL
 'fit_mb_size'   :   64,
 'fit_epochs'    :   20,
 'refresh_fit'   :   False,
@@ -33,9 +33,9 @@
 
 # NPG params
 
-'policy_size'   :   (16, 16),
-'inner_steps'   :   5,  # large for MAL
-'step_size'     :   0.01,
+'policy_size'   :   (64, 64),
+'inner_steps'   :   5,  # small for PAL
+'step_size'     :   0.05,
 'update_paths'  :   250,
 'start_state'	:   'init',
 'horizon'       :   50,
