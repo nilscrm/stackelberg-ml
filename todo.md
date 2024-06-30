@@ -1,4 +1,4 @@
-- [ ] optuna the MAL thing for sample efficiency
+- [x] optuna the MAL thing for sample efficiency
     - [ ] make new graphs for MAL 
     - [ ] so sample-graph for the best parameters
     - [ ] potentially if time permits, redo the ablation study on reward + noise params

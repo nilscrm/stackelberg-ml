@@ -34,6 +34,7 @@ class TableWorldModelConfig(BaseModel):
     batch_size: int = 10 # how many trajectories per vector update
     max_training_samples: int = 100 # max samples -> calls to step of the env
     init_sample_trajectories: int = 5 # how many random trajectories to init with
+    default_model: float = 0 # TODO: remove this, just for pytuna default model values
 
 class LoadWorldModel(BaseModel):
     path: FilePath

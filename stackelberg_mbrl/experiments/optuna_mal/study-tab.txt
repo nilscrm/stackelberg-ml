@@ -1,0 +1,1732 @@
+(stackelberg) > $ python pytuna-mal-tab.py                                                   [±sample_efficiency ●●]
+[I 2024-06-29 17:49:43,580] A new study created in memory with name: no-name-3384c24a-df5c-462e-b1f4-bb3c313fe092
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.num_states to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.num_states` for environment variables or `env.get_wrapper_attr('num_states')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.num_actions to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.num_actions` for environment variables or `env.get_wrapper_attr('num_actions')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.rewards to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.rewards` for environment variables or `env.get_wrapper_attr('rewards')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.initial_state to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.initial_state` for environment variables or `env.get_wrapper_attr('initial_state')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.final_state to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.final_state` for environment variables or `env.get_wrapper_attr('final_state')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.max_ep_steps to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.max_ep_steps` for environment variables or `env.get_wrapper_attr('max_ep_steps')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.num_states to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.num_states` for environment variables or `env.get_wrapper_attr('num_states')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.num_actions to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.num_actions` for environment variables or `env.get_wrapper_attr('num_actions')` that will search the reminding wrappers.
+  logger.warn(
+  0%|                                                                                        | 0/423 [00:00<?, ?it/s]/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:181: DeprecationWarning: WARN: Current gymnasium version requires that `Env.reset` can be passed `options` to allow the environment initialisation to be passed additional information.
+  logger.deprecation(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/stable_baselines3/common/evaluation.py:67: UserWarning: Evaluation environment is not wrapped with a ``Monitor`` wrapper. This may result in reporting modified episode lengths and rewards, if other wrappers happen to modify these. Consider wrapping environment first with ``Monitor`` wrapper.
+  warnings.warn(
+  0%|▍                                                                               | 2/423 [00:00<00:46,  9.10it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.990 ± 0.020
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.rewards to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.rewards` for environment variables or `env.get_wrapper_attr('rewards')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.initial_state to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.initial_state` for environment variables or `env.get_wrapper_attr('initial_state')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.final_state to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.final_state` for environment variables or `env.get_wrapper_attr('final_state')` that will search the reminding wrappers.
+  logger.warn(
+/Users/kacper/micromamba/envs/stackelberg/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: WARN: env.max_ep_steps to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.max_ep_steps` for environment variables or `env.get_wrapper_attr('max_ep_steps')` that will search the reminding wrappers.
+  logger.warn(
+  0%|▍                                                                               | 2/423 [00:00<01:41,  4.15it/s]
+Model reward: (36.769999999552965, 0.9600000008940696)
+Avg Policy Reward on real env:   36.850 ± 0.645
+  0%|▏                                                                               | 1/423 [00:00<02:19,  3.02it/s]
+Model reward: (36.769999999552965, 0.5306599669510795)
+Avg Policy Reward on real env:   36.610 ± 0.784
+  0%|▍                                                                               | 2/423 [00:00<00:46,  8.99it/s]
+Model reward: (0.9849999997764826, 0.022912878816207693)
+Avg Policy Reward on real env:   0.985 ± 0.023
+  0%|▍                                                                               | 2/423 [00:00<00:15, 27.52it/s]
+Model reward: (0.9899999998509884, 0.030000000447034835)
+Avg Policy Reward on real env:   0.995 ± 0.015
+mean mean reward: 19.96183333288257, mean last reward: 15.285999999716879, score: 172.82183333005136
+[I 2024-06-29 17:49:45,613] Trial 0 finished with value: 172.82183333005136 and parameters: {'init_sample_trajectories': 23, 'batch_size': 144, 'eps': 5.496984594999113e-06, 'default_model': 0.5064199457142629, 'env_noise_weight': 0.37870151192417334}. Best is trial 0 with value: 172.82183333005136.
+  1%|▊                                                                               | 5/488 [00:00<01:26,  5.57it/s]
+Model reward: (35.72999999858439, 1.7325126278301453)
+Avg Policy Reward on real env:   36.690 ± 0.950
+  1%|▋                                                                               | 4/488 [00:00<01:33,  5.19it/s]
+Model reward: (36.52999999932945, 0.7547184912674146)
+Avg Policy Reward on real env:   35.970 ± 1.348
+  0%|▏                                                                               | 1/488 [00:00<02:36,  3.11it/s]
+Model reward: (36.209999999031425, 1.4333178307083947)
+Avg Policy Reward on real env:   36.770 ± 0.960
+  1%|▍                                                                               | 3/488 [00:00<01:39,  4.89it/s]
+Model reward: (36.68999999947846, 0.7200000006705523)
+Avg Policy Reward on real env:   36.770 ± 0.640
+  1%|▊                                                                               | 5/488 [00:00<00:06, 74.02it/s]
+Model reward: (0.9799999997019768, 0.033166248397769604)
+Avg Policy Reward on real env:   0.985 ± 0.032
+mean mean reward: 45.34651666601499, mean last reward: 29.436999999433755, score: 339.71651666035257
+[I 2024-06-29 17:49:48,879] Trial 1 finished with value: 339.71651666035257 and parameters: {'init_sample_trajectories': 88, 'batch_size': 46, 'eps': 5.989652716732497e-06, 'default_model': 0.764828913455244, 'env_noise_weight': 0.6161496572431009}. Best is trial 1 with value: 339.71651666035257.
+  0%|▎                                                                               | 2/439 [00:00<01:46,  4.11it/s]
+Model reward: (36.68999999947846, 0.5122499394716978)
+Avg Policy Reward on real env:   36.610 ± 0.784
+  0%|▎                                                                               | 2/439 [00:00<01:48,  4.01it/s]
+Model reward: (36.369999999180436, 1.210619677161202)
+Avg Policy Reward on real env:   36.370 ± 0.835
+  0%|▎                                                                               | 2/439 [00:00<01:57,  3.71it/s]
+Model reward: (36.769999999552965, 0.7332121118757914)
+Avg Policy Reward on real env:   36.530 ± 0.835
+  0%|▎                                                                               | 2/439 [00:00<01:43,  4.23it/s]
+Model reward: (36.84999999962747, 0.7375635572703405)
+Avg Policy Reward on real env:   36.690 ± 0.625
+  1%|▌                                                                               | 3/439 [00:00<00:08, 49.47it/s]
+Model reward: (0.9849999997764826, 0.022912878816207696)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 33.39154166605634, mean last reward: 29.437999999448657, score: 327.77154166054294
+[I 2024-06-29 17:49:51,535] Trial 2 finished with value: 327.77154166054294 and parameters: {'init_sample_trajectories': 39, 'batch_size': 129, 'eps': 4.630973703109946e-06, 'default_model': 0.26972335385169, 'env_noise_weight': 0.5599726092843376}. Best is trial 1 with value: 339.71651666035257.
+  0%|▎                                                                               | 2/439 [00:00<01:25,  5.13it/s]
+Model reward: (36.92999999970198, 0.3919183592103109)
+Avg Policy Reward on real env:   37.170 ± 0.240
+  0%|▎                                                                               | 2/439 [00:00<00:59,  7.29it/s]
+Model reward: (1.0, 0.0)
+Avg Policy Reward on real env:   0.980 ± 0.033
+  0%|▎                                                                               | 2/439 [00:00<02:00,  3.63it/s]
+Model reward: (36.769999999552965, 1.0244998789433957)
+Avg Policy Reward on real env:   37.010 ± 0.367
+  0%|▏                                                                               | 1/439 [00:00<02:21,  3.10it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   36.290 ± 1.061
+  0%|▎                                                                               | 2/439 [00:00<00:20, 20.93it/s]
+Model reward: (0.974999999627471, 0.06020797379113018)
+Avg Policy Reward on real env:   0.980 ± 0.033
+mean mean reward: 22.395166666035852, mean last reward: 22.48599999964237, score: 247.25516666245957
+[I 2024-06-29 17:49:53,625] Trial 3 finished with value: 247.25516666245957 and parameters: {'init_sample_trajectories': 39, 'batch_size': 195, 'eps': 6.175356013359893e-06, 'default_model': 0.5935138857264614, 'env_noise_weight': 0.4487448566000808}. Best is trial 1 with value: 339.71651666035257.
+  0%|▎                                                                               | 2/461 [00:00<01:02,  7.31it/s]
+Model reward: (1.0, 0.0)
+Avg Policy Reward on real env:   0.985 ± 0.023
+  0%|▎                                                                               | 2/461 [00:00<01:01,  7.44it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.960 ± 0.049
+  0%|▏                                                                               | 1/461 [00:00<02:44,  2.79it/s]
+Model reward: (36.769999999552965, 0.8158431229346587)
+Avg Policy Reward on real env:   35.570 ± 1.657
+  0%|▎                                                                               | 2/461 [00:00<02:03,  3.70it/s]
+Model reward: (36.84999999962747, 0.7375635572703405)
+Avg Policy Reward on real env:   36.450 ± 1.187
+  0%|▎                                                                               | 2/461 [00:00<00:29, 15.52it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.975 ± 0.060
+mean mean reward: 19.945166666209694, mean last reward: 14.987999999299646, score: 169.82516665920616
+[I 2024-06-29 17:49:55,513] Trial 4 finished with value: 169.82516665920616 and parameters: {'init_sample_trajectories': 61, 'batch_size': 185, 'eps': 5.141221673894155e-06, 'default_model': 0.8087816663605123, 'env_noise_weight': 0.13540972953819153}. Best is trial 1 with value: 339.71651666035257.
+  1%|▋                                                                               | 4/471 [00:00<01:10,  6.62it/s]
+Model reward: (36.28999999910593, 1.2289833208035572)
+Avg Policy Reward on real env:   36.770 ± 0.640
+  1%|▌                                                                               | 3/471 [00:00<01:35,  4.88it/s]
+Model reward: (36.369999999180436, 1.0998181678136871)
+Avg Policy Reward on real env:   36.370 ± 0.560
+  0%|▎                                                                               | 2/471 [00:00<01:51,  4.20it/s]
+Model reward: (36.84999999962747, 0.4000000003725291)
+Avg Policy Reward on real env:   36.690 ± 0.512
+  1%|▌                                                                               | 3/471 [00:00<01:35,  4.91it/s]
+Model reward: (36.369999999180436, 1.1565465846611949)
+Avg Policy Reward on real env:   36.850 ± 0.645
+  1%|▊                                                                               | 5/471 [00:00<00:08, 53.58it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 43.91324999934248, mean last reward: 29.533999999538064, score: 339.25324999472315
+[I 2024-06-29 17:49:58,508] Trial 5 finished with value: 339.25324999472315 and parameters: {'init_sample_trajectories': 71, 'batch_size': 55, 'eps': 8.863569723287708e-06, 'default_model': 0.7213222312200049, 'env_noise_weight': 0.5889141902123896}. Best is trial 1 with value: 339.71651666035257.
+  0%|▎                                                                               | 2/463 [00:00<01:03,  7.27it/s]
+Model reward: (0.9849999997764826, 0.022912878816207696)
+Avg Policy Reward on real env:   0.990 ± 0.020
+  0%|▎                                                                               | 2/463 [00:00<00:56,  8.12it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.985 ± 0.023
+  0%|▏                                                                               | 1/463 [00:00<02:46,  2.77it/s]
+Model reward: (36.44999999925494, 0.9465727661775031)
+Avg Policy Reward on real env:   36.770 ± 0.531
+  0%|▎                                                                               | 2/463 [00:00<01:58,  3.90it/s]
+Model reward: (37.00999999977648, 0.5122499394716978)
+Avg Policy Reward on real env:   36.130 ± 1.526
+  0%|▎                                                                               | 2/463 [00:00<00:13, 33.99it/s]
+Model reward: (0.9849999997764826, 0.022912878816207696)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 19.915666666179895, mean last reward: 15.17299999959767, score: 171.6456666621566
+[I 2024-06-29 17:50:00,286] Trial 6 finished with value: 171.6456666621566 and parameters: {'init_sample_trajectories': 63, 'batch_size': 187, 'eps': 8.878901607517764e-06, 'default_model': 0.7437629531954891, 'env_noise_weight': 0.3299735033618495}. Best is trial 1 with value: 339.71651666035257.
+  0%|▏                                                                               | 1/485 [00:00<02:40,  3.02it/s]
+Model reward: (36.04999999888241, 1.2521980685660825)
+Avg Policy Reward on real env:   36.530 ± 0.835
+  0%|▏                                                                               | 1/485 [00:00<02:57,  2.72it/s]
+Model reward: (36.60999999940395, 0.598665182441381)
+Avg Policy Reward on real env:   36.690 ± 1.242
+  0%|▏                                                                               | 1/485 [00:00<02:57,  2.73it/s]
+Model reward: (36.28999999910593, 0.7838367184206219)
+Avg Policy Reward on real env:   36.610 ± 0.933
+  0%|▏                                                                               | 1/485 [00:00<02:58,  2.72it/s]
+Model reward: (36.209999999031425, 1.6414627638233865)
+Avg Policy Reward on real env:   36.530 ± 1.100
+  0%|▏                                                                               | 1/485 [00:00<00:19, 24.30it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.990 ± 0.030
+mean mean reward: 29.525999999530615, mean last reward: 29.46999999947846, score: 324.2259999943152
+[I 2024-06-29 17:50:02,355] Trial 7 finished with value: 324.2259999943152 and parameters: {'init_sample_trajectories': 85, 'batch_size': 236, 'eps': 8.273637413328974e-06, 'default_model': 0.6251811370012732, 'env_noise_weight': 0.5339066166249452}. Best is trial 1 with value: 339.71651666035257.
+  1%|▌                                                                               | 3/431 [00:00<00:50,  8.43it/s]
+Model reward: (36.44999999925494, 1.6395121240804502)
+Avg Policy Reward on real env:   36.530 ± 0.755
+  1%|▌                                                                               | 3/431 [00:00<00:53,  8.04it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.980 ± 0.024
+  1%|▌                                                                               | 3/431 [00:00<01:34,  4.53it/s]
+Model reward: (37.00999999977648, 0.5122499394716978)
+Avg Policy Reward on real env:   36.210 ± 1.388
+  1%|▌                                                                               | 3/431 [00:00<01:31,  4.66it/s]
+Model reward: (36.12999999895692, 1.1426285496310118)
+Avg Policy Reward on real env:   36.290 ± 1.376
+  1%|▌                                                                               | 3/431 [00:00<00:12, 33.95it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.980 ± 0.033
+mean mean reward: 42.286124999513845, mean last reward: 22.19799999937415, score: 264.26612499325535
+[I 2024-06-29 17:50:04,936] Trial 8 finished with value: 264.26612499325535 and parameters: {'init_sample_trajectories': 31, 'batch_size': 97, 'eps': 8.935436314564275e-06, 'default_model': 0.9408500897382931, 'env_noise_weight': 0.35106723287270336}. Best is trial 1 with value: 339.71651666035257.
+  1%|▋                                                                               | 4/488 [00:00<01:34,  5.12it/s]
+Model reward: (36.52999999932945, 0.8352245214907075)
+Avg Policy Reward on real env:   35.730 ± 1.157
+  1%|▋                                                                               | 4/488 [00:00<01:34,  5.11it/s]
+Model reward: (37.08999999985099, 0.3200000002980232)
+Avg Policy Reward on real env:   36.610 ± 0.933
+  0%|▏                                                                               | 1/488 [00:00<02:39,  3.05it/s]
+Model reward: (36.28999999910593, 1.4664242237515828)
+Avg Policy Reward on real env:   36.690 ± 0.950
+  1%|▋                                                                               | 4/488 [00:00<01:35,  5.06it/s]
+Model reward: (36.209999999031425, 1.134195751356928)
+Avg Policy Reward on real env:   36.610 ± 0.784
+  1%|▊                                                                               | 5/488 [00:00<00:11, 41.67it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.995 ± 0.015
+mean mean reward: 45.35468333269159, mean last reward: 29.32699999935925, score: 338.62468332628407
+[I 2024-06-29 17:50:08,343] Trial 9 finished with value: 338.62468332628407 and parameters: {'init_sample_trajectories': 88, 'batch_size': 54, 'eps': 6.207927960596204e-06, 'default_model': 0.8770828105962117, 'env_noise_weight': 0.021297992394513132}. Best is trial 1 with value: 339.71651666035257.
+  3%|██▋                                                                            | 14/409 [00:01<00:35, 11.11it/s]
+Model reward: (36.28999999910593, 1.6316862458693173)
+Avg Policy Reward on real env:   36.370 ± 1.262
+  2%|█▊                                                                              | 9/409 [00:01<01:04,  6.21it/s]
+Model reward: (35.809999998658895, 1.5512575558179464)
+Avg Policy Reward on real env:   36.450 ± 1.131
+  1%|▉                                                                               | 5/409 [00:00<01:10,  5.69it/s]
+Model reward: (36.369999999180436, 0.9765244501681555)
+Avg Policy Reward on real env:   36.290 ± 1.229
+  2%|█▊                                                                              | 9/409 [00:01<01:04,  6.22it/s]
+Model reward: (36.60999999940395, 1.061319933902159)
+Avg Policy Reward on real env:   36.850 ± 0.400
+  4%|██▊                                                                           | 15/409 [00:00<00:02, 140.03it/s]
+Model reward: (0.9849999997764826, 0.022912878816207696)
+Avg Policy Reward on real env:   0.975 ± 0.034
+mean mean reward: 46.10676041597888, mean last reward: 29.38699999935925, score: 339.9767604095714
+[I 2024-06-29 17:50:14,088] Trial 10 finished with value: 339.9767604095714 and parameters: {'init_sample_trajectories': 9, 'batch_size': 21, 'eps': 1.1446283427637786e-06, 'default_model': 0.08580516374450076, 'env_noise_weight': 0.9043725103441953}. Best is trial 10 with value: 339.9767604095714.
+ 11%|████████▊                                                                      | 45/404 [00:05<00:46,  7.76it/s]
+Model reward: (36.12999999895692, 1.2496399493088828)
+Avg Policy Reward on real env:   36.370 ± 1.451
+  7%|█████▋                                                                         | 29/404 [00:04<00:54,  6.83it/s]
+Model reward: (37.08999999985099, 0.4800000004470349)
+Avg Policy Reward on real env:   36.850 ± 0.400
+  4%|███▏                                                                           | 16/404 [00:02<00:58,  6.60it/s]
+Model reward: (36.52999999932945, 0.9765244501681555)
+Avg Policy Reward on real env:   36.450 ± 0.800
+  8%|██████▎                                                                        | 32/404 [00:04<00:54,  6.78it/s]
+Model reward: (36.04999999888241, 1.2521980685660825)
+Avg Policy Reward on real env:   36.770 ± 0.640
+ 12%|█████████▊                                                                     | 50/404 [00:05<00:41,  8.61it/s]
+Model reward: (36.369999999180436, 1.4945233367734356)
+Avg Policy Reward on real env:   36.610 ± 0.599
+mean mean reward: 56.412882969526, mean last reward: 36.60999999940395, score: 422.5128829635655
+[I 2024-06-29 17:50:37,830] Trial 11 finished with value: 422.5128829635655 and parameters: {'init_sample_trajectories': 4, 'batch_size': 6, 'eps': 5.971991540854962e-07, 'default_model': 0.05409500849132576, 'env_noise_weight': 0.9498187356593951}. Best is trial 11 with value: 422.5128829635655.
+ 22%|█████████████████▊                                                             | 90/400 [00:05<00:20, 15.38it/s]
+Model reward: (36.84999999962747, 0.5366563150997496)
+Avg Policy Reward on real env:   36.130 ± 1.024
+ 14%|██████████▊                                                                    | 55/400 [00:05<00:36,  9.52it/s]
+Model reward: (36.209999999031425, 1.189285500893089)
+Avg Policy Reward on real env:   36.610 ± 0.933
+  8%|██████▎                                                                        | 32/400 [00:04<00:53,  6.84it/s]
+Model reward: (36.04999999888241, 1.302305648900843)
+Avg Policy Reward on real env:   36.210 ± 1.341
+ 15%|████████████                                                                   | 61/400 [00:06<00:33, 10.09it/s]
+Model reward: (36.769999999552965, 0.6400000005960464)
+Avg Policy Reward on real env:   36.130 ± 1.348
+ 25%|███████████████████▌                                                           | 99/400 [00:06<00:19, 15.52it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   36.450 ± 0.800
+mean mean reward: 56.426632667378044, mean last reward: 36.30599999912083, score: 419.48663265858636
+[I 2024-06-29 17:51:07,332] Trial 12 finished with value: 419.48663265858636 and parameters: {'init_sample_trajectories': 0, 'batch_size': 3, 'eps': 1.279050256106746e-07, 'default_model': 0.009429911683437028, 'env_noise_weight': 0.9930327723925736}. Best is trial 11 with value: 422.5128829635655.
+  9%|██████▉                                                                        | 35/400 [00:05<00:54,  6.68it/s]
+Model reward: (36.52999999932945, 0.7547184912674147)
+Avg Policy Reward on real env:   36.690 ± 0.804
+  6%|████▌                                                                          | 23/400 [00:03<00:58,  6.43it/s]
+Model reward: (36.60999999940395, 0.48000000044703484)
+Avg Policy Reward on real env:   36.210 ± 1.076
+  3%|██▌                                                                            | 13/400 [00:02<01:04,  6.05it/s]
+Model reward: (36.44999999925494, 1.4310835069326657)
+Avg Policy Reward on real env:   36.530 ± 0.835
+  6%|████▎                                                                          | 22/400 [00:03<01:02,  6.03it/s]
+Model reward: (36.68999999947846, 0.7200000006705523)
+Avg Policy Reward on real env:   36.450 ± 1.290
+  9%|███████▎                                                                       | 37/400 [00:05<00:56,  6.44it/s]
+Model reward: (36.68999999947846, 0.5122499394716978)
+Avg Policy Reward on real env:   36.290 ± 0.999
+mean mean reward: 56.42256514397532, mean last reward: 36.433999999240044, score: 420.7625651363757
+[I 2024-06-29 17:51:28,463] Trial 13 finished with value: 420.7625651363757 and parameters: {'init_sample_trajectories': 0, 'batch_size': 8, 'eps': 1.5880107976933622e-07, 'default_model': 0.0016961435452701873, 'env_noise_weight': 0.996521984341856}. Best is trial 11 with value: 422.5128829635655.
+  1%|▌                                                                               | 3/420 [00:00<01:26,  4.80it/s]
+Model reward: (36.44999999925494, 0.715541753466333)
+Avg Policy Reward on real env:   36.610 ± 0.599
+  0%|▍                                                                               | 2/420 [00:00<01:39,  4.19it/s]
+Model reward: (36.769999999552965, 0.5306599669510796)
+Avg Policy Reward on real env:   36.690 ± 0.512
+  0%|▍                                                                               | 2/420 [00:00<01:41,  4.11it/s]
+Model reward: (36.52999999932945, 0.8352245214907075)
+Avg Policy Reward on real env:   36.770 ± 0.640
+  1%|▌                                                                               | 3/420 [00:00<01:28,  4.70it/s]
+Model reward: (36.209999999031425, 0.8800000008195639)
+Avg Policy Reward on real env:   36.530 ± 0.755
+  1%|▊                                                                               | 4/420 [00:00<00:07, 53.83it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 41.36103333270612, mean last reward: 29.517999999523163, score: 336.5410333279378
+[I 2024-06-29 17:51:31,385] Trial 14 finished with value: 336.5410333279378 and parameters: {'init_sample_trajectories': 20, 'batch_size': 84, 'eps': 2.477544222254591e-06, 'default_model': 0.24410830215744395, 'env_noise_weight': 0.7876797103481824}. Best is trial 11 with value: 422.5128829635655.
+  5%|████▏                                                                          | 21/400 [00:01<00:30, 12.38it/s]
+Model reward: (35.56999999843538, 0.9086253361742671)
+Avg Policy Reward on real env:   35.970 ± 1.608
+  4%|███▏                                                                           | 16/400 [00:02<01:02,  6.11it/s]
+Model reward: (36.369999999180436, 1.6178998747993214)
+Avg Policy Reward on real env:   35.970 ± 1.348
+  2%|█▌                                                                              | 8/400 [00:01<01:05,  5.98it/s]
+Model reward: (36.60999999940395, 0.7838367184206217)
+Avg Policy Reward on real env:   36.930 ± 0.392
+  4%|██▊                                                                            | 14/400 [00:02<01:00,  6.34it/s]
+Model reward: (37.08999999985099, 0.3200000002980232)
+Avg Policy Reward on real env:   36.690 ± 1.134
+  6%|████▍                                                                         | 23/400 [00:00<00:02, 129.43it/s]
+Model reward: (0.9799999997019768, 0.04000000059604644)
+Avg Policy Reward on real env:   0.995 ± 0.015
+mean mean reward: 45.545714779327035, mean last reward: 29.310999999344347, score: 338.6557147727705
+[I 2024-06-29 17:51:40,043] Trial 15 finished with value: 338.6557147727705 and parameters: {'init_sample_trajectories': 0, 'batch_size': 13, 'eps': 2.5630210078605223e-06, 'default_model': 0.22440804844841233, 'env_noise_weight': 0.7688343711698029}. Best is trial 11 with value: 422.5128829635655.
+  1%|▌                                                                               | 3/414 [00:00<00:51,  7.94it/s]
+Model reward: (35.56999999843538, 1.3120975585705241)
+Avg Policy Reward on real env:   35.810 ± 1.376
+  0%|▍                                                                               | 2/414 [00:00<01:37,  4.23it/s]
+Model reward: (36.28999999910593, 1.061319933902159)
+Avg Policy Reward on real env:   36.770 ± 0.960
+  0%|▏                                                                               | 1/414 [00:00<02:15,  3.05it/s]
+Model reward: (36.12999999895692, 1.085172798310689)
+Avg Policy Reward on real env:   36.850 ± 0.537
+  1%|▌                                                                               | 3/414 [00:00<01:26,  4.76it/s]
+Model reward: (36.209999999031425, 1.2419339768574431)
+Avg Policy Reward on real env:   36.610 ± 0.697
+  1%|▊                                                                               | 4/414 [00:00<00:06, 68.00it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.965 ± 0.063
+mean mean reward: 37.91894166579408, mean last reward: 29.40099999934435, score: 331.9289416592376
+[I 2024-06-29 17:51:42,537] Trial 16 finished with value: 331.9289416592376 and parameters: {'init_sample_trajectories': 14, 'batch_size': 91, 'eps': 2.137165620435158e-08, 'default_model': 0.37791887091445225, 'env_noise_weight': 0.9933656370351857}. Best is trial 11 with value: 422.5128829635655.
+  2%|█▊                                                                              | 9/409 [00:01<00:53,  7.45it/s]
+Model reward: (36.769999999552965, 0.5306599669510795)
+Avg Policy Reward on real env:   36.290 ± 0.599
+  1%|█▏                                                                              | 6/409 [00:01<01:10,  5.73it/s]
+Model reward: (36.369999999180436, 1.4510685731287776)
+Avg Policy Reward on real env:   37.170 ± 0.240
+  1%|▊                                                                               | 4/409 [00:00<01:17,  5.25it/s]
+Model reward: (35.8899999987334, 1.680000001564622)
+Avg Policy Reward on real env:   36.850 ± 0.738
+  2%|█▎                                                                              | 7/409 [00:01<01:09,  5.80it/s]
+Model reward: (36.52999999932945, 1.0998181678136871)
+Avg Policy Reward on real env:   35.890 ± 1.641
+  2%|█▊                                                                              | 9/409 [00:00<00:04, 94.72it/s]
+Model reward: (0.9849999997764826, 0.032015621664234176)
+Avg Policy Reward on real env:   0.985 ± 0.023
+mean mean reward: 47.978028570856765, mean last reward: 29.436999999433755, score: 342.34802856519434
+[I 2024-06-29 17:51:47,470] Trial 17 finished with value: 342.34802856519434 and parameters: {'init_sample_trajectories': 9, 'batch_size': 33, 'eps': 2.2799498978760858e-06, 'default_model': 0.11473094098073071, 'env_noise_weight': 0.7842707019544652}. Best is trial 11 with value: 422.5128829635655.
+  1%|▋                                                                               | 4/449 [00:00<01:27,  5.10it/s]
+Model reward: (36.92999999970198, 0.5306599669510795)
+Avg Policy Reward on real env:   36.290 ± 0.862
+  0%|▎                                                                               | 2/449 [00:00<01:45,  4.24it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   36.530 ± 0.755
+  0%|▏                                                                               | 1/449 [00:00<02:25,  3.08it/s]
+Model reward: (36.52999999932945, 0.7547184912674147)
+Avg Policy Reward on real env:   36.450 ± 0.876
+  1%|▌                                                                               | 3/449 [00:00<01:39,  4.48it/s]
+Model reward: (36.44999999925494, 0.8000000007450582)
+Avg Policy Reward on real env:   36.530 ± 1.451
+  1%|▋                                                                               | 4/449 [00:00<00:06, 71.96it/s]
+Model reward: (0.9799999997019768, 0.033166248397769604)
+Avg Policy Reward on real env:   0.985 ± 0.032
+mean mean reward: 41.33333333267892, mean last reward: 29.35699999935925, score: 334.9033333262714
+[I 2024-06-29 17:51:50,399] Trial 18 finished with value: 334.9033333262714 and parameters: {'init_sample_trajectories': 49, 'batch_size': 71, 'eps': 3.766407843897605e-06, 'default_model': 0.009686156801510065, 'env_noise_weight': 0.8733597112675116}. Best is trial 11 with value: 422.5128829635655.
+  1%|▌                                                                               | 3/429 [00:00<01:11,  5.96it/s]
+Model reward: (36.28999999910593, 0.999199680674321)
+Avg Policy Reward on real env:   36.130 ± 1.197
+  0%|▎                                                                               | 2/429 [00:00<01:46,  4.02it/s]
+Model reward: (36.12999999895692, 1.085172798310689)
+Avg Policy Reward on real env:   36.290 ± 0.697
+  0%|▏                                                                               | 1/429 [00:00<02:21,  3.03it/s]
+Model reward: (36.209999999031425, 1.4333178307083947)
+Avg Policy Reward on real env:   36.770 ± 0.960
+  0%|▎                                                                               | 2/429 [00:00<01:41,  4.22it/s]
+Model reward: (36.769999999552965, 0.6400000005960464)
+Avg Policy Reward on real env:   36.130 ± 1.250
+  1%|▌                                                                               | 3/429 [00:00<00:07, 55.67it/s]
+Model reward: (0.974999999627471, 0.04031128934217776)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 35.48266666596135, mean last reward: 29.261999999284747, score: 328.1026666588088
+[I 2024-06-29 17:51:52,887] Trial 19 finished with value: 328.1026666588088 and parameters: {'init_sample_trajectories': 29, 'batch_size': 109, 'eps': 1.3185412415626789e-06, 'default_model': 0.410760315536379, 'env_noise_weight': 0.7302737056633469}. Best is trial 11 with value: 422.5128829635655.
+ 37%|████████████████████████████▋                                                 | 183/498 [00:06<00:10, 29.74it/s]
+Model reward: (36.92999999970198, 0.5306599669510795)
+Avg Policy Reward on real env:   36.210 ± 1.477
+ 20%|███████████████▊                                                              | 101/498 [00:06<00:24, 15.93it/s]
+Model reward: (36.68999999947846, 1.0150862041813344)
+Avg Policy Reward on real env:   36.130 ± 1.440
+  2%|█▍                                                                              | 9/498 [00:01<01:27,  5.60it/s]
+Model reward: (37.08999999985099, 0.3200000002980232)
+Avg Policy Reward on real env:   36.530 ± 0.977
+ 22%|█████████████████▌                                                            | 112/498 [00:06<00:22, 17.41it/s]
+Model reward: (36.769999999552965, 0.6400000005960464)
+Avg Policy Reward on real env:   35.970 ± 1.300
+ 43%|█████████████████████████████████▏                                           | 215/498 [00:00<00:00, 533.19it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   1.000 ± 0.000
+mean mean reward: 49.368536584740276, mean last reward: 29.167999999225138, score: 341.0485365769917
+[I 2024-06-29 17:52:14,521] Trial 20 finished with value: 341.0485365769917 and parameters: {'init_sample_trajectories': 98, 'batch_size': 1, 'eps': 1.2252307989996393e-06, 'default_model': 0.09201805834059984, 'env_noise_weight': 0.6722554037356793}. Best is trial 11 with value: 422.5128829635655.
+ 10%|████████                                                                       | 41/402 [00:06<00:53,  6.71it/s]
+Model reward: (36.12999999895692, 1.2496399493088828)
+Avg Policy Reward on real env:   36.370 ± 1.451
+  6%|████▋                                                                          | 24/402 [00:03<00:59,  6.31it/s]
+Model reward: (36.52999999932945, 0.5600000005215406)
+Avg Policy Reward on real env:   36.690 ± 0.950
+  3%|██▊                                                                            | 14/402 [00:02<01:12,  5.34it/s]
+Model reward: (36.209999999031425, 0.9499473678477409)
+Avg Policy Reward on real env:   35.330 ± 1.796
+  7%|█████▎                                                                         | 27/402 [00:04<00:55,  6.72it/s]
+Model reward: (36.60999999940395, 0.7838367184206219)
+Avg Policy Reward on real env:   36.690 ± 0.720
+ 11%|████████▋                                                                      | 44/402 [00:05<00:47,  7.56it/s]
+Model reward: (35.809999998658895, 1.1200000010430813)
+Avg Policy Reward on real env:   36.930 ± 0.531
+mean mean reward: 56.28465284476541, mean last reward: 36.40199999921024, score: 420.3046528368678
+[I 2024-06-29 17:52:37,659] Trial 21 finished with value: 420.3046528368678 and parameters: {'init_sample_trajectories': 2, 'batch_size': 7, 'eps': 6.321782544834046e-08, 'default_model': 0.015099464878328653, 'env_noise_weight': 0.9874624326437857}. Best is trial 11 with value: 422.5128829635655.
+  2%|█▊                                                                              | 9/408 [00:01<00:54,  7.34it/s]
+Model reward: (36.44999999925494, 0.9465727661775031)
+Avg Policy Reward on real env:   35.890 ± 1.015
+  1%|█▏                                                                              | 6/408 [00:01<01:09,  5.76it/s]
+Model reward: (35.40999999828637, 1.7906423445156168)
+Avg Policy Reward on real env:   36.690 ± 0.804
+  1%|▌                                                                               | 3/408 [00:00<01:21,  4.96it/s]
+Model reward: (36.60999999940395, 0.48000000044703484)
+Avg Policy Reward on real env:   36.450 ± 1.187
+  1%|█▏                                                                              | 6/408 [00:01<01:09,  5.76it/s]
+Model reward: (36.369999999180436, 0.8352245214907075)
+Avg Policy Reward on real env:   36.050 ± 1.145
+  2%|█▊                                                                              | 9/408 [00:00<00:04, 86.17it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.970 ± 0.051
+mean mean reward: 47.97529285647001, mean last reward: 29.209999999180432, score: 340.07529284827433
+[I 2024-06-29 17:52:42,293] Trial 22 finished with value: 340.07529284827433 and parameters: {'init_sample_trajectories': 8, 'batch_size': 32, 'eps': 7.764846721649173e-07, 'default_model': 0.1617468960498361, 'env_noise_weight': 0.9208866443529407}. Best is trial 11 with value: 422.5128829635655.
+  2%|█▉                                                                             | 10/418 [00:00<00:38, 10.65it/s]
+Model reward: (36.369999999180436, 1.7325126278301455)
+Avg Policy Reward on real env:   36.530 ± 0.909
+  1%|█▏                                                                              | 6/418 [00:01<01:11,  5.76it/s]
+Model reward: (36.92999999970198, 0.5306599669510796)
+Avg Policy Reward on real env:   36.770 ± 0.816
+  1%|▉                                                                               | 5/418 [00:00<01:19,  5.21it/s]
+Model reward: (37.08999999985099, 0.3200000002980232)
+Avg Policy Reward on real env:   36.450 ± 0.716
+  2%|█▎                                                                              | 7/418 [00:01<01:11,  5.72it/s]
+Model reward: (35.72999999858439, 1.7325126278301453)
+Avg Policy Reward on real env:   36.290 ± 1.229
+  2%|█▊                                                                            | 10/418 [00:00<00:03, 120.13it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.980 ± 0.024
+mean mean reward: 46.18085064881403, mean last reward: 29.403999999389054, score: 340.2208506427046
+[I 2024-06-29 17:52:47,151] Trial 23 finished with value: 340.2208506427046 and parameters: {'init_sample_trajectories': 18, 'batch_size': 29, 'eps': 3.2574728863626926e-06, 'default_model': 0.3319422691461962, 'env_noise_weight': 0.8534018537457259}. Best is trial 11 with value: 422.5128829635655.
+  1%|▊                                                                               | 4/400 [00:00<01:01,  6.43it/s]
+Model reward: (36.68999999947846, 0.6248199746544414)
+Avg Policy Reward on real env:   36.610 ± 0.697
+  0%|▍                                                                               | 2/400 [00:00<01:32,  4.29it/s]
+Model reward: (36.60999999940395, 1.175755077630933)
+Avg Policy Reward on real env:   36.210 ± 1.341
+  0%|▏                                                                               | 1/400 [00:00<02:09,  3.09it/s]
+Model reward: (37.00999999977648, 0.5122499394716978)
+Avg Policy Reward on real env:   36.770 ± 0.640
+  0%|▍                                                                               | 2/400 [00:00<01:32,  4.31it/s]
+Model reward: (36.209999999031425, 1.4333178307083945)
+Avg Policy Reward on real env:   36.690 ± 0.512
+  1%|▊                                                                               | 4/400 [00:00<00:05, 74.71it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 35.94886666605373, mean last reward: 29.45399999946356, score: 330.4888666606893
+[I 2024-06-29 17:52:49,694] Trial 24 finished with value: 330.4888666606893 and parameters: {'init_sample_trajectories': 0, 'batch_size': 63, 'eps': 1.7432379140558743e-06, 'default_model': 0.0031668195797438176, 'env_noise_weight': 0.999438959261871}. Best is trial 11 with value: 422.5128829635655.
+ 33%|█████████████████████████▋                                                    | 135/410 [00:05<00:11, 23.24it/s]
+Model reward: (36.52999999932945, 0.908625336174267)
+Avg Policy Reward on real env:   36.290 ± 1.632
+ 22%|█████████████████▏                                                             | 89/410 [00:05<00:20, 15.38it/s]
+Model reward: (36.52999999932945, 0.5600000005215406)
+Avg Policy Reward on real env:   36.530 ± 0.909
+ 11%|████████▊                                                                      | 46/410 [00:05<00:46,  7.87it/s]
+Model reward: (36.769999999552965, 0.5306599669510796)
+Avg Policy Reward on real env:   36.690 ± 0.720
+ 22%|█████████████████▋                                                             | 92/410 [00:05<00:20, 15.71it/s]
+Model reward: (36.28999999910593, 1.1200000010430813)
+Avg Policy Reward on real env:   36.290 ± 0.862
+ 36%|███████████████████████████▊                                                  | 146/410 [00:05<00:10, 25.72it/s]
+Model reward: (36.28999999910593, 0.6974238316160343)
+Avg Policy Reward on real env:   36.130 ± 1.348
+mean mean reward: 55.94224146264878, mean last reward: 36.385999999195334, score: 419.80224145460215
+[I 2024-06-29 17:53:19,410] Trial 25 finished with value: 419.80224145460215 and parameters: {'init_sample_trajectories': 10, 'batch_size': 2, 'eps': 3.785962032561491e-07, 'default_model': 0.1321789580053535, 'env_noise_weight': 0.8585644352768955}. Best is trial 11 with value: 422.5128829635655.
+  1%|█▏                                                                              | 6/426 [00:00<01:04,  6.51it/s]
+Model reward: (37.00999999977648, 0.5122499394716978)
+Avg Policy Reward on real env:   36.770 ± 0.640
+  1%|▊                                                                               | 4/426 [00:00<01:19,  5.32it/s]
+Model reward: (36.84999999962747, 0.5366563150997496)
+Avg Policy Reward on real env:   36.290 ± 1.176
+  0%|▍                                                                               | 2/426 [00:00<01:37,  4.35it/s]
+Model reward: (36.28999999910593, 1.3763720440086666)
+Avg Policy Reward on real env:   36.610 ± 0.480
+  1%|▉                                                                               | 5/426 [00:00<01:15,  5.56it/s]
+Model reward: (35.48999999836087, 2.0800000019371514)
+Avg Policy Reward on real env:   37.090 ± 0.320
+  2%|█▎                                                                              | 7/426 [00:00<00:04, 90.81it/s]
+Model reward: (0.9699999995529651, 0.04000000059604644)
+Avg Policy Reward on real env:   0.985 ± 0.023
+mean mean reward: 44.340691070715636, mean last reward: 29.54899999953806, score: 339.8306910660963
+[I 2024-06-29 17:53:23,132] Trial 26 finished with value: 339.8306910660963 and parameters: {'init_sample_trajectories': 26, 'batch_size': 44, 'eps': 3.5347920406075386e-06, 'default_model': 0.1548120750079488, 'env_noise_weight': 0.9358357074254036}. Best is trial 11 with value: 422.5128829635655.
+  3%|██▎                                                                            | 13/438 [00:01<00:55,  7.64it/s]
+Model reward: (36.769999999552965, 0.5306599669510796)
+Avg Policy Reward on real env:   35.090 ± 2.556
+  2%|█▊                                                                             | 10/438 [00:01<01:08,  6.22it/s]
+Model reward: (36.769999999552965, 0.9600000008940697)
+Avg Policy Reward on real env:   36.690 ± 0.804
+  1%|▉                                                                               | 5/438 [00:00<01:17,  5.61it/s]
+Model reward: (37.00999999977648, 0.3666060559378957)
+Avg Policy Reward on real env:   37.170 ± 0.240
+  2%|█▊                                                                             | 10/438 [00:01<01:08,  6.25it/s]
+Model reward: (36.12999999895692, 0.9600000008940697)
+Avg Policy Reward on real env:   36.850 ± 0.400
+  3%|██▍                                                                           | 14/438 [00:00<00:03, 117.88it/s]
+Model reward: (0.974999999627471, 0.04031128934217776)
+Avg Policy Reward on real env:   0.985 ± 0.023
+mean mean reward: 47.98032618975728, mean last reward: 29.35699999935925, score: 341.55032618334974
+[I 2024-06-29 17:53:29,656] Trial 27 finished with value: 341.55032618334974 and parameters: {'init_sample_trajectories': 38, 'batch_size': 19, 'eps': 1.8980255936340453e-06, 'default_model': 0.056146377186686094, 'env_noise_weight': 0.7169148297787594}. Best is trial 11 with value: 422.5128829635655.
+  0%|▍                                                                               | 2/416 [00:00<00:30, 13.69it/s]
+Model reward: (2.319999996572733, 1.1178550880068074)
+Avg Policy Reward on real env:   2.865 ± 1.471
+  0%|▍                                                                               | 2/416 [00:00<00:48,  8.59it/s]
+Model reward: (1.0, 0.0)
+Avg Policy Reward on real env:   0.990 ± 0.020
+  0%|▏                                                                               | 1/416 [00:00<02:18,  3.00it/s]
+Model reward: (36.92999999970198, 0.5306599669510795)
+Avg Policy Reward on real env:   36.850 ± 0.400
+  0%|▍                                                                               | 2/416 [00:00<00:46,  8.84it/s]
+Model reward: (0.9849999997764826, 0.032015621664234176)
+Avg Policy Reward on real env:   0.995 ± 0.015
+  0%|▍                                                                               | 2/416 [00:00<00:15, 26.39it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.985 ± 0.045
+mean mean reward: 13.055166665570189, mean last reward: 8.536999998837711, score: 98.4251666539473
+[I 2024-06-29 17:53:30,891] Trial 28 finished with value: 98.4251666539473 and parameters: {'init_sample_trajectories': 16, 'batch_size': 157, 'eps': 7.287899539660805e-06, 'default_model': 0.19105509049862707, 'env_noise_weight': 0.8253618724031888}. Best is trial 11 with value: 422.5128829635655.
+  1%|▊                                                                               | 4/405 [00:00<00:35, 11.33it/s]
+Model reward: (36.209999999031425, 1.6019987530520403)
+Avg Policy Reward on real env:   36.130 ± 1.197
+  1%|▌                                                                               | 3/405 [00:00<01:23,  4.84it/s]
+Model reward: (36.44999999925494, 1.0733126301994993)
+Avg Policy Reward on real env:   36.050 ± 1.649
+  0%|▍                                                                               | 2/405 [00:00<01:34,  4.27it/s]
+Model reward: (36.60999999940395, 0.6974238316160343)
+Avg Policy Reward on real env:   36.530 ± 0.835
+  1%|▊                                                                               | 4/405 [00:00<01:03,  6.31it/s]
+Model reward: (36.44999999925494, 0.8000000007450582)
+Avg Policy Reward on real env:   36.290 ± 1.509
+  1%|▉                                                                               | 5/405 [00:00<00:17, 22.92it/s]
+Model reward: (0.9599999994039535, 0.07348469337850258)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 40.90336666601524, mean last reward: 29.19799999922514, score: 332.88336665826665
+[I 2024-06-29 17:53:33,797] Trial 29 finished with value: 332.88336665826665 and parameters: {'init_sample_trajectories': 5, 'batch_size': 69, 'eps': 6.536378791315659e-07, 'default_model': 0.46534873352483636, 'env_noise_weight': 0.939820180199952}. Best is trial 11 with value: 422.5128829635655.
+  1%|▌                                                                               | 3/422 [00:00<01:29,  4.69it/s]
+Model reward: (36.68999999947846, 0.6248199746544414)
+Avg Policy Reward on real env:   36.610 ± 0.999
+  1%|▌                                                                               | 3/422 [00:00<00:34, 12.06it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.995 ± 0.015
+  1%|▌                                                                               | 3/422 [00:00<01:35,  4.40it/s]
+Model reward: (35.649999998509884, 1.9919839375333768)
+Avg Policy Reward on real env:   35.410 ± 2.118
+  0%|▍                                                                               | 2/422 [00:00<01:41,  4.13it/s]
+Model reward: (36.84999999962747, 0.5366563150997496)
+Avg Policy Reward on real env:   36.930 ± 0.733
+  1%|▌                                                                               | 3/422 [00:00<00:13, 30.36it/s]
+Model reward: (0.9799999997019768, 0.033166248397769604)
+Avg Policy Reward on real env:   0.990 ± 0.030
+mean mean reward: 40.05870833282049, mean last reward: 22.18699999943376, score: 261.9287083271581
+[I 2024-06-29 17:53:36,422] Trial 30 finished with value: 261.9287083271581 and parameters: {'init_sample_trajectories': 22, 'batch_size': 114, 'eps': 4.264040456905533e-06, 'default_model': 0.3461249754978889, 'env_noise_weight': 0.22880071407343394}. Best is trial 11 with value: 422.5128829635655.
+ 31%|████████████████████████▍                                                     | 129/412 [00:05<00:12, 23.36it/s]
+Model reward: (36.04999999888241, 1.0276186072502547)
+Avg Policy Reward on real env:   36.770 ± 0.960
+ 22%|█████████████████                                                              | 89/412 [00:05<00:20, 15.44it/s]
+Model reward: (36.52999999932945, 0.5600000005215406)
+Avg Policy Reward on real env:   36.530 ± 0.909
+ 11%|████████▊                                                                      | 46/412 [00:05<00:46,  7.88it/s]
+Model reward: (36.769999999552965, 0.5306599669510796)
+Avg Policy Reward on real env:   36.690 ± 0.720
+ 22%|█████████████████▋                                                             | 92/412 [00:05<00:20, 15.57it/s]
+Model reward: (36.28999999910593, 1.1200000010430813)
+Avg Policy Reward on real env:   36.290 ± 0.862
+ 34%|██████████████████████████▉                                                   | 142/412 [00:05<00:10, 25.61it/s]
+Model reward: (35.96999999880791, 1.6857046020263728)
+Avg Policy Reward on real env:   36.450 ± 0.876
+mean mean reward: 55.42420975538187, mean last reward: 36.545999999344346, score: 420.88420974882536
+[I 2024-06-29 17:54:05,748] Trial 31 finished with value: 420.88420974882536 and parameters: {'init_sample_trajectories': 12, 'batch_size': 2, 'eps': 5.182205233007063e-07, 'default_model': 0.1255721775132096, 'env_noise_weight': 0.876363788460243}. Best is trial 11 with value: 422.5128829635655.
+  2%|█▌                                                                              | 8/404 [00:01<00:53,  7.44it/s]
+Model reward: (36.68999999947846, 0.5122499394716978)
+Avg Policy Reward on real env:   36.850 ± 0.400
+  1%|▉                                                                               | 5/404 [00:00<01:10,  5.64it/s]
+Model reward: (36.209999999031425, 1.07628992476827)
+Avg Policy Reward on real env:   36.290 ± 1.376
+  1%|▌                                                                               | 3/404 [00:00<01:21,  4.94it/s]
+Model reward: (35.96999999880791, 1.7600000016391277)
+Avg Policy Reward on real env:   36.210 ± 1.388
+  1%|█▏                                                                              | 6/404 [00:01<01:09,  5.74it/s]
+Model reward: (36.769999999552965, 0.6400000005960464)
+Avg Policy Reward on real env:   36.770 ± 0.392
+  2%|█▊                                                                              | 9/404 [00:00<00:10, 39.19it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.975 ± 0.060
+mean mean reward: 48.54017222153375, mean last reward: 29.41899999938905, score: 342.73017221542426
+[I 2024-06-29 17:54:10,201] Trial 32 finished with value: 342.73017221542426 and parameters: {'init_sample_trajectories': 4, 'batch_size': 37, 'eps': 9.959693767032191e-06, 'default_model': 0.07850851908969995, 'env_noise_weight': 0.9246224402119412}. Best is trial 11 with value: 422.5128829635655.
+  4%|███                                                                            | 16/413 [00:01<00:27, 14.33it/s]
+Model reward: (36.369999999180436, 0.9765244501681555)
+Avg Policy Reward on real env:   35.730 ± 2.038
+  3%|██▋                                                                            | 14/413 [00:02<01:02,  6.37it/s]
+Model reward: (37.00999999977648, 0.5122499394716978)
+Avg Policy Reward on real env:   36.450 ± 1.073
+  2%|█▌                                                                              | 8/413 [00:01<01:07,  6.01it/s]
+Model reward: (35.809999998658895, 1.5512575558179464)
+Avg Policy Reward on real env:   35.890 ± 1.388
+  3%|██▎                                                                            | 12/413 [00:01<01:03,  6.28it/s]
+Model reward: (36.769999999552965, 0.6400000005960464)
+Avg Policy Reward on real env:   35.650 ± 1.789
+  4%|███▏                                                                          | 17/413 [00:00<00:02, 152.33it/s]
+Model reward: (0.9899999998509884, 0.030000000447034835)
+Avg Policy Reward on real env:   0.980 ± 0.024
+mean mean reward: 45.20284823969969, mean last reward: 28.93999999895692, score: 334.6028482292689
+[I 2024-06-29 17:54:17,476] Trial 33 finished with value: 334.6028482292689 and parameters: {'init_sample_trajectories': 13, 'batch_size': 17, 'eps': 7.970542667721637e-07, 'default_model': 0.3018062778790568, 'env_noise_weight': 0.6749382399110803}. Best is trial 11 with value: 422.5128829635655.
+  2%|█▍                                                                              | 7/404 [00:01<01:00,  6.58it/s]
+Model reward: (36.28999999910593, 1.280000001192093)
+Avg Policy Reward on real env:   36.290 ± 0.599
+  1%|▉                                                                               | 5/404 [00:00<01:11,  5.60it/s]
+Model reward: (35.96999999880791, 0.9600000008940697)
+Avg Policy Reward on real env:   36.850 ± 0.820
+  1%|▌                                                                               | 3/404 [00:00<01:21,  4.91it/s]
+Model reward: (36.52999999932945, 1.210619677161202)
+Avg Policy Reward on real env:   36.530 ± 0.665
+  1%|█▏                                                                              | 6/404 [00:01<01:10,  5.68it/s]
+Model reward: (36.84999999962747, 0.5366563150997496)
+Avg Policy Reward on real env:   36.050 ± 1.302
+  2%|█▌                                                                              | 8/404 [00:00<00:11, 34.01it/s]
+Model reward: (1.0, 0.0)
+Avg Policy Reward on real env:   0.970 ± 0.060
+mean mean reward: 49.25441269777368, mean last reward: 29.337999999299644, score: 342.6344126907701
+[I 2024-06-29 17:54:21,947] Trial 34 finished with value: 342.6344126907701 and parameters: {'init_sample_trajectories': 4, 'batch_size': 43, 'eps': 1.6509526761365451e-06, 'default_model': 0.05668204757080869, 'env_noise_weight': 0.8316544494093007}. Best is trial 11 with value: 422.5128829635655.
+  4%|███▍                                                                           | 18/415 [00:01<00:32, 12.25it/s]
+Model reward: (36.04999999888241, 1.609968945299249)
+Avg Policy Reward on real env:   36.370 ± 0.909
+  3%|██▎                                                                            | 12/415 [00:01<01:03,  6.34it/s]
+Model reward: (36.44999999925494, 1.3386560437012414)
+Avg Policy Reward on real env:   37.010 ± 0.367
+  2%|█▎                                                                              | 7/415 [00:01<01:08,  6.00it/s]
+Model reward: (36.44999999925494, 1.5178932782944703)
+Avg Policy Reward on real env:   36.450 ± 1.073
+  3%|██                                                                             | 11/415 [00:01<01:03,  6.37it/s]
+Model reward: (36.68999999947846, 1.189285500893089)
+Avg Policy Reward on real env:   35.890 ± 1.928
+  5%|███▌                                                                          | 19/415 [00:00<00:02, 163.56it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.980 ± 0.033
+mean mean reward: 45.717898211141396, mean last reward: 29.33999999932945, score: 339.1178982044359
+[I 2024-06-29 17:54:28,929] Trial 35 finished with value: 339.1178982044359 and parameters: {'init_sample_trajectories': 15, 'batch_size': 15, 'eps': 2.8138834357045773e-06, 'default_model': 0.2183128830905925, 'env_noise_weight': 0.950291684204606}. Best is trial 11 with value: 422.5128829635655.
+  0%|▍                                                                               | 2/423 [00:00<01:39,  4.23it/s]
+Model reward: (36.28999999910593, 1.175755077630933)
+Avg Policy Reward on real env:   36.450 ± 1.678
+  0%|▍                                                                               | 2/423 [00:00<01:41,  4.15it/s]
+Model reward: (36.92999999970198, 0.39191835921031093)
+Avg Policy Reward on real env:   36.610 ± 0.784
+  0%|▏                                                                               | 1/423 [00:00<02:19,  3.02it/s]
+Model reward: (36.28999999910593, 1.280000001192093)
+Avg Policy Reward on real env:   36.530 ± 0.977
+  0%|▍                                                                               | 2/423 [00:00<01:41,  4.16it/s]
+Model reward: (36.52999999932945, 0.6645299096523377)
+Avg Policy Reward on real env:   36.610 ± 1.120
+  0%|▍                                                                               | 2/423 [00:00<00:15, 27.19it/s]
+Model reward: (0.9899999998509884, 0.030000000447034835)
+Avg Policy Reward on real env:   0.995 ± 0.015
+mean mean reward: 29.370999999381603, mean last reward: 29.438999999463555, score: 323.76099999401714
+[I 2024-06-29 17:54:31,378] Trial 36 finished with value: 323.76099999401714 and parameters: {'init_sample_trajectories': 23, 'batch_size': 145, 'eps': 5.743922905457883e-07, 'default_model': 0.0023975271885044195, 'env_noise_weight': 0.8817762831689746}. Best is trial 11 with value: 422.5128829635655.
+  0%|▏                                                                               | 1/444 [00:00<02:24,  3.07it/s]
+Model reward: (36.209999999031425, 1.0150862041813344)
+Avg Policy Reward on real env:   36.450 ± 1.012
+  0%|▎                                                                               | 2/444 [00:00<01:05,  6.75it/s]
+Model reward: (0.9799999997019768, 0.024494897792834196)
+Avg Policy Reward on real env:   0.990 ± 0.020
+  0%|▏                                                                               | 1/444 [00:00<02:45,  2.68it/s]
+Model reward: (36.60999999940395, 0.6974238316160343)
+Avg Policy Reward on real env:   36.690 ± 0.625
+  0%|▎                                                                               | 2/444 [00:00<01:06,  6.68it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.985 ± 0.023
+  0%|▎                                                                               | 2/444 [00:00<00:14, 30.15it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.975 ± 0.040
+mean mean reward: 19.889833332815517, mean last reward: 15.21799999959767, score: 172.0698333287922
+[I 2024-06-29 17:54:33,073] Trial 37 finished with value: 172.0698333287922 and parameters: {'init_sample_trajectories': 44, 'batch_size': 236, 'eps': 1.4829994281949186e-07, 'default_model': 0.2735363493201156, 'env_noise_weight': 0.4559663602683497}. Best is trial 11 with value: 422.5128829635655.
+ 30%|███████████████████████▏                                                      | 128/430 [00:04<00:11, 26.83it/s]
+Model reward: (36.369999999180436, 0.9765244501681555)
+Avg Policy Reward on real env:   36.370 ± 1.157
+ 21%|████████████████▉                                                              | 92/430 [00:05<00:21, 15.56it/s]
+Model reward: (36.369999999180436, 1.1565465846611949)
+Avg Policy Reward on real env:   36.770 ± 0.733
+ 12%|█████████▏                                                                     | 50/430 [00:05<00:45,  8.39it/s]
+Model reward: (36.84999999962747, 0.5366563150997496)
+Avg Policy Reward on real env:   36.770 ± 0.960
+ 23%|██████████████████▏                                                            | 99/430 [00:05<00:19, 16.75it/s]
+Model reward: (36.84999999962747, 0.6449806204645689)
+Avg Policy Reward on real env:   37.170 ± 0.240
+ 31%|████████████████████████▍                                                     | 135/430 [00:04<00:09, 31.73it/s]
+Model reward: (36.12999999895692, 1.8998947356954818)
+Avg Policy Reward on real env:   35.890 ± 1.388
+mean mean reward: 52.559902438107066, mean last reward: 36.593999999389055, score: 418.4999024319976
+[I 2024-06-29 17:55:00,626] Trial 38 finished with value: 418.4999024319976 and parameters: {'init_sample_trajectories': 30, 'batch_size': 2, 'eps': 1.1972682224658746e-06, 'default_model': 0.5495436597174028, 'env_noise_weight': 0.6508577533242426}. Best is trial 11 with value: 422.5128829635655.
+  1%|▊                                                                               | 5/460 [00:00<01:21,  5.57it/s]
+Model reward: (36.68999999947846, 0.6248199746544413)
+Avg Policy Reward on real env:   36.530 ± 0.835
+  1%|▌                                                                               | 3/460 [00:00<01:33,  4.89it/s]
+Model reward: (37.00999999977648, 0.3666060559378957)
+Avg Policy Reward on real env:   36.610 ± 0.599
+  0%|▏                                                                               | 1/460 [00:00<02:26,  3.13it/s]
+Model reward: (36.04999999888241, 1.3971399370270263)
+Avg Policy Reward on real env:   35.330 ± 1.568
+  1%|▌                                                                               | 3/460 [00:00<01:32,  4.92it/s]
+Model reward: (36.52999999932945, 0.9765244501681555)
+Avg Policy Reward on real env:   36.210 ± 1.076
+  1%|▊                                                                               | 5/460 [00:00<00:05, 86.04it/s]
+Model reward: (0.9799999997019768, 0.033166248397769604)
+Avg Policy Reward on real env:   0.985 ± 0.032
+mean mean reward: 45.28208333262863, mean last reward: 29.132999999150634, score: 336.61208332413497
+[I 2024-06-29 17:55:03,734] Trial 39 finished with value: 336.61208332413497 and parameters: {'init_sample_trajectories': 60, 'batch_size': 51, 'eps': 1.948978785300644e-06, 'default_model': 0.1769870965122856, 'env_noise_weight': 0.9980677734317461}. Best is trial 11 with value: 422.5128829635655.
+  2%|█▌                                                                              | 9/473 [00:00<00:34, 13.47it/s]
+Model reward: (2.5349999975413082, 0.9967572397649074)
+Avg Policy Reward on real env:   2.400 ± 0.924
+  1%|▊                                                                               | 5/473 [00:00<01:23,  5.58it/s]
+Model reward: (36.60999999940395, 0.6974238316160343)
+Avg Policy Reward on real env:   36.530 ± 0.835
+  0%|▎                                                                               | 2/473 [00:00<01:49,  4.30it/s]
+Model reward: (36.68999999947846, 0.9499473678477407)
+Avg Policy Reward on real env:   36.450 ± 0.800
+  1%|▊                                                                               | 5/473 [00:00<01:23,  5.63it/s]
+Model reward: (36.209999999031425, 1.292439554915959)
+Avg Policy Reward on real env:   36.290 ± 1.061
+  2%|█▋                                                                            | 10/473 [00:00<00:03, 117.13it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.980 ± 0.033
+mean mean reward: 40.52428181706098, mean last reward: 22.529999998733402, score: 265.824281804395
+[I 2024-06-29 17:55:07,226] Trial 40 finished with value: 265.824281804395 and parameters: {'init_sample_trajectories': 73, 'batch_size': 25, 'eps': 5.2501468061130955e-06, 'default_model': 0.6635956195732677, 'env_noise_weight': 0.7958122103442152}. Best is trial 11 with value: 422.5128829635655.
+  7%|█████▊                                                                         | 30/411 [00:04<00:51,  7.34it/s]
+Model reward: (36.769999999552965, 0.5306599669510795)
+Avg Policy Reward on real env:   36.930 ± 0.531
+  5%|███▊                                                                           | 20/411 [00:03<00:59,  6.62it/s]
+Model reward: (36.84999999962747, 0.5366563150997496)
+Avg Policy Reward on real env:   36.850 ± 0.537
+  2%|█▉                                                                             | 10/411 [00:01<01:03,  6.28it/s]
+Model reward: (36.52999999932945, 0.9086253361742671)
+Avg Policy Reward on real env:   35.810 ± 1.329
+  5%|████                                                                           | 21/411 [00:03<00:59,  6.53it/s]
+Model reward: (36.28999999910593, 1.2289833208035572)
+Avg Policy Reward on real env:   37.010 ± 0.367
+  8%|██████▌                                                                        | 34/411 [00:04<00:48,  7.81it/s]
+Model reward: (36.769999999552965, 0.8158431229346587)
+Avg Policy Reward on real env:   36.530 ± 0.977
+mean mean reward: 54.64949021002751, mean last reward: 36.62599999941885, score: 420.90949020421607
+[I 2024-06-29 17:55:24,238] Trial 41 finished with value: 420.90949020421607 and parameters: {'init_sample_trajectories': 11, 'batch_size': 9, 'eps': 4.1899213303884575e-07, 'default_model': 0.12505036566760475, 'env_noise_weight': 0.8728999719054477}. Best is trial 11 with value: 422.5128829635655.
+  6%|████▊                                                                          | 25/406 [00:03<00:53,  7.12it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   35.970 ± 1.085
+  4%|███▎                                                                           | 17/406 [00:02<00:59,  6.54it/s]
+Model reward: (36.60999999940395, 0.598665182441381)
+Avg Policy Reward on real env:   36.370 ± 0.909
+  2%|█▉                                                                             | 10/406 [00:01<01:03,  6.24it/s]
+Model reward: (35.8899999987334, 1.5615377051297459)
+Avg Policy Reward on real env:   36.850 ± 0.645
+  4%|███▎                                                                           | 17/406 [00:02<00:59,  6.53it/s]
+Model reward: (36.28999999910593, 0.8616263699439728)
+Avg Policy Reward on real env:   36.290 ± 1.422
+  7%|█████▎                                                                         | 27/406 [00:03<00:53,  7.07it/s]
+Model reward: (36.44999999925494, 1.0733126301994993)
+Avg Policy Reward on real env:   36.610 ± 0.862
+mean mean reward: 55.4223232591872, mean last reward: 36.41799999922514, score: 419.6023232514386
+[I 2024-06-29 17:55:39,117] Trial 42 finished with value: 419.6023232514386 and parameters: {'init_sample_trajectories': 6, 'batch_size': 11, 'eps': 9.55403964410476e-09, 'default_model': 0.05067412804172759, 'env_noise_weight': 0.9531976318109583}. Best is trial 11 with value: 422.5128829635655.
+  3%|██                                                                             | 11/412 [00:00<00:30, 13.33it/s]
+Model reward: (36.60999999940395, 0.8616263699439727)
+Avg Policy Reward on real env:   36.290 ± 1.422
+  2%|█▎                                                                              | 7/412 [00:01<01:08,  5.96it/s]
+Model reward: (36.209999999031425, 1.8607525376710419)
+Avg Policy Reward on real env:   36.290 ± 0.933
+  1%|▉                                                                               | 5/412 [00:00<01:13,  5.56it/s]
+Model reward: (36.68999999947846, 0.3666060559378957)
+Avg Policy Reward on real env:   36.290 ± 0.999
+  2%|█▌                                                                              | 8/412 [00:01<01:06,  6.03it/s]
+Model reward: (36.369999999180436, 0.908625336174267)
+Avg Policy Reward on real env:   36.610 ± 0.599
+  3%|██▎                                                                           | 12/412 [00:00<00:03, 117.14it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.995 ± 0.015
+mean mean reward: 45.280404913899545, mean last reward: 29.294999999329445, score: 338.230404907194
+[I 2024-06-29 17:55:44,052] Trial 43 finished with value: 338.230404907194 and parameters: {'init_sample_trajectories': 12, 'batch_size': 26, 'eps': 9.42223039239262e-07, 'default_model': 0.12925357311561153, 'env_noise_weight': 0.8776048848482578}. Best is trial 11 with value: 422.5128829635655.
+  2%|█▍                                                                              | 7/404 [00:00<00:37, 10.45it/s]
+Model reward: (36.04999999888241, 1.8330302796894784)
+Avg Policy Reward on real env:   36.370 ± 0.977
+  1%|▉                                                                               | 5/404 [00:00<01:12,  5.48it/s]
+Model reward: (36.769999999552965, 0.8158431229346587)
+Avg Policy Reward on real env:   36.130 ± 0.733
+  1%|▌                                                                               | 3/404 [00:00<01:22,  4.86it/s]
+Model reward: (36.60999999940395, 1.2289833208035572)
+Avg Policy Reward on real env:   36.530 ± 0.665
+  1%|█▏                                                                              | 6/404 [00:01<01:10,  5.65it/s]
+Model reward: (36.44999999925494, 0.8000000007450582)
+Avg Policy Reward on real env:   36.930 ± 0.392
+  2%|█▌                                                                              | 8/404 [00:00<00:13, 28.38it/s]
+Model reward: (1.0, 0.0)
+Avg Policy Reward on real env:   0.995 ± 0.015
+mean mean reward: 46.57820337240473, mean last reward: 29.390999999418852, score: 340.48820336659327
+[I 2024-06-29 17:55:48,208] Trial 44 finished with value: 340.48820336659327 and parameters: {'init_sample_trajectories': 4, 'batch_size': 45, 'eps': 1.5585260536707115e-06, 'default_model': 0.043954232439839334, 'env_noise_weight': 0.5950116412629788}. Best is trial 11 with value: 422.5128829635655.
+  0%|▏                                                                               | 1/419 [00:00<02:16,  3.05it/s]
+Model reward: (36.369999999180436, 0.7547184912674146)
+Avg Policy Reward on real env:   35.410 ± 1.755
+  0%|▍                                                                               | 2/419 [00:00<00:57,  7.29it/s]
+Model reward: (0.9799999997019768, 0.033166248397769604)
+Avg Policy Reward on real env:   1.000 ± 0.000
+  0%|▍                                                                               | 2/419 [00:00<02:00,  3.47it/s]
+Model reward: (36.369999999180436, 0.8352245214907075)
+Avg Policy Reward on real env:   36.450 ± 0.800
+  0%|▏                                                                               | 1/419 [00:00<02:18,  3.02it/s]
+Model reward: (35.649999998509884, 1.475127114540681)
+Avg Policy Reward on real env:   36.210 ± 1.242
+  0%|▍                                                                               | 2/419 [00:00<00:13, 30.18it/s]
+Model reward: (0.9799999997019768, 0.04000000059604644)
+Avg Policy Reward on real env:   0.985 ± 0.023
+mean mean reward: 24.544833332691343, mean last reward: 22.010999999269842, score: 244.65483332538977
+[I 2024-06-29 17:55:50,257] Trial 45 finished with value: 244.65483332538977 and parameters: {'init_sample_trajectories': 19, 'batch_size': 255, 'eps': 5.448011694610478e-07, 'default_model': 0.09325422651897891, 'env_noise_weight': 0.7188109860174614}. Best is trial 11 with value: 422.5128829635655.
+  5%|████                                                                           | 21/411 [00:01<00:34, 11.41it/s]
+Model reward: (37.00999999977648, 0.3666060559378957)
+Avg Policy Reward on real env:   36.930 ± 0.392
+  3%|██▍                                                                            | 13/411 [00:02<01:03,  6.29it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   36.530 ± 0.755
+  2%|█▌                                                                              | 8/411 [00:01<01:06,  6.09it/s]
+Model reward: (36.44999999925494, 1.4310835069326657)
+Avg Policy Reward on real env:   36.290 ± 1.061
+  3%|██▍                                                                            | 13/411 [00:02<01:02,  6.39it/s]
+Model reward: (36.52999999932945, 0.7547184912674146)
+Avg Policy Reward on real env:   36.130 ± 1.526
+  6%|████▍                                                                          | 23/411 [00:01<00:23, 16.48it/s]
+Model reward: (36.52999999932945, 1.1565465846611949)
+Avg Policy Reward on real env:   36.770 ± 0.531
+mean mean reward: 48.6002287148846, mean last reward: 36.52999999932945, score: 413.9002287081791
+[I 2024-06-29 17:55:59,655] Trial 46 finished with value: 413.9002287081791 and parameters: {'init_sample_trajectories': 11, 'batch_size': 13, 'eps': 6.6986566802132044e-06, 'default_model': 0.19579502932588144, 'env_noise_weight': 0.9633079858475879}. Best is trial 11 with value: 422.5128829635655.
+  0%|▍                                                                               | 2/401 [00:00<01:09,  5.70it/s]
+Model reward: (35.56999999843538, 1.4945233367734359)
+Avg Policy Reward on real env:   35.810 ± 1.551
+  0%|▍                                                                               | 2/401 [00:00<01:14,  5.35it/s]
+Model reward: (36.52999999932945, 1.4510685731287776)
+Avg Policy Reward on real env:   36.290 ± 2.141
+  0%|▏                                                                               | 1/401 [00:00<02:14,  2.97it/s]
+Model reward: (35.8899999987334, 1.826033955382759)
+Avg Policy Reward on real env:   36.050 ± 1.088
+  0%|▍                                                                               | 2/401 [00:00<01:36,  4.11it/s]
+Model reward: (35.72999999858439, 1.0400000009685755)
+Avg Policy Reward on real env:   36.370 ± 1.211
+  0%|▍                                                                               | 2/401 [00:00<00:15, 26.44it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.980 ± 0.033
+mean mean reward: 24.934499998819085, mean last reward: 29.099999999105933, score: 315.9344999898784
+[I 2024-06-29 17:56:01,893] Trial 47 finished with value: 315.9344999898784 and parameters: {'init_sample_trajectories': 1, 'batch_size': 173, 'eps': 2.2426771744750145e-06, 'default_model': 0.1237212289146976, 'env_noise_weight': 0.8989530314268094}. Best is trial 11 with value: 422.5128829635655.
+  1%|▉                                                                               | 5/433 [00:00<00:48,  8.83it/s]
+Model reward: (35.32999999821186, 1.3948476632320685)
+Avg Policy Reward on real env:   36.450 ± 0.620
+  1%|▋                                                                               | 4/433 [00:00<01:25,  5.04it/s]
+Model reward: (36.44999999925494, 0.7155417534663329)
+Avg Policy Reward on real env:   36.610 ± 0.862
+  1%|▌                                                                               | 3/433 [00:00<01:32,  4.67it/s]
+Model reward: (36.60999999940395, 0.598665182441381)
+Avg Policy Reward on real env:   36.450 ± 1.012
+  1%|▋                                                                               | 4/433 [00:00<01:24,  5.07it/s]
+Model reward: (36.12999999895692, 1.3481839649638114)
+Avg Policy Reward on real env:   36.370 ± 1.657
+  1%|▉                                                                               | 5/433 [00:00<00:10, 40.90it/s]
+Model reward: (0.9899999998509884, 0.030000000447034835)
+Avg Policy Reward on real env:   0.985 ± 0.023
+mean mean reward: 45.876749999246876, mean last reward: 29.37299999937415, score: 339.6067499929884
+[I 2024-06-29 17:56:05,423] Trial 48 finished with value: 339.6067499929884 and parameters: {'init_sample_trajectories': 33, 'batch_size': 62, 'eps': 3.762447249289959e-07, 'default_model': 0.03995838762081692, 'env_noise_weight': 0.2824989824416244}. Best is trial 11 with value: 422.5128829635655.
+  1%|▊                                                                               | 4/408 [00:00<01:18,  5.17it/s]
+Model reward: (36.92999999970198, 0.7332121118757914)
+Avg Policy Reward on real env:   36.450 ± 1.678
+  1%|▌                                                                               | 3/408 [00:00<01:25,  4.76it/s]
+Model reward: (36.44999999925494, 1.5178932782944703)
+Avg Policy Reward on real env:   36.850 ± 0.738
+  0%|▍                                                                               | 2/408 [00:00<01:37,  4.17it/s]
+Model reward: (35.809999998658895, 2.0489997578867913)
+Avg Policy Reward on real env:   36.610 ± 0.999
+  1%|▊                                                                               | 4/408 [00:00<01:08,  5.86it/s]
+Model reward: (36.52999999932945, 0.9765244501681555)
+Avg Policy Reward on real env:   36.050 ± 1.200
+  1%|▉                                                                               | 5/408 [00:00<00:19, 20.89it/s]
+Model reward: (0.9849999997764826, 0.04500000067055226)
+Avg Policy Reward on real env:   0.995 ± 0.015
+mean mean reward: 45.1200666658692, mean last reward: 29.390999999418852, score: 339.03006666005774
+[I 2024-06-29 17:56:08,840] Trial 49 finished with value: 339.03006666005774 and parameters: {'init_sample_trajectories': 8, 'batch_size': 77, 'eps': 1.3703232669195654e-06, 'default_model': 0.09625714503114169, 'env_noise_weight': 0.53214493521344}. Best is trial 11 with value: 422.5128829635655.
+  2%|█▌                                                                              | 8/417 [00:00<00:48,  8.38it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   36.130 ± 1.085
+  1%|▉                                                                               | 5/417 [00:00<01:13,  5.60it/s]
+Model reward: (36.84999999962747, 0.9633275672005523)
+Avg Policy Reward on real env:   36.370 ± 0.835
+  1%|▌                                                                               | 3/417 [00:00<01:24,  4.93it/s]
+Model reward: (36.209999999031425, 1.3879481271244252)
+Avg Policy Reward on real env:   36.210 ± 1.015
+  1%|█▏                                                                              | 6/417 [00:01<01:11,  5.76it/s]
+Model reward: (35.8899999987334, 2.4278385471400634)
+Avg Policy Reward on real env:   36.850 ± 0.537
+  2%|█▋                                                                             | 9/417 [00:00<00:03, 109.05it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 47.011134919879275, mean last reward: 29.30999999932945, score: 340.11113491317377
+[I 2024-06-29 17:56:13,086] Trial 50 finished with value: 340.11113491317377 and parameters: {'init_sample_trajectories': 17, 'batch_size': 33, 'eps': 2.9473175097384586e-06, 'default_model': 0.2518068416364011, 'env_noise_weight': 0.8256148759372525}. Best is trial 11 with value: 422.5128829635655.
+ 67%|███████████████████████████████████████████████████▉                          | 273/410 [00:05<00:02, 46.26it/s]
+Model reward: (36.769999999552965, 0.8158431229346587)
+Avg Policy Reward on real env:   36.530 ± 1.100
+ 42%|████████████████████████████████▌                                             | 171/410 [00:05<00:08, 28.77it/s]
+Model reward: (36.44999999925494, 1.1865917590404058)
+Avg Policy Reward on real env:   36.290 ± 0.999
+ 24%|███████████████████                                                           | 100/410 [00:05<00:18, 17.02it/s]
+Model reward: (36.28999999910593, 1.2289833208035572)
+Avg Policy Reward on real env:   36.690 ± 0.720
+ 44%|██████████████████████████████████▌                                           | 182/410 [00:05<00:07, 30.42it/s]
+Model reward: (35.8899999987334, 1.6414627638233865)
+Avg Policy Reward on real env:   35.570 ± 1.733
+ 71%|███████████████████████████████████████████████████████▌                      | 292/410 [00:05<00:02, 49.05it/s]
+Model reward: (36.60999999940395, 0.9991996806743209)
+Avg Policy Reward on real env:   36.450 ± 0.620
+mean mean reward: 55.77618292607913, mean last reward: 36.30599999912083, score: 418.83618291728743
+[I 2024-06-29 17:56:43,485] Trial 51 finished with value: 418.83618291728743 and parameters: {'init_sample_trajectories': 10, 'batch_size': 1, 'eps': 3.49172348946405e-07, 'default_model': 0.1451562407458605, 'env_noise_weight': 0.8542056173066426}. Best is trial 11 with value: 422.5128829635655.
+  8%|██████▎                                                                        | 32/400 [00:04<00:51,  7.15it/s]
+Model reward: (36.84999999962747, 0.6449806204645689)
+Avg Policy Reward on real env:   36.610 ± 0.862
+  6%|████▌                                                                          | 23/400 [00:03<00:56,  6.65it/s]
+Model reward: (36.28999999910593, 1.5919799008532387)
+Avg Policy Reward on real env:   36.530 ± 1.211
+  4%|██▊                                                                            | 14/400 [00:02<00:59,  6.45it/s]
+Model reward: (36.769999999552965, 0.8158431229346587)
+Avg Policy Reward on real env:   36.530 ± 0.835
+  5%|████▏                                                                          | 21/400 [00:03<00:57,  6.57it/s]
+Model reward: (35.8899999987334, 1.07628992476827)
+Avg Policy Reward on real env:   36.770 ± 0.816
+  9%|██████▉                                                                        | 35/400 [00:05<00:54,  6.75it/s]
+Model reward: (36.68999999947846, 1.0150862041813344)
+Avg Policy Reward on real env:   37.090 ± 0.320
+mean mean reward: 56.03252626185696, mean last reward: 36.70599999949336, score: 423.09252625679056
+[I 2024-06-29 17:57:02,742] Trial 52 finished with value: 423.09252625679056 and parameters: {'init_sample_trajectories': 0, 'batch_size': 9, 'eps': 9.75134635108106e-07, 'default_model': 0.12756208231645022, 'env_noise_weight': 0.76359245450598}. Best is trial 52 with value: 423.09252625679056.
+  6%|████▋                                                                          | 24/402 [00:00<00:06, 59.33it/s]
+Model reward: (2.2849999975413082, 0.9428812212893505)
+Avg Policy Reward on real env:   2.250 ± 0.668
+  4%|███▎                                                                           | 17/402 [00:02<01:07,  5.67it/s]
+Model reward: (36.60999999940395, 0.598665182441381)
+Avg Policy Reward on real env:   36.370 ± 0.909
+  3%|██▏                                                                            | 11/402 [00:01<01:03,  6.15it/s]
+Model reward: (36.60999999940395, 0.9991996806743209)
+Avg Policy Reward on real env:   36.450 ± 0.800
+  5%|███▋                                                                           | 19/402 [00:03<01:06,  5.74it/s]
+Model reward: (36.52999999932945, 1.1565465846611949)
+Avg Policy Reward on real env:   36.130 ± 0.640
+  7%|█████▏                                                                        | 27/402 [00:00<00:02, 141.74it/s]
+Model reward: (0.9899999998509884, 0.030000000447034835)
+Avg Policy Reward on real env:   1.000 ± 0.000
+mean mean reward: 42.33380865012949, mean last reward: 22.439999998882413, score: 266.73380863895363
+[I 2024-06-29 17:57:11,941] Trial 53 finished with value: 266.73380863895363 and parameters: {'init_sample_trajectories': 2, 'batch_size': 11, 'eps': 9.751219631437234e-07, 'default_model': 0.8320798843510463, 'env_noise_weight': 0.9086101404186459}. Best is trial 52 with value: 423.09252625679056.
+  3%|██▌                                                                            | 13/406 [00:01<00:56,  6.91it/s]
+Model reward: (36.44999999925494, 0.7155417534663329)
+Avg Policy Reward on real env:   36.130 ± 1.647
+  2%|█▌                                                                              | 8/406 [00:01<01:06,  5.95it/s]
+Model reward: (36.209999999031425, 1.189285500893089)
+Avg Policy Reward on real env:   36.450 ± 1.012
+  1%|▉                                                                               | 5/406 [00:00<01:14,  5.35it/s]
+Model reward: (37.169999999925494, 0.24000000022351745)
+Avg Policy Reward on real env:   37.010 ± 0.512
+  2%|█▊                                                                              | 9/406 [00:01<01:05,  6.08it/s]
+Model reward: (36.52999999932945, 1.210619677161202)
+Avg Policy Reward on real env:   36.610 ± 0.697
+  3%|██▌                                                                            | 13/406 [00:00<00:07, 53.39it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 48.859026983515726, mean last reward: 29.437999999448657, score: 343.2390269780023
+[I 2024-06-29 17:57:18,450] Trial 54 finished with value: 343.2390269780023 and parameters: {'init_sample_trajectories': 6, 'batch_size': 23, 'eps': 1.0870653904786174e-06, 'default_model': 0.02741155317093215, 'env_noise_weight': 0.7525543728428168}. Best is trial 52 with value: 423.09252625679056.
+  7%|█████▎                                                                         | 27/400 [00:03<00:49,  7.59it/s]
+Model reward: (36.369999999180436, 1.3600000012665987)
+Avg Policy Reward on real env:   36.610 ± 0.697
+  4%|███▌                                                                           | 18/400 [00:02<01:00,  6.34it/s]
+Model reward: (36.369999999180436, 1.3600000012665987)
+Avg Policy Reward on real env:   36.610 ± 1.120
+  2%|█▊                                                                              | 9/400 [00:01<01:05,  5.94it/s]
+Model reward: (36.769999999552965, 0.7332121118757913)
+Avg Policy Reward on real env:   36.370 ± 1.578
+  5%|███▊                                                                           | 19/400 [00:02<00:58,  6.50it/s]
+Model reward: (36.209999999031425, 1.07628992476827)
+Avg Policy Reward on real env:   36.850 ± 0.537
+  7%|█████▋                                                                         | 29/400 [00:04<00:56,  6.58it/s]
+Model reward: (36.52999999932945, 0.6645299096523377)
+Avg Policy Reward on real env:   36.930 ± 0.531
+mean mean reward: 55.20957105177287, mean last reward: 36.67399999946356, score: 421.94957104640844
+[I 2024-06-29 17:57:34,454] Trial 55 finished with value: 421.94957104640844 and parameters: {'init_sample_trajectories': 0, 'batch_size': 10, 'eps': 9.063721314346538e-08, 'default_model': 0.08224005308168034, 'env_noise_weight': 0.9686542563327519}. Best is trial 52 with value: 423.09252625679056.
+  2%|█▎                                                                              | 7/426 [00:00<00:51,  8.12it/s]
+Model reward: (36.60999999940395, 0.7838367184206217)
+Avg Policy Reward on real env:   35.890 ± 1.189
+  1%|▊                                                                               | 4/426 [00:00<01:19,  5.32it/s]
+Model reward: (36.28999999910593, 0.999199680674321)
+Avg Policy Reward on real env:   36.690 ± 1.015
+  1%|▌                                                                               | 3/426 [00:00<01:27,  4.84it/s]
+Model reward: (37.169999999925494, 0.24000000022351745)
+Avg Policy Reward on real env:   35.890 ± 1.641
+  1%|▉                                                                               | 5/426 [00:00<01:16,  5.53it/s]
+Model reward: (36.68999999947846, 1.189285500893089)
+Avg Policy Reward on real env:   36.690 ± 0.804
+  2%|█▌                                                                              | 8/426 [00:00<00:04, 91.28it/s]
+Model reward: (0.9849999997764826, 0.022912878816207696)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 46.85165972133426, mean last reward: 29.229999999254943, score: 339.1516597138837
+[I 2024-06-29 17:57:38,317] Trial 56 finished with value: 339.1516597138837 and parameters: {'init_sample_trajectories': 26, 'batch_size': 38, 'eps': 7.019892281179998e-07, 'default_model': 0.22196153935969415, 'env_noise_weight': 0.8024174437402406}. Best is trial 52 with value: 423.09252625679056.
+  3%|██▌                                                                            | 13/400 [00:01<00:37, 10.23it/s]
+Model reward: (36.52999999932945, 0.9086253361742671)
+Avg Policy Reward on real env:   36.530 ± 0.977
+  2%|█▍                                                                              | 7/400 [00:01<01:06,  5.94it/s]
+Model reward: (36.28999999910593, 0.6974238316160343)
+Avg Policy Reward on real env:   36.610 ± 0.999
+  1%|█                                                                               | 5/400 [00:00<01:11,  5.56it/s]
+Model reward: (36.369999999180436, 0.9765244501681555)
+Avg Policy Reward on real env:   36.210 ± 1.076
+  2%|█▉                                                                             | 10/400 [00:01<01:03,  6.18it/s]
+Model reward: (36.28999999910593, 1.5919799008532387)
+Avg Policy Reward on real env:   36.690 ± 0.720
+  4%|██▊                                                                            | 14/400 [00:01<00:28, 13.40it/s]
+Model reward: (35.809999998658895, 1.9200000017881393)
+Avg Policy Reward on real env:   37.010 ± 0.512
+mean mean reward: 49.25683657922554, mean last reward: 36.60999999940395, score: 415.35683657326507
+[I 2024-06-29 17:57:45,085] Trial 57 finished with value: 415.35683657326507 and parameters: {'init_sample_trajectories': 0, 'batch_size': 20, 'eps': 1.4749539335543224e-06, 'default_model': 0.07912150728463387, 'env_noise_weight': 0.9592314367657038}. Best is trial 52 with value: 423.09252625679056.
+  1%|▉                                                                               | 5/414 [00:00<00:51,  7.91it/s]
+Model reward: (36.68999999947846, 0.6248199746544413)
+Avg Policy Reward on real env:   35.970 ± 1.197
+  1%|▌                                                                               | 3/414 [00:00<01:23,  4.92it/s]
+Model reward: (36.44999999925494, 1.2393546719406123)
+Avg Policy Reward on real env:   35.810 ± 1.852
+  0%|▍                                                                               | 2/414 [00:00<01:36,  4.28it/s]
+Model reward: (36.44999999925494, 1.38564064734558)
+Avg Policy Reward on real env:   36.610 ± 0.480
+  1%|▊                                                                               | 4/414 [00:00<01:17,  5.27it/s]
+Model reward: (36.28999999910593, 1.4221111080949385)
+Avg Policy Reward on real env:   37.170 ± 0.240
+  1%|█▏                                                                              | 6/414 [00:00<00:04, 92.50it/s]
+Model reward: (0.9699999995529651, 0.06000000089406968)
+Avg Policy Reward on real env:   0.975 ± 0.040
+mean mean reward: 42.94176428507437, mean last reward: 29.306999999284745, score: 336.0117642779218
+[I 2024-06-29 17:57:48,240] Trial 58 finished with value: 336.0117642779218 and parameters: {'init_sample_trajectories': 14, 'batch_size': 55, 'eps': 2.1070143223421102e-06, 'default_model': 0.16535705642317428, 'env_noise_weight': 0.8971758323364976}. Best is trial 52 with value: 423.09252625679056.
+  8%|██████                                                                         | 31/407 [00:04<00:55,  6.75it/s]
+Model reward: (36.28999999910593, 1.061319933902159)
+Avg Policy Reward on real env:   35.570 ± 1.733
+  5%|████                                                                           | 21/407 [00:03<01:04,  5.97it/s]
+Model reward: (36.04999999888241, 0.8944271918329161)
+Avg Policy Reward on real env:   36.370 ± 0.835
+  3%|██▎                                                                            | 12/407 [00:02<01:07,  5.83it/s]
+Model reward: (36.52999999932945, 0.9086253361742671)
+Avg Policy Reward on real env:   36.930 ± 0.531
+  5%|████▎                                                                          | 22/407 [00:03<00:59,  6.44it/s]
+Model reward: (37.00999999977648, 0.5122499394716978)
+Avg Policy Reward on real env:   35.890 ± 1.477
+  8%|██████▏                                                                        | 32/407 [00:00<00:07, 50.86it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   1.000 ± 0.000
+mean mean reward: 49.61510131700719, mean last reward: 29.15199999921024, score: 341.1351013091096
+[I 2024-06-29 17:58:03,073] Trial 59 finished with value: 341.1351013091096 and parameters: {'init_sample_trajectories': 7, 'batch_size': 9, 'eps': 4.564365293153979e-06, 'default_model': 0.29436781678206403, 'env_noise_weight': 0.7476014925805705}. Best is trial 52 with value: 423.09252625679056.
+  3%|██                                                                             | 11/411 [00:00<00:22, 17.97it/s]
+Model reward: (36.92999999970198, 0.39191835921031093)
+Avg Policy Reward on real env:   36.770 ± 0.733
+  3%|██                                                                             | 11/411 [00:01<01:06,  6.01it/s]
+Model reward: (37.169999999925494, 0.24000000022351745)
+Avg Policy Reward on real env:   36.450 ± 1.475
+  3%|██                                                                             | 11/411 [00:01<01:08,  5.87it/s]
+Model reward: (37.00999999977648, 0.5122499394716978)
+Avg Policy Reward on real env:   36.610 ± 0.933
+  2%|█▉                                                                             | 10/411 [00:01<01:07,  5.97it/s]
+Model reward: (36.28999999910593, 1.2289833208035572)
+Avg Policy Reward on real env:   36.610 ± 0.784
+  3%|██                                                                             | 11/411 [00:00<00:05, 74.67it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 44.04359469642298, mean last reward: 29.485999999493362, score: 338.9035946913566
+[I 2024-06-29 17:58:09,834] Trial 60 finished with value: 338.9035946913566 and parameters: {'init_sample_trajectories': 11, 'batch_size': 28, 'eps': 3.6530505323289884e-07, 'default_model': 0.11611625228243211, 'env_noise_weight': 0.07490591481146747}. Best is trial 52 with value: 423.09252625679056.
+  9%|██████▊                                                                        | 35/403 [00:05<00:55,  6.61it/s]
+Model reward: (37.169999999925494, 0.24000000022351742)
+Avg Policy Reward on real env:   36.130 ± 0.891
+  6%|████▋                                                                          | 24/403 [00:03<00:57,  6.63it/s]
+Model reward: (36.04999999888241, 0.9633275672005523)
+Avg Policy Reward on real env:   36.530 ± 0.909
+  3%|██▎                                                                            | 12/403 [00:01<01:01,  6.33it/s]
+Model reward: (36.52999999932945, 0.6645299096523377)
+Avg Policy Reward on real env:   37.090 ± 0.320
+  6%|████▉                                                                          | 25/403 [00:03<00:57,  6.53it/s]
+Model reward: (36.52999999932945, 0.7547184912674146)
+Avg Policy Reward on real env:   36.130 ± 1.608
+  9%|███████▎                                                                       | 37/403 [00:05<00:54,  6.77it/s]
+Model reward: (36.68999999947846, 0.5122499394716978)
+Avg Policy Reward on real env:   36.290 ± 0.999
+mean mean reward: 56.42378209549683, mean last reward: 36.433999999240044, score: 420.76378208789725
+[I 2024-06-29 17:58:30,688] Trial 61 finished with value: 420.76378208789725 and parameters: {'init_sample_trajectories': 3, 'batch_size': 8, 'eps': 1.9148482347771678e-07, 'default_model': 0.0760551760773935, 'env_noise_weight': 0.9771985343064747}. Best is trial 52 with value: 423.09252625679056.
+  4%|██▉                                                                            | 15/400 [00:01<00:48,  7.91it/s]
+Model reward: (36.52999999932945, 0.8352245214907075)
+Avg Policy Reward on real env:   35.650 ± 1.992
+  2%|█▊                                                                              | 9/400 [00:01<01:03,  6.14it/s]
+Model reward: (35.32999999821186, 1.7232527398879456)
+Avg Policy Reward on real env:   36.130 ± 1.143
+  2%|█▏                                                                              | 6/400 [00:01<01:07,  5.88it/s]
+Model reward: (36.04999999888241, 1.867618806527956)
+Avg Policy Reward on real env:   36.770 ± 0.640
+  2%|█▉                                                                             | 10/400 [00:01<01:02,  6.20it/s]
+Model reward: (37.08999999985099, 0.3200000002980232)
+Avg Policy Reward on real env:   36.770 ± 0.531
+  4%|███▎                                                                           | 17/400 [00:00<00:12, 29.82it/s]
+Model reward: (36.28999999910593, 1.0613199339021593)
+Avg Policy Reward on real env:   36.450 ± 0.620
+mean mean reward: 48.957576252797665, mean last reward: 36.35399999916554, score: 412.497576244453
+[I 2024-06-29 17:58:38,000] Trial 62 finished with value: 412.497576244453 and parameters: {'init_sample_trajectories': 0, 'batch_size': 18, 'eps': 8.200841893360109e-07, 'default_model': 0.06354245993263412, 'env_noise_weight': 0.9697422159601758}. Best is trial 52 with value: 423.09252625679056.
+  9%|██████▊                                                                        | 35/404 [00:05<00:54,  6.73it/s]
+Model reward: (37.169999999925494, 0.24000000022351742)
+Avg Policy Reward on real env:   36.130 ± 0.891
+  6%|████▍                                                                          | 23/404 [00:04<01:07,  5.63it/s]
+Model reward: (36.209999999031425, 0.7200000006705523)
+Avg Policy Reward on real env:   36.050 ± 1.145
+  3%|██▎                                                                            | 12/404 [00:01<01:05,  6.03it/s]
+Model reward: (36.52999999932945, 0.6645299096523377)
+Avg Policy Reward on real env:   37.090 ± 0.320
+  6%|████▉                                                                          | 25/404 [00:03<01:00,  6.31it/s]
+Model reward: (36.52999999932945, 0.7547184912674146)
+Avg Policy Reward on real env:   36.130 ± 1.608
+  9%|███████▏                                                                       | 37/404 [00:05<00:56,  6.46it/s]
+Model reward: (36.68999999947846, 0.5122499394716978)
+Avg Policy Reward on real env:   36.290 ± 0.999
+mean mean reward: 56.421693206605994, mean last reward: 36.33799999915063, score: 419.80169319811233
+[I 2024-06-29 17:58:59,765] Trial 63 finished with value: 419.80169319811233 and parameters: {'init_sample_trajectories': 4, 'batch_size': 8, 'eps': 4.1937764463272934e-07, 'default_model': 0.09773123657643354, 'env_noise_weight': 0.9216979332976487}. Best is trial 52 with value: 423.09252625679056.
+ 69%|██████████████████████████████████████████████████████▏                       | 284/409 [00:06<00:02, 42.50it/s]
+Model reward: (36.68999999947846, 0.6248199746544414)
+Avg Policy Reward on real env:   36.610 ± 0.784
+ 42%|████████████████████████████████▌                                             | 171/409 [00:06<00:09, 26.39it/s]
+Model reward: (36.44999999925494, 1.1865917590404058)
+Avg Policy Reward on real env:   36.290 ± 0.999
+ 24%|███████████████████                                                           | 100/409 [00:06<00:18, 16.55it/s]
+Model reward: (36.28999999910593, 1.2289833208035572)
+Avg Policy Reward on real env:   36.690 ± 0.720
+ 44%|██████████████████████████████████▋                                           | 182/409 [00:06<00:07, 29.71it/s]
+Model reward: (35.8899999987334, 1.6414627638233865)
+Avg Policy Reward on real env:   35.570 ± 1.733
+ 71%|███████████████████████████████████████████████████████▎                      | 290/409 [00:06<00:02, 48.02it/s]
+Model reward: (36.60999999940395, 0.9991996806743209)
+Avg Policy Reward on real env:   36.450 ± 0.620
+mean mean reward: 56.12204877976601, mean last reward: 36.321999999135734, score: 419.34204877112336
+[I 2024-06-29 17:59:31,919] Trial 64 finished with value: 419.34204877112336 and parameters: {'init_sample_trajectories': 9, 'batch_size': 1, 'eps': 3.108631579600945e-08, 'default_model': 0.19048225440320607, 'env_noise_weight': 0.8494572854800873}. Best is trial 52 with value: 423.09252625679056.
+  2%|█▌                                                                              | 8/406 [00:01<00:58,  6.83it/s]
+Model reward: (36.52999999932945, 0.9086253361742671)
+Avg Policy Reward on real env:   36.290 ± 1.229
+  1%|▉                                                                               | 5/406 [00:00<01:13,  5.45it/s]
+Model reward: (36.369999999180436, 0.8352245214907075)
+Avg Policy Reward on real env:   35.810 ± 1.061
+  1%|▌                                                                               | 3/406 [00:00<01:22,  4.87it/s]
+Model reward: (36.369999999180436, 0.8352245214907075)
+Avg Policy Reward on real env:   36.210 ± 1.477
+  1%|█▏                                                                              | 6/406 [00:01<01:09,  5.77it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   36.450 ± 1.431
+  2%|█▊                                                                              | 9/406 [00:00<00:09, 40.34it/s]
+Model reward: (1.0, 0.0)
+Avg Policy Reward on real env:   0.970 ± 0.060
+mean mean reward: 49.292434920014344, mean last reward: 29.14599999912083, score: 340.7524349112226
+[I 2024-06-29 17:59:36,506] Trial 65 finished with value: 340.7524349112226 and parameters: {'init_sample_trajectories': 6, 'batch_size': 36, 'eps': 1.0748583005490338e-06, 'default_model': 0.14979483410027827, 'env_noise_weight': 0.9700953235887897}. Best is trial 52 with value: 423.09252625679056.
+  3%|██▍                                                                           | 13/414 [00:00<00:02, 142.17it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.990 ± 0.020
+  2%|█▋                                                                              | 9/414 [00:01<01:05,  6.17it/s]
+Model reward: (36.28999999910593, 0.8616263699439728)
+Avg Policy Reward on real env:   35.890 ± 1.134
+  1%|▉                                                                               | 5/414 [00:00<01:17,  5.26it/s]
+Model reward: (36.44999999925494, 0.715541753466333)
+Avg Policy Reward on real env:   36.130 ± 1.440
+  2%|█▉                                                                             | 10/414 [00:01<01:05,  6.16it/s]
+Model reward: (35.96999999880791, 1.6079801008768906)
+Avg Policy Reward on real env:   36.370 ± 1.406
+  4%|██▊                                                                           | 15/414 [00:00<00:02, 138.59it/s]
+Model reward: (0.9849999997764826, 0.032015621664234176)
+Avg Policy Reward on real env:   0.980 ± 0.024
+mean mean reward: 42.222111363073125, mean last reward: 22.071999999284746, score: 262.9421113559206
+[I 2024-06-29 17:59:41,217] Trial 66 finished with value: 262.9421113559206 and parameters: {'init_sample_trajectories': 14, 'batch_size': 20, 'eps': 1.4204276832621708e-06, 'default_model': 0.942874896552104, 'env_noise_weight': 0.8856448579416125}. Best is trial 52 with value: 423.09252625679056.
+  6%|████▋                                                                          | 24/403 [00:01<00:21, 17.64it/s]
+Model reward: (36.28999999910593, 1.2289833208035572)
+Avg Policy Reward on real env:   36.610 ± 0.784
+  4%|███▎                                                                           | 17/403 [00:02<00:59,  6.46it/s]
+Model reward: (36.60999999940395, 0.598665182441381)
+Avg Policy Reward on real env:   36.370 ± 0.909
+  2%|█▉                                                                             | 10/403 [00:01<01:03,  6.20it/s]
+Model reward: (36.44999999925494, 0.876356092824436)
+Avg Policy Reward on real env:   36.370 ± 1.040
+  4%|███▌                                                                           | 18/403 [00:02<01:00,  6.39it/s]
+Model reward: (36.60999999940395, 0.7838367184206217)
+Avg Policy Reward on real env:   36.450 ± 1.012
+  6%|█████                                                                          | 26/403 [00:00<00:06, 57.07it/s]
+Model reward: (2.8849999967962505, 1.4725912518141104)
+Avg Policy Reward on real env:   2.310 ± 1.641
+mean mean reward: 44.73192993344783, mean last reward: 29.62199999883771, score: 340.9519299218249
+[I 2024-06-29 17:59:50,739] Trial 67 finished with value: 340.9519299218249 and parameters: {'init_sample_trajectories': 3, 'batch_size': 11, 'eps': 3.1677650362603027e-09, 'default_model': 0.42238287009130016, 'env_noise_weight': 0.9282400811477739}. Best is trial 52 with value: 423.09252625679056.
+  0%|▍                                                                               | 2/422 [00:00<01:43,  4.06it/s]
+Model reward: (36.44999999925494, 1.1865917590404058)
+Avg Policy Reward on real env:   36.370 ± 1.211
+  0%|▍                                                                               | 2/422 [00:00<00:53,  7.89it/s]
+Model reward: (1.0, 0.0)
+Avg Policy Reward on real env:   0.990 ± 0.020
+  0%|▍                                                                               | 2/422 [00:00<01:57,  3.56it/s]
+Model reward: (36.52999999932945, 0.8352245214907075)
+Avg Policy Reward on real env:   36.130 ± 1.900
+  0%|▍                                                                               | 2/422 [00:00<00:52,  7.99it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.985 ± 0.032
+  0%|▍                                                                               | 2/422 [00:00<00:20, 20.30it/s]
+Model reward: (0.974999999627471, 0.06020797379113018)
+Avg Policy Reward on real env:   0.980 ± 0.033
+mean mean reward: 19.953999999562903, mean last reward: 15.09099999949336, score: 170.8639999944965
+[I 2024-06-29 17:59:52,740] Trial 68 finished with value: 170.8639999944965 and parameters: {'init_sample_trajectories': 22, 'batch_size': 202, 'eps': 6.989422330877219e-07, 'default_model': 0.02991587399065567, 'env_noise_weight': 0.8152310717222327}. Best is trial 52 with value: 423.09252625679056.
+  2%|█▌                                                                              | 9/457 [00:01<01:14,  6.02it/s]
+Model reward: (36.52999999932945, 0.9765244501681555)
+Avg Policy Reward on real env:   36.770 ± 0.531
+  1%|█                                                                               | 6/457 [00:01<01:19,  5.65it/s]
+Model reward: (36.60999999940395, 0.598665182441381)
+Avg Policy Reward on real env:   36.770 ± 0.640
+  0%|▎                                                                               | 2/457 [00:00<01:46,  4.29it/s]
+Model reward: (36.60999999940395, 0.598665182441381)
+Avg Policy Reward on real env:   36.290 ± 0.784
+  1%|▉                                                                               | 5/457 [00:00<01:21,  5.55it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   36.930 ± 0.392
+  2%|█▋                                                                            | 10/457 [00:00<00:03, 111.91it/s]
+Model reward: (0.9849999997764826, 0.032015621664234176)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 45.422494371712084, mean last reward: 29.549999999552966, score: 340.92249436724177
+[I 2024-06-29 17:59:57,374] Trial 69 finished with value: 340.92249436724177 and parameters: {'init_sample_trajectories': 57, 'batch_size': 28, 'eps': 1.7994257419427879e-06, 'default_model': 0.0015336512000121562, 'env_noise_weight': 0.7765687271873055}. Best is trial 52 with value: 423.09252625679056.
+  1%|▋                                                                               | 4/478 [00:00<01:14,  6.35it/s]
+Model reward: (36.52999999932945, 1.210619677161202)
+Avg Policy Reward on real env:   36.370 ± 1.312
+  1%|▌                                                                               | 3/478 [00:00<01:38,  4.82it/s]
+Model reward: (36.52999999932945, 0.5600000005215406)
+Avg Policy Reward on real env:   36.610 ± 0.933
+  0%|▏                                                                               | 1/478 [00:00<02:36,  3.04it/s]
+Model reward: (36.52999999932945, 0.7547184912674147)
+Avg Policy Reward on real env:   36.450 ± 0.876
+  1%|▌                                                                               | 3/478 [00:00<01:37,  4.86it/s]
+Model reward: (36.60999999940395, 0.6974238316160343)
+Avg Policy Reward on real env:   36.770 ± 0.531
+  1%|▊                                                                               | 5/478 [00:00<00:05, 80.04it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 44.05429999931715, mean last reward: 29.437999999448657, score: 338.43429999380373
+[I 2024-06-29 18:00:00,256] Trial 70 finished with value: 338.43429999380373 and parameters: {'init_sample_trajectories': 78, 'batch_size': 52, 'eps': 3.531406924511383e-07, 'default_model': 0.9955739554701079, 'env_noise_weight': 0.993227676413288}. Best is trial 52 with value: 423.09252625679056.
+  6%|████▉                                                                          | 25/403 [00:04<01:01,  6.17it/s]
+Model reward: (36.369999999180436, 0.5600000005215406)
+Avg Policy Reward on real env:   36.530 ± 0.977
+  4%|███▎                                                                           | 17/403 [00:02<00:59,  6.48it/s]
+Model reward: (35.96999999880791, 0.890842298882465)
+Avg Policy Reward on real env:   36.690 ± 0.625
+  2%|█▊                                                                              | 9/403 [00:01<01:03,  6.17it/s]
+Model reward: (35.72999999858439, 1.0998181678136871)
+Avg Policy Reward on real env:   36.770 ± 0.531
+  4%|███▌                                                                           | 18/403 [00:02<00:59,  6.45it/s]
+Model reward: (36.60999999940395, 0.7838367184206217)
+Avg Policy Reward on real env:   36.450 ± 1.012
+  7%|█████▎                                                                         | 27/403 [00:03<00:46,  8.03it/s]
+Model reward: (36.04999999888241, 1.5283978553868554)
+Avg Policy Reward on real env:   36.450 ± 0.800
+mean mean reward: 54.969087527218996, mean last reward: 36.57799999937415, score: 420.74908752096053
+[I 2024-06-29 18:00:15,307] Trial 71 finished with value: 420.74908752096053 and parameters: {'init_sample_trajectories': 3, 'batch_size': 11, 'eps': 2.5189197160887096e-07, 'default_model': 0.060781850039837396, 'env_noise_weight': 0.9991002312091339}. Best is trial 52 with value: 423.09252625679056.
+  8%|█████▉                                                                         | 30/400 [00:04<00:54,  6.73it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   36.210 ± 1.076
+  5%|████▏                                                                          | 21/400 [00:03<00:58,  6.52it/s]
+Model reward: (35.56999999843538, 1.874459923963324)
+Avg Policy Reward on real env:   36.930 ± 0.531
+  4%|██▊                                                                            | 14/400 [00:02<01:00,  6.36it/s]
+Model reward: (36.769999999552965, 0.8158431229346587)
+Avg Policy Reward on real env:   36.530 ± 0.835
+  5%|███▉                                                                           | 20/400 [00:03<00:58,  6.54it/s]
+Model reward: (37.00999999977648, 0.5122499394716978)
+Avg Policy Reward on real env:   36.610 ± 0.933
+  9%|██████▉                                                                        | 35/400 [00:05<00:55,  6.63it/s]
+Model reward: (36.84999999962747, 0.6449806204645689)
+Avg Policy Reward on real env:   36.450 ± 0.876
+mean mean reward: 56.22583843427117, mean last reward: 36.545999999344346, score: 421.68583842771466
+[I 2024-06-29 18:00:34,287] Trial 72 finished with value: 421.68583842771466 and parameters: {'init_sample_trajectories': 0, 'batch_size': 9, 'eps': 9.578588211601834e-07, 'default_model': 0.06144229653694109, 'env_noise_weight': 0.9360498563033165}. Best is trial 52 with value: 423.09252625679056.
+ 11%|████████▉                                                                      | 45/400 [00:05<00:46,  7.60it/s]
+Model reward: (36.769999999552965, 0.7332121118757914)
+Avg Policy Reward on real env:   36.370 ± 1.100
+  7%|█████▋                                                                         | 29/400 [00:04<00:55,  6.69it/s]
+Model reward: (35.249999998137355, 1.8676188065279558)
+Avg Policy Reward on real env:   36.290 ± 0.784
+  4%|███▏                                                                           | 16/400 [00:02<01:00,  6.31it/s]
+Model reward: (37.00999999977648, 0.3666060559378957)
+Avg Policy Reward on real env:   36.050 ± 1.252
+  8%|██████▎                                                                        | 32/400 [00:05<00:58,  6.30it/s]
+Model reward: (36.44999999925494, 0.8000000007450581)
+Avg Policy Reward on real env:   36.610 ± 0.784
+ 12%|█████████▋                                                                     | 49/400 [00:06<00:43,  8.09it/s]
+Model reward: (36.84999999962747, 0.5366563150997496)
+Avg Policy Reward on real env:   36.210 ± 0.880
+mean mean reward: 56.45743449341429, mean last reward: 36.30599999912083, score: 419.5174344846226
+[I 2024-06-29 18:00:59,039] Trial 73 finished with value: 419.5174344846226 and parameters: {'init_sample_trajectories': 0, 'batch_size': 6, 'eps': 8.182853343865285e-07, 'default_model': 0.11768171482802227, 'env_noise_weight': 0.9357561584590968}. Best is trial 52 with value: 423.09252625679056.
+  4%|██▉                                                                            | 15/408 [00:01<00:35, 11.08it/s]
+Model reward: (36.04999999888241, 1.1454256861288692)
+Avg Policy Reward on real env:   36.770 ± 0.640
+  2%|█▉                                                                             | 10/408 [00:01<01:03,  6.26it/s]
+Model reward: (36.769999999552965, 0.9600000008940697)
+Avg Policy Reward on real env:   36.690 ± 0.804
+  2%|█▎                                                                              | 7/408 [00:01<01:08,  5.89it/s]
+Model reward: (36.84999999962747, 0.7375635572703405)
+Avg Policy Reward on real env:   36.290 ± 1.592
+  3%|██▏                                                                            | 11/408 [00:01<01:03,  6.21it/s]
+Model reward: (36.12999999895692, 1.024499878943396)
+Avg Policy Reward on real env:   34.770 ± 2.247
+  4%|███                                                                            | 16/408 [00:00<00:06, 62.10it/s]
+Model reward: (0.9849999997764826, 0.022912878816207696)
+Avg Policy Reward on real env:   0.970 ± 0.040
+mean mean reward: 46.330864860991944, mean last reward: 29.097999999076126, score: 337.3108648517532
+[I 2024-06-29 18:01:05,827] Trial 74 finished with value: 337.3108648517532 and parameters: {'init_sample_trajectories': 8, 'batch_size': 19, 'eps': 1.1472013109062868e-06, 'default_model': 0.07491993648515723, 'env_noise_weight': 0.8657735739224253}. Best is trial 52 with value: 423.09252625679056.
+  2%|█▊                                                                              | 9/406 [00:01<00:53,  7.38it/s]
+Model reward: (36.60999999940395, 0.9329523040441274)
+Avg Policy Reward on real env:   36.770 ± 0.960
+  1%|█▏                                                                              | 6/406 [00:01<01:10,  5.69it/s]
+Model reward: (36.04999999888241, 1.6492422517830407)
+Avg Policy Reward on real env:   36.530 ± 0.977
+  1%|▌                                                                               | 3/406 [00:00<01:22,  4.91it/s]
+Model reward: (36.44999999925494, 0.9465727661775032)
+Avg Policy Reward on real env:   36.610 ± 0.784
+  2%|█▍                                                                              | 7/406 [00:01<01:08,  5.85it/s]
+Model reward: (36.60999999940395, 0.598665182441381)
+Avg Policy Reward on real env:   36.690 ± 0.625
+  2%|█▉                                                                             | 10/406 [00:00<00:08, 44.22it/s]
+Model reward: (0.9699999995529651, 0.06000000089406967)
+Avg Policy Reward on real env:   0.980 ± 0.024
+mean mean reward: 48.60497402527813, mean last reward: 29.515999999493364, score: 343.76497402021175
+[I 2024-06-29 18:01:10,754] Trial 75 finished with value: 343.76497402021175 and parameters: {'init_sample_trajectories': 6, 'batch_size': 31, 'eps': 5.760374739075918e-07, 'default_model': 0.2080949098901796, 'env_noise_weight': 0.9037826592894959}. Best is trial 52 with value: 423.09252625679056.
+  2%|█▌                                                                              | 8/417 [00:00<00:35, 11.50it/s]
+Model reward: (36.769999999552965, 0.8158431229346587)
+Avg Policy Reward on real env:   36.370 ± 0.909
+  1%|▉                                                                               | 5/417 [00:00<01:15,  5.43it/s]
+Model reward: (36.44999999925494, 0.6196773359703062)
+Avg Policy Reward on real env:   36.610 ± 0.599
+  1%|▌                                                                               | 3/417 [00:00<01:25,  4.82it/s]
+Model reward: (35.8899999987334, 1.134195751356928)
+Avg Policy Reward on real env:   37.010 ± 0.367
+  1%|█▏                                                                              | 6/417 [00:01<01:14,  5.48it/s]
+Model reward: (36.769999999552965, 0.8158431229346587)
+Avg Policy Reward on real env:   36.690 ± 0.625
+  2%|█▌                                                                              | 8/417 [00:00<00:06, 64.99it/s]
+Model reward: (0.9799999997019768, 0.033166248397769604)
+Avg Policy Reward on real env:   0.990 ± 0.020
+mean mean reward: 45.38427777711923, mean last reward: 29.533999999538064, score: 340.7242777724999
+[I 2024-06-29 18:01:14,844] Trial 76 finished with value: 340.7242777724999 and parameters: {'init_sample_trajectories': 17, 'batch_size': 40, 'eps': 1.3054070485922156e-06, 'default_model': 0.16729384361303695, 'env_noise_weight': 0.3936263657013124}. Best is trial 52 with value: 423.09252625679056.
+ 60%|███████████████████████████████████████████████▏                              | 249/412 [00:05<00:03, 41.92it/s]
+Model reward: (35.40999999828637, 1.826033955382759)
+Avg Policy Reward on real env:   36.370 ± 1.211
+ 37%|████████████████████████████▌                                                 | 151/412 [00:06<00:10, 23.82it/s]
+Model reward: (36.209999999031425, 1.6019987530520403)
+Avg Policy Reward on real env:   36.610 ± 0.784
+ 22%|█████████████████                                                              | 89/412 [00:06<00:22, 14.47it/s]
+Model reward: (36.60999999940395, 0.8616263699439727)
+Avg Policy Reward on real env:   36.690 ± 0.804
+ 44%|██████████████████████████████████▍                                           | 182/412 [00:06<00:07, 29.19it/s]
+Model reward: (35.8899999987334, 1.6414627638233865)
+Avg Policy Reward on real env:   35.570 ± 1.733
+ 73%|████████████████████████████████████████████████████████▊                     | 300/412 [00:05<00:02, 51.03it/s]
+Model reward: (36.12999999895692, 1.3481839649638114)
+Avg Policy Reward on real env:   36.130 ± 0.891
+mean mean reward: 55.45019512117, mean last reward: 36.27399999909103, score: 418.1901951120803
+[I 2024-06-29 18:01:46,221] Trial 77 finished with value: 418.1901951120803 and parameters: {'init_sample_trajectories': 12, 'batch_size': 1, 'eps': 7.934334952388851e-06, 'default_model': 0.03111385887282151, 'env_noise_weight': 0.9683246035226389}. Best is trial 52 with value: 423.09252625679056.
+  3%|██▎                                                                            | 12/402 [00:01<00:36, 10.58it/s]
+Model reward: (36.60999999940395, 0.9991996806743209)
+Avg Policy Reward on real env:   36.850 ± 0.400
+  2%|█▌                                                                              | 8/402 [00:01<01:05,  5.98it/s]
+Model reward: (36.68999999947846, 0.6248199746544414)
+Avg Policy Reward on real env:   36.050 ± 1.302
+  1%|▉                                                                               | 5/402 [00:00<01:15,  5.28it/s]
+Model reward: (37.169999999925494, 0.24000000022351745)
+Avg Policy Reward on real env:   37.010 ± 0.512
+  2%|█▊                                                                              | 9/402 [00:01<01:04,  6.07it/s]
+Model reward: (36.209999999031425, 1.0150862041813344)
+Avg Policy Reward on real env:   36.370 ± 0.755
+  3%|██▋                                                                           | 14/402 [00:00<00:03, 110.83it/s]
+Model reward: (1.0, 0.0)
+Avg Policy Reward on real env:   0.980 ± 0.033
+mean mean reward: 46.128346153072826, mean last reward: 29.45199999943376, score: 340.6483461474104
+[I 2024-06-29 18:01:51,875] Trial 78 finished with value: 340.6483461474104 and parameters: {'init_sample_trajectories': 2, 'batch_size': 23, 'eps': 2.4618130548857805e-06, 'default_model': 0.10053665010749771, 'env_noise_weight': 0.8401495190221463}. Best is trial 52 with value: 423.09252625679056.
+  0%|▍                                                                               | 2/408 [00:00<01:34,  4.28it/s]
+Model reward: (36.60999999940395, 0.9329523040441277)
+Avg Policy Reward on real env:   36.850 ± 0.537
+  0%|▍                                                                               | 2/408 [00:00<01:37,  4.15it/s]
+Model reward: (36.209999999031425, 0.9499473678477409)
+Avg Policy Reward on real env:   36.290 ± 0.480
+  0%|▏                                                                               | 1/408 [00:00<02:13,  3.05it/s]
+Model reward: (36.68999999947846, 0.6248199746544414)
+Avg Policy Reward on real env:   36.770 ± 0.816
+  0%|▍                                                                               | 2/408 [00:00<01:36,  4.19it/s]
+Model reward: (36.28999999910593, 1.280000001192093)
+Avg Policy Reward on real env:   36.370 ± 1.100
+  1%|▌                                                                               | 3/408 [00:00<00:28, 14.35it/s]
+Model reward: (0.9849999997764826, 0.032015621664234176)
+Avg Policy Reward on real env:   0.995 ± 0.015
+mean mean reward: 35.11945833265471, mean last reward: 29.454999999478456, score: 329.66945832743926
+[I 2024-06-29 18:01:54,461] Trial 79 finished with value: 329.66945832743926 and parameters: {'init_sample_trajectories': 8, 'batch_size': 132, 'eps': 9.992610394863387e-07, 'default_model': 0.12604899066959518, 'env_noise_weight': 0.9335142539543657}. Best is trial 52 with value: 423.09252625679056.
+  4%|███                                                                            | 16/420 [00:02<00:56,  7.13it/s]
+Model reward: (36.12999999895692, 0.8158431229346587)
+Avg Policy Reward on real env:   36.530 ± 0.977
+  2%|█▉                                                                             | 10/420 [00:01<01:06,  6.18it/s]
+Model reward: (36.60999999940395, 1.2289833208035572)
+Avg Policy Reward on real env:   35.650 ± 2.117
+  1%|█▏                                                                              | 6/420 [00:01<01:11,  5.81it/s]
+Model reward: (37.00999999977648, 0.5122499394716978)
+Avg Policy Reward on real env:   36.370 ± 1.100
+  3%|██                                                                             | 11/420 [00:01<01:05,  6.24it/s]
+Model reward: (36.68999999947846, 1.0150862041813344)
+Avg Policy Reward on real env:   36.050 ± 1.486
+  4%|███▎                                                                          | 18/420 [00:00<00:02, 137.51it/s]
+Model reward: (0.9799999997019768, 0.033166248397769604)
+Avg Policy Reward on real env:   0.995 ± 0.015
+mean mean reward: 48.597400908046914, mean last reward: 29.11899999916553, score: 339.7874008997022
+[I 2024-06-29 18:02:01,866] Trial 80 finished with value: 339.7874008997022 and parameters: {'init_sample_trajectories': 20, 'batch_size': 16, 'eps': 1.5940573081260631e-06, 'default_model': 0.24269136110279926, 'env_noise_weight': 0.8778578076153797}. Best is trial 52 with value: 423.09252625679056.
+  9%|██████▊                                                                        | 35/403 [00:05<00:55,  6.65it/s]
+Model reward: (37.169999999925494, 0.24000000022351742)
+Avg Policy Reward on real env:   36.130 ± 0.891
+  6%|████▌                                                                          | 23/403 [00:03<00:57,  6.60it/s]
+Model reward: (36.209999999031425, 0.7200000006705523)
+Avg Policy Reward on real env:   36.050 ± 1.145
+  3%|██▎                                                                            | 12/403 [00:01<01:04,  6.08it/s]
+Model reward: (36.52999999932945, 0.6645299096523377)
+Avg Policy Reward on real env:   37.090 ± 0.320
+  5%|████▎                                                                          | 22/403 [00:03<01:02,  6.13it/s]
+Model reward: (36.68999999947846, 0.7200000006705523)
+Avg Policy Reward on real env:   36.450 ± 1.290
+  9%|███████▎                                                                       | 37/403 [00:05<00:58,  6.27it/s]
+Model reward: (36.68999999947846, 0.5122499394716978)
+Avg Policy Reward on real env:   36.290 ± 0.999
+mean mean reward: 56.41821261828693, mean last reward: 36.40199999921024, score: 420.4382126103893
+[I 2024-06-29 18:02:22,914] Trial 81 finished with value: 420.4382126103893 and parameters: {'init_sample_trajectories': 3, 'batch_size': 8, 'eps': 2.521512003895236e-07, 'default_model': 0.06406570396190624, 'env_noise_weight': 0.998170847791889}. Best is trial 52 with value: 423.09252625679056.
+  5%|████                                                                           | 21/404 [00:03<01:01,  6.22it/s]
+Model reward: (36.44999999925494, 1.0733126301994993)
+Avg Policy Reward on real env:   36.290 ± 0.999
+  3%|██▌                                                                            | 13/404 [00:02<01:04,  6.10it/s]
+Model reward: (37.00999999977648, 0.3666060559378957)
+Avg Policy Reward on real env:   36.850 ± 0.738
+  2%|█▌                                                                              | 8/404 [00:01<01:04,  6.10it/s]
+Model reward: (35.809999998658895, 1.5512575558179464)
+Avg Policy Reward on real env:   35.890 ± 1.388
+  4%|██▉                                                                            | 15/404 [00:02<01:02,  6.27it/s]
+Model reward: (36.84999999962747, 0.7375635572703405)
+Avg Policy Reward on real env:   35.890 ± 1.015
+  6%|████▍                                                                          | 23/404 [00:03<00:58,  6.54it/s]
+Model reward: (36.52999999932945, 0.7547184912674146)
+Avg Policy Reward on real env:   35.730 ± 2.100
+mean mean reward: 56.42031240903971, mean last reward: 36.12999999895692, score: 417.7203123986089
+[I 2024-06-29 18:02:36,487] Trial 82 finished with value: 417.7203123986089 and parameters: {'init_sample_trajectories': 4, 'batch_size': 13, 'eps': 6.470699782595947e-07, 'default_model': 0.057747421365770636, 'env_noise_weight': 0.9755643418106507}. Best is trial 52 with value: 423.09252625679056.
+  1%|█▏                                                                              | 7/495 [00:01<01:22,  5.89it/s]
+Model reward: (35.56999999843538, 1.3120975585705241)
+Avg Policy Reward on real env:   36.930 ± 0.640
+  1%|▋                                                                               | 4/495 [00:00<01:32,  5.30it/s]
+Model reward: (36.209999999031425, 1.134195751356928)
+Avg Policy Reward on real env:   36.370 ± 0.909
+  0%|▏                                                                               | 1/495 [00:00<02:41,  3.06it/s]
+Model reward: (36.52999999932945, 1.6569852157198262)
+Avg Policy Reward on real env:   36.530 ± 0.835
+  1%|▊                                                                               | 5/495 [00:00<01:28,  5.56it/s]
+Model reward: (35.649999998509884, 2.1466252603989986)
+Avg Policy Reward on real env:   36.930 ± 0.531
+  2%|█▍                                                                             | 9/495 [00:00<00:04, 107.91it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.985 ± 0.023
+mean mean reward: 45.336716666007725, mean last reward: 29.54899999953806, score: 340.82671666138833
+[I 2024-06-29 18:02:40,359] Trial 83 finished with value: 340.82671666138833 and parameters: {'init_sample_trajectories': 95, 'batch_size': 25, 'eps': 2.2378866920730248e-07, 'default_model': 0.029068843130483232, 'env_noise_weight': 0.9531181899861842}. Best is trial 52 with value: 423.09252625679056.
+ 10%|███████▉                                                                       | 40/400 [00:06<00:55,  6.51it/s]
+Model reward: (35.72999999858439, 1.769067552647251)
+Avg Policy Reward on real env:   36.210 ± 1.242
+  6%|████▋                                                                          | 24/400 [00:04<01:11,  5.27it/s]
+Model reward: (36.369999999180436, 0.8352245214907075)
+Avg Policy Reward on real env:   37.090 ± 0.320
+  4%|██▉                                                                            | 15/400 [00:02<01:06,  5.80it/s]
+Model reward: (35.40999999828637, 2.4540578663139945)
+Avg Policy Reward on real env:   36.690 ± 0.512
+  7%|█████▌                                                                         | 28/400 [00:04<00:58,  6.31it/s]
+Model reward: (36.52999999932945, 0.5600000005215406)
+Avg Policy Reward on real env:   36.690 ± 0.720
+ 10%|████████▎                                                                      | 42/400 [00:05<00:50,  7.08it/s]
+Model reward: (36.769999999552965, 0.5306599669510795)
+Avg Policy Reward on real env:   36.690 ± 0.512
+mean mean reward: 56.427433960545955, mean last reward: 36.67399999946356, score: 423.16743395518154
+[I 2024-06-29 18:03:04,877] Trial 84 finished with value: 423.16743395518154 and parameters: {'init_sample_trajectories': 0, 'batch_size': 7, 'eps': 1.9908870331765223e-07, 'default_model': 0.08329231349702726, 'env_noise_weight': 0.9153182656744037}. Best is trial 84 with value: 423.16743395518154.
+  0%|▍                                                                               | 2/400 [00:00<01:33,  4.27it/s]
+Model reward: (36.769999999552965, 0.8158431229346587)
+Avg Policy Reward on real env:   36.930 ± 0.960
+  0%|▏                                                                               | 1/400 [00:00<02:08,  3.11it/s]
+Model reward: (36.68999999947846, 1.0150862041813344)
+Avg Policy Reward on real env:   36.930 ± 0.733
+  0%|▏                                                                               | 1/400 [00:00<02:15,  2.93it/s]
+Model reward: (36.60999999940395, 0.7838367184206217)
+Avg Policy Reward on real env:   36.690 ± 0.804
+  0%|▏                                                                               | 1/400 [00:00<02:08,  3.10it/s]
+Model reward: (36.44999999925494, 1.4310835069326657)
+Avg Policy Reward on real env:   36.770 ± 0.960
+  1%|▌                                                                               | 3/400 [00:00<00:07, 53.63it/s]
+Model reward: (0.9949999999254941, 0.015000000223517416)
+Avg Policy Reward on real env:   0.975 ± 0.060
+mean mean reward: 33.43120833277392, mean last reward: 29.65899999961257, score: 330.0212083288996
+[I 2024-06-29 18:03:06,994] Trial 85 finished with value: 330.0212083288996 and parameters: {'init_sample_trajectories': 0, 'batch_size': 97, 'eps': 5.405264263203038e-07, 'default_model': 0.1433615053027496, 'env_noise_weight': 0.9100058546663813}. Best is trial 84 with value: 423.16743395518154.
+ 13%|██████████▎                                                                    | 53/406 [00:05<00:39,  9.04it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   36.530 ± 0.977
+  8%|██████▏                                                                        | 32/406 [00:04<00:56,  6.63it/s]
+Model reward: (36.28999999910593, 1.175755077630933)
+Avg Policy Reward on real env:   36.450 ± 1.187
+  5%|███▉                                                                           | 20/406 [00:03<00:59,  6.52it/s]
+Model reward: (36.44999999925494, 0.7155417534663329)
+Avg Policy Reward on real env:   36.370 ± 1.100
+  9%|███████▏                                                                       | 37/406 [00:05<00:56,  6.49it/s]
+Model reward: (36.52999999932945, 0.8352245214907075)
+Avg Policy Reward on real env:   36.210 ± 1.341
+ 15%|███████████▍                                                                   | 59/406 [00:05<00:34, 10.04it/s]
+Model reward: (36.44999999925494, 0.876356092824436)
+Avg Policy Reward on real env:   35.890 ± 0.950
+mean mean reward: 56.43338653653615, mean last reward: 36.28999999910593, score: 419.33338652759545
+[I 2024-06-29 18:03:33,101] Trial 86 finished with value: 419.33338652759545 and parameters: {'init_sample_trajectories': 6, 'batch_size': 5, 'eps': 8.679228774821723e-07, 'default_model': 0.09841565846928917, 'env_noise_weight': 0.9413329437783936}. Best is trial 84 with value: 423.16743395518154.
+  2%|█▌                                                                              | 8/410 [00:01<00:53,  7.45it/s]
+Model reward: (36.52999999932945, 0.8352245214907075)
+Avg Policy Reward on real env:   36.370 ± 1.100
+  1%|█▏                                                                              | 6/410 [00:01<01:10,  5.75it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   37.010 ± 0.367
+  1%|▊                                                                               | 4/410 [00:00<01:16,  5.33it/s]
+Model reward: (36.04999999888241, 1.4859340510644208)
+Avg Policy Reward on real env:   36.530 ± 0.755
+  1%|█▏                                                                              | 6/410 [00:01<01:09,  5.84it/s]
+Model reward: (36.92999999970198, 0.6400000005960464)
+Avg Policy Reward on real env:   36.610 ± 0.784
+  2%|█▊                                                                              | 9/410 [00:00<00:08, 46.07it/s]
+Model reward: (1.0, 0.0)
+Avg Policy Reward on real env:   0.975 ± 0.034
+mean mean reward: 48.01214603074509, mean last reward: 29.498999999463557, score: 343.0021460253807
+[I 2024-06-29 18:03:37,801] Trial 87 finished with value: 343.0021460253807 and parameters: {'init_sample_trajectories': 10, 'batch_size': 34, 'eps': 5.224105426939199e-07, 'default_model': 0.004243745955359, 'env_noise_weight': 0.8677213747001423}. Best is trial 84 with value: 423.16743395518154.
+  5%|███▋                                                                           | 19/402 [00:01<00:24, 15.80it/s]
+Model reward: (36.209999999031425, 0.8800000008195639)
+Avg Policy Reward on real env:   35.890 ± 1.189
+  3%|██▎                                                                            | 12/402 [00:01<01:00,  6.44it/s]
+Model reward: (35.8899999987334, 1.2419339768574431)
+Avg Policy Reward on real env:   36.930 ± 0.531
+  2%|█▌                                                                              | 8/402 [00:01<01:05,  6.00it/s]
+Model reward: (36.60999999940395, 1.4221111080949385)
+Avg Policy Reward on real env:   36.450 ± 1.239
+  3%|██▌                                                                            | 13/402 [00:02<01:00,  6.44it/s]
+Model reward: (36.28999999910593, 0.7838367184206219)
+Avg Policy Reward on real env:   36.450 ± 1.131
+  5%|███▉                                                                           | 20/402 [00:00<00:04, 89.38it/s]
+Model reward: (2.44999999627471, 1.7304623619719455)
+Avg Policy Reward on real env:   2.655 ± 1.104
+mean mean reward: 44.87810308214265, mean last reward: 29.674999998509882, score: 341.6281030672415
+[I 2024-06-29 18:03:45,072] Trial 88 finished with value: 341.6281030672415 and parameters: {'init_sample_trajectories': 2, 'batch_size': 15, 'eps': 1.73664763744421e-07, 'default_model': 0.1721104121968866, 'env_noise_weight': 0.9010403298011087}. Best is trial 84 with value: 423.16743395518154.
+  1%|█▏                                                                              | 6/413 [00:00<00:44,  9.21it/s]
+Model reward: (35.649999998509884, 1.4310835069326657)
+Avg Policy Reward on real env:   36.690 ± 0.625
+  1%|▉                                                                               | 5/413 [00:00<01:14,  5.49it/s]
+Model reward: (35.809999998658895, 1.3290598193046752)
+Avg Policy Reward on real env:   36.690 ± 0.950
+  0%|▍                                                                               | 2/413 [00:00<01:34,  4.36it/s]
+Model reward: (36.84999999962747, 0.5366563150997496)
+Avg Policy Reward on real env:   36.450 ± 1.187
+  1%|▊                                                                               | 4/413 [00:00<01:19,  5.14it/s]
+Model reward: (36.12999999895692, 1.3481839649638114)
+Avg Policy Reward on real env:   36.370 ± 1.657
+  1%|█▏                                                                              | 6/413 [00:00<00:04, 84.87it/s]
+Model reward: (0.9849999997764826, 0.032015621664234176)
+Avg Policy Reward on real env:   0.985 ± 0.023
+mean mean reward: 42.36147618979571, mean last reward: 29.436999999433755, score: 336.73147618413327
+[I 2024-06-29 18:03:48,550] Trial 89 finished with value: 336.73147618413327 and parameters: {'init_sample_trajectories': 13, 'batch_size': 49, 'eps': 1.240888234636145e-06, 'default_model': 0.07763541364681462, 'env_noise_weight': 0.815611451392775}. Best is trial 84 with value: 423.16743395518154.
+  3%|██▏                                                                            | 11/405 [00:00<00:27, 14.52it/s]
+Model reward: (36.84999999962747, 0.6449806204645689)
+Avg Policy Reward on real env:   36.770 ± 0.816
+  2%|█▍                                                                              | 7/405 [00:01<01:07,  5.93it/s]
+Model reward: (36.84999999962747, 0.5366563150997496)
+Avg Policy Reward on real env:   35.890 ± 1.242
+  1%|▉                                                                               | 5/405 [00:00<01:13,  5.47it/s]
+Model reward: (37.00999999977648, 0.3666060559378957)
+Avg Policy Reward on real env:   37.170 ± 0.240
+  2%|█▊                                                                              | 9/405 [00:01<00:59,  6.71it/s]
+Model reward: (35.96999999880791, 1.2496399493088828)
+Avg Policy Reward on real env:   36.770 ± 0.392
+  3%|██▎                                                                            | 12/405 [00:00<00:03, 99.24it/s]
+Model reward: (0.9799999997019768, 0.033166248397769604)
+Avg Policy Reward on real env:   0.985 ± 0.023
+mean mean reward: 44.113557691461985, mean last reward: 29.51699999950826, score: 339.2835576865446
+[I 2024-06-29 18:03:53,490] Trial 90 finished with value: 339.2835576865446 and parameters: {'init_sample_trajectories': 5, 'batch_size': 26, 'eps': 9.272428877153563e-07, 'default_model': 0.5846402534486241, 'env_noise_weight': 0.9200696060202092}. Best is trial 84 with value: 423.16743395518154.
+ 13%|██████████▍                                                                    | 53/403 [00:05<00:39,  8.92it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   36.530 ± 0.977
+  8%|██████▎                                                                        | 32/403 [00:04<00:55,  6.63it/s]
+Model reward: (36.92999999970198, 0.5306599669510795)
+Avg Policy Reward on real env:   36.370 ± 1.451
+  5%|███▉                                                                           | 20/403 [00:03<00:57,  6.65it/s]
+Model reward: (36.44999999925494, 0.7155417534663329)
+Avg Policy Reward on real env:   36.370 ± 1.100
+  9%|███████▎                                                                       | 37/403 [00:05<00:53,  6.78it/s]
+Model reward: (36.52999999932945, 0.8352245214907075)
+Avg Policy Reward on real env:   36.210 ± 1.341
+ 15%|███████████▌                                                                   | 59/403 [00:05<00:34, 10.02it/s]
+Model reward: (36.44999999925494, 0.876356092824436)
+Avg Policy Reward on real env:   35.890 ± 0.950
+mean mean reward: 56.43173680244329, mean last reward: 36.27399999909103, score: 419.1717367933536
+[I 2024-06-29 18:04:19,368] Trial 91 finished with value: 419.1717367933536 and parameters: {'init_sample_trajectories': 3, 'batch_size': 5, 'eps': 2.038306009713403e-07, 'default_model': 0.035652632047540336, 'env_noise_weight': 0.9803041774458665}. Best is trial 84 with value: 423.16743395518154.
+  5%|███▋                                                                           | 19/409 [00:02<00:54,  7.20it/s]
+Model reward: (36.769999999552965, 0.39191835921031093)
+Avg Policy Reward on real env:   36.930 ± 0.733
+  3%|██▌                                                                            | 13/409 [00:02<01:01,  6.43it/s]
+Model reward: (36.68999999947846, 0.8039900504384453)
+Avg Policy Reward on real env:   36.530 ± 0.755
+  2%|█▌                                                                              | 8/409 [00:01<01:06,  5.99it/s]
+Model reward: (36.44999999925494, 1.4310835069326657)
+Avg Policy Reward on real env:   36.290 ± 1.061
+  3%|██▋                                                                            | 14/409 [00:02<01:02,  6.31it/s]
+Model reward: (36.28999999910593, 1.0613199339021593)
+Avg Policy Reward on real env:   36.610 ± 1.329
+  6%|████▍                                                                          | 23/409 [00:00<00:07, 48.35it/s]
+Model reward: (2.2099999971687794, 1.2632893556595488)
+Avg Policy Reward on real env:   2.630 ± 1.665
+mean mean reward: 49.09998333237786, mean last reward: 29.79799999900162, score: 347.07998332239407
+[I 2024-06-29 18:04:28,685] Trial 92 finished with value: 347.07998332239407 and parameters: {'init_sample_trajectories': 9, 'batch_size': 13, 'eps': 1.7691771175149116e-08, 'default_model': 0.055341754271436304, 'env_noise_weight': 0.9503781903484041}. Best is trial 84 with value: 423.16743395518154.
+ 10%|███████▉                                                                       | 40/400 [00:05<00:50,  7.07it/s]
+Model reward: (36.60999999940395, 0.598665182441381)
+Avg Policy Reward on real env:   35.170 ± 1.484
+  6%|████▉                                                                          | 25/400 [00:03<00:56,  6.60it/s]
+Model reward: (35.96999999880791, 1.8312837044670516)
+Avg Policy Reward on real env:   36.690 ± 0.512
+  4%|███▏                                                                           | 16/400 [00:02<00:59,  6.50it/s]
+Model reward: (37.00999999977648, 0.3666060559378957)
+Avg Policy Reward on real env:   36.050 ± 1.252
+  8%|█████▉                                                                         | 30/400 [00:04<00:55,  6.69it/s]
+Model reward: (36.04999999888241, 1.609968945299249)
+Avg Policy Reward on real env:   36.690 ± 0.512
+ 10%|████████▎                                                                      | 42/400 [00:05<00:49,  7.17it/s]
+Model reward: (36.769999999552965, 0.5306599669510795)
+Avg Policy Reward on real env:   36.690 ± 0.512
+mean mean reward: 56.06181190134682, mean last reward: 36.25799999907613, score: 418.6418118921081
+[I 2024-06-29 18:04:51,705] Trial 93 finished with value: 418.6418118921081 and parameters: {'init_sample_trajectories': 0, 'batch_size': 7, 'eps': 6.050338421734007e-06, 'default_model': 0.11329063543563699, 'env_noise_weight': 0.6858318629828755}. Best is trial 84 with value: 423.16743395518154.
+  3%|██▊                                                                            | 14/402 [00:01<00:52,  7.38it/s]
+Model reward: (36.68999999947846, 0.9499473678477409)
+Avg Policy Reward on real env:   36.210 ± 0.720
+  2%|█▉                                                                             | 10/402 [00:01<01:03,  6.14it/s]
+Model reward: (37.00999999977648, 0.3666060559378957)
+Avg Policy Reward on real env:   36.210 ± 0.950
+  1%|▉                                                                               | 5/402 [00:00<01:11,  5.53it/s]
+Model reward: (36.44999999925494, 0.715541753466333)
+Avg Policy Reward on real env:   36.130 ± 1.440
+  2%|█▉                                                                             | 10/402 [00:01<01:02,  6.24it/s]
+Model reward: (36.28999999910593, 1.5919799008532387)
+Avg Policy Reward on real env:   36.690 ± 0.720
+  4%|██▉                                                                            | 15/402 [00:00<00:07, 54.28it/s]
+Model reward: (0.9949999999254941, 0.015000000223517418)
+Avg Policy Reward on real env:   0.990 ± 0.030
+mean mean reward: 48.599964771774395, mean last reward: 29.245999999269845, score: 341.05996476447285
+[I 2024-06-29 18:04:58,626] Trial 94 finished with value: 341.05996476447285 and parameters: {'init_sample_trajectories': 2, 'batch_size': 20, 'eps': 4.6566079530781445e-07, 'default_model': 0.14043343423736412, 'env_noise_weight': 0.982125296724669}. Best is trial 84 with value: 423.16743395518154.
+ 68%|█████████████████████████████████████████████████████                         | 277/407 [00:04<00:02, 57.74it/s]
+Model reward: (35.96999999880791, 1.4400000013411043)
+Avg Policy Reward on real env:   36.370 ± 1.657
+ 42%|████████████████████████████████▌                                             | 170/407 [00:06<00:08, 28.15it/s]
+Model reward: (36.209999999031425, 1.5200000014156103)
+Avg Policy Reward on real env:   35.890 ± 1.242
+ 28%|█████████████████████▋                                                        | 113/407 [00:05<00:15, 19.06it/s]
+Model reward: (36.60999999940395, 1.1200000010430813)
+Avg Policy Reward on real env:   35.730 ± 1.406
+ 45%|██████████████████████████████████▉                                           | 182/407 [00:05<00:07, 30.51it/s]
+Model reward: (35.8899999987334, 1.6414627638233865)
+Avg Policy Reward on real env:   35.570 ± 1.733
+ 71%|███████████████████████████████████████████████████████▌                      | 290/407 [00:05<00:02, 49.68it/s]
+Model reward: (36.52999999932945, 0.908625336174267)
+Avg Policy Reward on real env:   36.930 ± 0.640
+mean mean reward: 53.97401219423043, mean last reward: 36.097999998927115, score: 414.9540121835016
+[I 2024-06-29 18:05:27,940] Trial 95 finished with value: 414.9540121835016 and parameters: {'init_sample_trajectories': 7, 'batch_size': 1, 'eps': 7.615843887616762e-07, 'default_model': 0.6842938298603827, 'env_noise_weight': 0.8865553772314347}. Best is trial 84 with value: 423.16743395518154.
+  5%|███▊                                                                           | 20/415 [00:02<00:57,  6.90it/s]
+Model reward: (36.60999999940395, 0.7838367184206217)
+Avg Policy Reward on real env:   36.210 ± 0.880
+  4%|██▊                                                                            | 15/415 [00:02<01:02,  6.43it/s]
+Model reward: (36.44999999925494, 0.9465727661775031)
+Avg Policy Reward on real env:   36.370 ± 1.451
+  2%|█▉                                                                             | 10/415 [00:01<01:04,  6.26it/s]
+Model reward: (36.769999999552965, 0.9600000008940696)
+Avg Policy Reward on real env:   36.210 ± 1.242
+  3%|██▍                                                                            | 13/415 [00:02<01:02,  6.42it/s]
+Model reward: (36.28999999910593, 1.175755077630933)
+Avg Policy Reward on real env:   36.530 ± 0.977
+  5%|████▏                                                                          | 22/415 [00:00<00:05, 73.83it/s]
+Model reward: (2.6299999974668027, 1.2357588734869622)
+Avg Policy Reward on real env:   1.750 ± 0.356
+mean mean reward: 49.1870074337766, mean last reward: 29.413999998867514, score: 343.32700742245174
+[I 2024-06-29 18:05:37,715] Trial 96 finished with value: 343.32700742245174 and parameters: {'init_sample_trajectories': 15, 'batch_size': 13, 'eps': 3.787867842661222e-07, 'default_model': 0.07927101892294984, 'env_noise_weight': 0.839970528267899}. Best is trial 84 with value: 423.16743395518154.
+  2%|█▉                                                                             | 10/405 [00:01<00:58,  6.72it/s]
+Model reward: (36.369999999180436, 0.8352245214907075)
+Avg Policy Reward on real env:   36.530 ± 1.157
+  1%|█▏                                                                              | 6/405 [00:01<01:08,  5.84it/s]
+Model reward: (36.52999999932945, 0.8352245214907075)
+Avg Policy Reward on real env:   36.850 ± 0.738
+  1%|▌                                                                               | 3/405 [00:00<01:20,  4.99it/s]
+Model reward: (36.369999999180436, 0.5600000005215406)
+Avg Policy Reward on real env:   36.370 ± 0.977
+  2%|█▍                                                                              | 7/405 [00:01<01:07,  5.89it/s]
+Model reward: (36.60999999940395, 0.598665182441381)
+Avg Policy Reward on real env:   36.690 ± 0.625
+  2%|█▉                                                                             | 10/405 [00:00<00:09, 42.66it/s]
+Model reward: (0.9899999998509884, 0.02000000029802322)
+Avg Policy Reward on real env:   0.975 ± 0.060
+mean mean reward: 49.441753246111844, mean last reward: 29.48299999944866, score: 344.2717532405984
+[I 2024-06-29 18:05:42,879] Trial 97 finished with value: 344.2717532405984 and parameters: {'init_sample_trajectories': 5, 'batch_size': 31, 'eps': 1.0807518142931282e-06, 'default_model': 0.020212514166387162, 'env_noise_weight': 0.9454449222137637}. Best is trial 84 with value: 423.16743395518154.
+  8%|██████▏                                                                        | 32/411 [00:04<00:48,  7.76it/s]
+Model reward: (36.44999999925494, 1.2393546719406123)
+Avg Policy Reward on real env:   36.610 ± 0.784
+  5%|████▏                                                                          | 22/411 [00:03<00:59,  6.57it/s]
+Model reward: (36.68999999947846, 0.5122499394716978)
+Avg Policy Reward on real env:   36.450 ± 0.800
+  3%|██▎                                                                            | 12/411 [00:01<01:02,  6.43it/s]
+Model reward: (36.52999999932945, 0.6645299096523377)
+Avg Policy Reward on real env:   37.090 ± 0.320
+  5%|████▏                                                                          | 22/411 [00:03<01:00,  6.47it/s]
+Model reward: (36.68999999947846, 0.7200000006705523)
+Avg Policy Reward on real env:   36.450 ± 1.290
+  9%|██████▉                                                                        | 36/411 [00:05<00:53,  7.08it/s]
+Model reward: (36.84999999962747, 0.9633275672005522)
+Avg Policy Reward on real env:   36.370 ± 0.909
+mean mean reward: 55.034328915682885, mean last reward: 36.593999999389055, score: 420.9743289095734
+[I 2024-06-29 18:06:01,450] Trial 98 finished with value: 420.9743289095734 and parameters: {'init_sample_trajectories': 11, 'batch_size': 8, 'eps': 2.0491661317519284e-06, 'default_model': 0.18565720670456143, 'env_noise_weight': 0.9970616936947807}. Best is trial 84 with value: 423.16743395518154.
+  1%|█                                                                               | 6/437 [00:01<01:14,  5.77it/s]
+Model reward: (36.84999999962747, 0.5366563150997496)
+Avg Policy Reward on real env:   36.930 ± 0.392
+  1%|▋                                                                               | 4/437 [00:00<01:20,  5.35it/s]
+Model reward: (36.44999999925494, 0.6196773359703062)
+Avg Policy Reward on real env:   36.690 ± 0.720
+  0%|▎                                                                               | 2/437 [00:00<01:40,  4.34it/s]
+Model reward: (36.44999999925494, 1.38564064734558)
+Avg Policy Reward on real env:   36.610 ± 0.480
+  1%|▋                                                                               | 4/437 [00:00<01:20,  5.37it/s]
+Model reward: (36.12999999895692, 0.890842298882465)
+Avg Policy Reward on real env:   36.210 ± 1.189
+  2%|█▎                                                                              | 7/437 [00:00<00:04, 99.47it/s]
+Model reward: (0.9849999997764826, 0.022912878816207696)
+Avg Policy Reward on real env:   0.995 ± 0.015
+mean mean reward: 45.415707737506544, mean last reward: 29.48699999950826, score: 340.2857077325891
+[I 2024-06-29 18:06:05,120] Trial 99 finished with value: 340.2857077325891 and parameters: {'init_sample_trajectories': 37, 'batch_size': 43, 'eps': 3.862243908289033e-06, 'default_model': 0.10370772993062483, 'env_noise_weight': 0.9153642177266038}. Best is trial 84 with value: 423.16743395518154.
+Best hyperparameters:  {'init_sample_trajectories': 0, 'batch_size': 7, 'eps': 1.9908870331765223e-07, 'default_model': 0.08329231349702726, 'env_noise_weight': 0.9153182656744037}
+Best performance:  423.16743395518154

@@ -36,18 +36,20 @@ def Tabular(env_true: gymnasium.Env, oracle: ActorCriticPolicy, config: Experime
     na = env_true.num_actions
     vec_size = ns * na * ns
 
+    env_true_count = CountedEnvWrapper(env_true)
+    
     rnd_policy = RandomPolicy(ns, na, 0)
     samples: List[torch.Tensor] = []
-    model = torch.full((ns*na*ns,), 1/ns)
-    old_model = torch.full_like(model, -np.inf)
+    model = torch.full((ns*na*ns,), model_config.default_model)
+    old_model = torch.full((ns*na*ns,), -np.inf)
 
     if config.sample_efficiency is not None:
         sample_counter = TabularSampleCounter(oracle=oracle, eval_env=env_true, config=config.sample_efficiency)
+        sample_counter.step(env_true_count.samples, model)
 
     if config.sample_efficiency.max_samples > 0:
         warnings.warn("max_samples is not used in the tabular world model")
 
-    env_true_count = CountedEnvWrapper(env_true)
     for i in tqdm(range(model_config.max_training_samples + model_config.init_sample_trajectories)):
         if i == 0 and model_config.init_sample_trajectories > 0:
             traj = sample_trajectories(env_true_count, rnd_policy, model_config.init_sample_trajectories, context=model, w_one_hot=False)
@@ -61,13 +63,14 @@ def Tabular(env_true: gymnasium.Env, oracle: ActorCriticPolicy, config: Experime
         old_model = model
         
         sx = torch.stack(take(samples, model_config.max_training_samples, vec_size))
-        model = torch.sum(sx[:, :vec_size].reshape(-1, ns*na, ns) * sx[:, vec_size:, None], dim=0) / (sx[:, vec_size:].sum(dim=0)[:, None] + 1e-20)
+        model = torch.sum(sx[:, :vec_size].reshape(-1, ns*na, ns) * sx[:, vec_size:, None], dim=0) / sx[:, vec_size:].sum(dim=0)[:, None]
+        model = torch.where((sx[:, vec_size:].sum(dim=0) > 0)[:, None], model, model_config.default_model)
         model = model.reshape(-1)
 
         if config.sample_efficiency is not None:
             sample_counter.step(env_true_count.samples, model)
 
-        if torch.norm(model - old_model) < model_config.eps: break
+        # if torch.norm(model - old_model) < model_config.eps: break
         if env_true_count.samples > model_config.max_training_samples: break
 
     if config.sample_efficiency is not None and config.sample_efficiency.log_save_name is not None:
